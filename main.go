@@ -66,6 +66,11 @@ func init() {
 func main() {
 	commonHandlers := alice.New(context.ClearHandler, loggingHandler, recoverHandler)
 	router := NewRouter()
+	router.Get("/admin", commonHandlers.ThenFunc(FrontAdminHandler))
+	//fs := http.FileServer(http.Dir("admin/assets/"))
+	//http.Handle("/assets/", http.StripPrefix("/assets/", fs))
+	router.Get("/addlistingtemp", commonHandlers.ThenFunc(AddListingViewHandler))
+	router.ServeFiles("/assets/*filepath", http.Dir("admin/assets"))
 	router.Post("/api/addlisting", commonHandlers.ThenFunc(AddHandler))
 	router.Post("/api/approve", commonHandlers.ThenFunc(Approvehandler))
 	router.Get("/api/unapproved", commonHandlers.ThenFunc(GetunapprovedHandler))

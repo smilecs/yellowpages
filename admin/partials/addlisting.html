@@ -1,0 +1,33 @@
+<div class="form-group">
+  <label for="exampleInputPassword1">COMPANY NAME</label>
+  <input type="text" class="form-control" id="exampleInputPassword1" ng-model="data.CompanyName">
+</div>
+<div class="form-group">
+  <label for="exampleInputPassword1">PHYSICAL ADDRESS</label>
+  <input type="text" class="form-control" id="exampleInputPassword1" ng-model="data.Address">
+</div>
+<div class="form-group">
+  <label for="exampleInputFile">HOTLINE</label>
+  <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Hotline">
+  </div>
+<div class="form-group">
+  <label for="exampleInputFile">SPECIALIZATION</label>
+  <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Specialisation">
+  </div>
+<div class="form-group">
+  <label for="exampleInputFile">CATEGORY</label>
+  <select class="form-control" id="exampleInputFile" ng-model="data.category"></select>
+  </div>
+<div class="form-group">
+  <label for="exampleInputFile">ADVERT</label>
+  <select class="form-control" id="exampleInputFile" ng-model="data.Advert">
+    <option value="yes">YES</option>
+    <option value="no">NO</option>
+  </select>
+  </div>
+  <div class="form-group">
+  <label for="exampleInputFile">ADVERT SIZE</label>
+  <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Size">
+  </div>
+{{data}}
+<button type="button" class="btn btn-default" ng-click="add(data)">Submit</button>

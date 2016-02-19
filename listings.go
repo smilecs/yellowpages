@@ -26,6 +26,7 @@ type Form struct {
 //Addlisting function adding listings data to db
 func Addlisting(r Form) error {
 	s, err := mgo.Dial(config.xx)
+	log.Println(r)
 	defer s.Close()
 	if err != nil {
 		panic(err)
@@ -77,8 +78,6 @@ func Getunapproved() (Form, error) {
 
 //AddHandler for adding Listings
 func AddHandler(w http.ResponseWriter, r *http.Request) {
-	//formdata := context.Get(r, "body").(*Form)
-
 	var formdata Form
 	err := json.NewDecoder(r.Body).Decode(&formdata)
 	if err != nil {
