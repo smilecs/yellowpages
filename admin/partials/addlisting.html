@@ -16,7 +16,11 @@
   </div>
 <div class="form-group">
   <label for="exampleInputFile">CATEGORY</label>
-  <select class="form-control" id="exampleInputFile" ng-model="data.category"></select>
+  <select class="form-control" id="exampleInputFile" ng-model="data.category">
+  <option ng-repeat="data in cats" value="{{data.id}}">
+    {{data.Category}}
+  </option>
+</select>
   </div>
 <div class="form-group">
   <label for="exampleInputFile">ADVERT</label>

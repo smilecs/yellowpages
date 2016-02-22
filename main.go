@@ -70,7 +70,12 @@ func main() {
 	//fs := http.FileServer(http.Dir("admin/assets/"))
 	//http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 	router.Get("/addlistingtemp", commonHandlers.ThenFunc(AddListingViewHandler))
+	router.Get("/addcattemp", commonHandlers.ThenFunc(addcatViewHandler))
+	router.Get("/viewlistingtemp", commonHandlers.ThenFunc(UnapprovedViewHandler))
 	router.ServeFiles("/assets/*filepath", http.Dir("admin/assets"))
+	//api requests below
+	router.Post("/api/addcat", commonHandlers.ThenFunc(addCatHandler))
+	router.Get("/api/getcat", commonHandlers.ThenFunc(getcatHandler))
 	router.Post("/api/addlisting", commonHandlers.ThenFunc(AddHandler))
 	router.Post("/api/approve", commonHandlers.ThenFunc(Approvehandler))
 	router.Get("/api/unapproved", commonHandlers.ThenFunc(GetunapprovedHandler))

@@ -23,6 +23,12 @@ type Form struct {
 	Approved       bool          `bson:"approved"`
 }
 
+//Category struct for use in registration
+type Category struct {
+	ID       bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
+	Category string        `bson:"category"`
+}
+
 //Addlisting function adding listings data to db
 func Addlisting(r Form) error {
 	s, err := mgo.Dial(config.xx)
@@ -32,6 +38,18 @@ func Addlisting(r Form) error {
 		panic(err)
 	}
 	s.DB("yellowListings").C("Listings").Insert(r)
+	return err
+}
+
+//Addcat function for adding category
+func Addcat(r Category) error {
+	s, err := mgo.Dial(config.xx)
+	log.Println(r)
+	defer s.Close()
+	if err != nil {
+		panic(err)
+	}
+	s.DB("yellowListings").C("Category").Insert(r)
 	return err
 }
 
@@ -58,8 +76,8 @@ func UpdateListing(id string) error {
 }
 
 //Getunapproved function for Getunapproved handler
-func Getunapproved() (Form, error) {
-	result := Form{}
+func Getunapproved() ([]Form, error) {
+	result := []Form{}
 	session, err := mgo.Dial(config.xx)
 
 	if err != nil {
@@ -68,7 +86,26 @@ func Getunapproved() (Form, error) {
 	defer session.Close()
 
 	collection := session.DB("yellowListings").C("Listings")
-	err = collection.Find(bson.M{"approved": false}).One(&result)
+	err = collection.Find(bson.M{"approved": false}).All(&result)
+	log.Println(result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+//Getcat list
+func Getcat() ([]Category, error) {
+	result := []Category{}
+	session, err := mgo.Dial(config.xx)
+
+	if err != nil {
+		return result, err
+	}
+	defer session.Close()
+
+	collection := session.DB("yellowListings").C("Category")
+	err = collection.Find(bson.M{}).All(&result)
 	log.Println(result)
 	if err != nil {
 		return result, err
@@ -89,16 +126,43 @@ func AddHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func addCatHandler(w http.ResponseWriter, r *http.Request) {
+	var formdat Category
+	log.Println(r.Body)
+	err := json.NewDecoder(r.Body).Decode(&formdat)
+	if err != nil {
+		log.Println(err)
+	}
+	log.Println(formdat)
+	Addcat(formdat)
+	data, _ := Getcat()
+	result, _ := json.Marshal(data)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
+
+}
+
 //Approvehandler to approve lsitings for view
 func Approvehandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("q")
 	log.Println(id)
 	UpdateListing(id)
+	data, _ := Getunapproved()
+	result, _ := json.Marshal(data)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
 }
 
 //GetunapprovedHandler gets unapproved listings
 func GetunapprovedHandler(w http.ResponseWriter, r *http.Request) {
 	data, _ := Getunapproved()
+	result, _ := json.Marshal(data)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
+}
+
+func getcatHandler(w http.ResponseWriter, r *http.Request) {
+	data, _ := Getcat()
 	result, _ := json.Marshal(data)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(result)
