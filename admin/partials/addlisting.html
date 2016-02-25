@@ -16,7 +16,7 @@
   </div>
 <div class="form-group">
   <label for="exampleInputFile">CATEGORY</label>
-  <select class="form-control" id="exampleInputFile" ng-model="data.category">
+  <select class="form-control" id="exampleInputFile" ng-model="data.Category">
   <option ng-repeat="data in cats" value="{{data.id}}">
     {{data.Category}}
   </option>
@@ -32,6 +32,19 @@
   <div class="form-group">
   <label for="exampleInputFile">ADVERT SIZE</label>
   <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Size">
+  </div>
+
+  <div class="form-group">
+  <label for="exampleInputFile">Type</label>
+  <select ng-model="data.Plus" ng-change="change(data)">
+    <option value=true>PlusListing</option>
+    <option>Listing</option>
+  </select>
+  </div>
+
+  <div class="form-group" ng-show="data.Plus">
+  <label for="exampleInputFile">Images</label>
+  <input type="file" />
   </div>
 {{data}}
 <button type="button" class="btn btn-default" ng-click="add(data)">Submit</button>

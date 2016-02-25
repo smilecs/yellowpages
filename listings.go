@@ -19,8 +19,10 @@ type Form struct {
 	Category       string        `bson:"category"`
 	Advert         string        `bson:"advert"`
 	Size           string        `bson:"size"`
+	Image          []string      `bson:"image"`
 	Verified       string        `bson:"verified"`
 	Approved       bool          `bson:"approved"`
+	Plus           bool          `bson:"plus"`
 }
 
 //Category struct for use in registration
@@ -94,6 +96,25 @@ func Getunapproved() ([]Form, error) {
 	return result, nil
 }
 
+//GetListings return listings
+func GetListings() ([]Form, error) {
+	result := []Form{}
+	session, err := mgo.Dial(config.xx)
+
+	if err != nil {
+		return result, err
+	}
+	defer session.Close()
+
+	collection := session.DB("yellowListings").C("Listings")
+	err = collection.Find(bson.M{"approved": true}).All(&result)
+	log.Println(result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 //Getcat list
 func Getcat() ([]Category, error) {
 	result := []Category{}
@@ -156,6 +177,14 @@ func Approvehandler(w http.ResponseWriter, r *http.Request) {
 //GetunapprovedHandler gets unapproved listings
 func GetunapprovedHandler(w http.ResponseWriter, r *http.Request) {
 	data, _ := Getunapproved()
+	result, _ := json.Marshal(data)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
+}
+
+//GetListHandler for getting listings
+func GetListHandler(w http.ResponseWriter, r *http.Request) {
+	data, _ := GetListings()
 	result, _ := json.Marshal(data)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(result)

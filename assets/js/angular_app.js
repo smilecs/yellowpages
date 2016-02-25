@@ -12,5 +12,11 @@ app.config(['$routeProvider', function($routeProvider){
 	}).when('/addcat', {
 		controller:'catCtrl',
 		templateUrl:'/addcattemp'
+	}).when('/category', {
+		templateUrl:'/category'
+	}).when('/searchResult', {
+		templateUrl:'/result'
+	}).when('/listing', {
+		templateUrl: '/listing'
 	});
 }]);

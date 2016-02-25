@@ -67,11 +67,15 @@ func main() {
 	commonHandlers := alice.New(context.ClearHandler, loggingHandler, recoverHandler)
 	router := NewRouter()
 	router.Get("/admin", commonHandlers.ThenFunc(FrontAdminHandler))
+	router.Get("/", commonHandlers.ThenFunc(ClientViewHandler))
 	//fs := http.FileServer(http.Dir("admin/assets/"))
 	//http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 	router.Get("/addlistingtemp", commonHandlers.ThenFunc(AddListingViewHandler))
 	router.Get("/addcattemp", commonHandlers.ThenFunc(addcatViewHandler))
 	router.Get("/viewlistingtemp", commonHandlers.ThenFunc(UnapprovedViewHandler))
+	router.Get("/category", commonHandlers.ThenFunc(CategoryHandler))
+	router.Get("/result", commonHandlers.ThenFunc(ResultHandler))
+	router.Get("/listing", commonHandlers.ThenFunc(ListingHandler))
 	router.ServeFiles("/assets/*filepath", http.Dir("admin/assets"))
 	//api requests below
 	router.Post("/api/addcat", commonHandlers.ThenFunc(addCatHandler))
@@ -79,6 +83,7 @@ func main() {
 	router.Post("/api/addlisting", commonHandlers.ThenFunc(AddHandler))
 	router.Post("/api/approve", commonHandlers.ThenFunc(Approvehandler))
 	router.Get("/api/unapproved", commonHandlers.ThenFunc(GetunapprovedHandler))
+	router.Get("/api/listings", commonHandlers.ThenFunc(GetListHandler))
 	log.Println(config.xx)
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
