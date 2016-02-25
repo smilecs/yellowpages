@@ -1,8 +1,8 @@
 var app = angular.module('yellowpages', ['ngRoute', 'ngCookies']);
 app.config(['$routeProvider', function($routeProvider){
-	$routeProvider.when('/', {
+	$routeProvider.when('/viewlisting', {
 		controller: 'unviewCtrl',
-		templateUrl:'viewlistingtemp'
+		templateUrl:'/viewlistingtemp'
 	}).when('/addlisting', {
 		controller:'AddCtlr',
 		templateUrl:'/addlistingtemp'
@@ -18,5 +18,8 @@ app.config(['$routeProvider', function($routeProvider){
 		templateUrl:'/result'
 	}).when('/listing', {
 		templateUrl: '/listing'
+	})
+	.when('/', {
+		templateUrl: '/home'
 	});
 }]);

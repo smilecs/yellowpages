@@ -1,0 +1,99 @@
+body{
+  font-family: 'Raleway', sans-serif;
+}
+
+.nav-{
+  position:fixed;
+  width:100%;
+  background-color:#FFD400;
+  color:black;
+
+  -webkit-box-shadow: 0px 4px 4px -2px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 4px 4px -2px rgba(0,0,0,0.75);
+  box-shadow: 0px 4px 4px -2px rgba(0,0,0,0.75);
+}
+.nav-search-and-link{
+  display:inline-block;
+  padding:10px;
+  float:right;
+}
+.nav-search{
+  display:inline-block;
+  margin:0;
+  padding:0;
+}
+.nav-search input{
+  padding:10px;
+
+}
+.nav-search button{
+  padding:10px;
+  background-color:black;
+  color:#FFD400;
+  border-color: #FFD400;
+}
+
+.nav-links{
+  display:inline-block;
+}
+.nav-links a{
+  padding-left:15px;
+  padding-right:15px;
+  color:black;
+}
+
+.hero-h1{
+    font-size: 6rem;
+    max-width: 700px;
+    display:inline-block;
+    color:black;
+}
+
+.hero-header{
+//    background-image:url('./yellow-pages.jpg')
+    background-color:black;
+    color:white;
+    height:70vh;
+    width:100%;
+    text-align: center;
+}
+
+.categories a{
+    font-size:4em;
+    color:black;
+    font-weight:100;
+
+}
+.hero-search>input{
+    border-radius:0;
+    min-width:50%;
+    padding-top:15px;
+    padding-bottom:15px;
+    color:black;
+
+}
+.hero-search>button{
+    color:#fff;
+    background-color: black;
+    border-radius:0;
+    padding:15px;
+    border-color:black;
+    padding-left:30px;
+    padding-right:30px;
+}
+.hero-search>button:hover{
+  color:yellow;
+  background-color: black;
+}
+.categories-header{
+  padding:20px;
+  padding-top:60px;
+  padding-bottom:40px;
+}
+
+.footer{
+  padding-top:50px;
+  padding-bottom: 30px;
+  background-color:black;
+  color:yellow;
+}

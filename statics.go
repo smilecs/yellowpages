@@ -42,3 +42,9 @@ func ResultHandler(w http.ResponseWriter, r *http.Request) {
 func ListingHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "client/partials/list.html")
 }
+
+
+//ListingHandler for listing view
+func HomeHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "client/partials/home.html")
+}
