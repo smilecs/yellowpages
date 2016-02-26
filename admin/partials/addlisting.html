@@ -38,13 +38,12 @@
   <label for="exampleInputFile">Type</label>
   <select ng-model="data.Plus" ng-change="change(data)">
     <option value=true>PlusListing</option>
-    <option>Listing</option>
+    <option value=false>Listing</option>
   </select>
   </div>
 
-  <div class="form-group" ng-show="data.Plus">
+  <div class="form-group" ng-show="data.Plus == 'true'">
   <label for="exampleInputFile">Images</label>
   <input type="file" />
   </div>
-{{data}}
 <button type="button" class="btn btn-default" ng-click="add(data)">Submit</button>

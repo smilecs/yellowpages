@@ -22,7 +22,7 @@ type Form struct {
 	Image          []string      `bson:"image"`
 	Verified       string        `bson:"verified"`
 	Approved       bool          `bson:"approved"`
-	Plus           bool          `bson:"plus"`
+	Plus           string        `bson:"plus"`
 }
 
 //Category struct for use in registration
