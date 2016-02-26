@@ -14,7 +14,7 @@ app.config(['$routeProvider', function($routeProvider){
 		templateUrl:'/addcattemp'
 	}).when('/category', {
 		templateUrl:'/category'
-	}).when('/searchResult', {
+	}).when('/search', {
 		templateUrl:'/result'
 	}).when('/listing', {
 		templateUrl: '/listing'
