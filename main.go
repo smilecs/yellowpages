@@ -87,6 +87,8 @@ func main() {
 	router.Post("/api/approve", commonHandlers.ThenFunc(Approvehandler))
 	router.Get("/api/unapproved", commonHandlers.ThenFunc(GetunapprovedHandler))
 	router.Get("/api/listings", commonHandlers.ThenFunc(GetListHandler))
+	router.Get("/api/getcatList", commonHandlers.ThenFunc(GetHandler))
+	router.Get("/api/getsingle", commonHandlers.ThenFunc(getCatHandler))
 	log.Println(config.xx)
 	PORT := os.Getenv("PORT")
 	if PORT == "" {

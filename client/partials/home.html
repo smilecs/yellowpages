@@ -27,25 +27,9 @@
   </section>
   <section class="container categories">
       <h1 class="categories-header">Categories</h1>
-      <div  class="col-md-6 category">
-         <a to="#">Barbershops </a>
+      <div  class="col-md-6 category" ng-repeat="data in result">
+         <a href="#/category/{{data.id}}">{{data.Category}} </a>
       </div>
-      <div  class="col-md-6 category">
-         <a to="#">Handymen </a>
-      </div>
-      <div  class="col-md-6 category">
-         <a to="#">Super Markets </a>
-      </div>
-      <div  class="col-md-6 category">
-         <a to="#">Barbershops </a>
-      </div>
-      <div  class="col-md-6 category">
-         <a to="#">Handymen </a>
-      </div>
-      <div  class="col-md-6 category">
-         <a to="#">Super Markets </a>
-      </div>
-
   </section>
   <br/><br/><br/>
   <br/><br/>

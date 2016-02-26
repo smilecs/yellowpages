@@ -12,14 +12,9 @@ app.config(['$routeProvider', function($routeProvider){
 	}).when('/addcat', {
 		controller:'catCtrl',
 		templateUrl:'/addcattemp'
-	}).when('/category', {
-		templateUrl:'/category'
-	}).when('/search', {
-		templateUrl:'/result'
-	}).when('/listing', {
-		templateUrl: '/listing'
 	})
 	.when('/', {
-		templateUrl: '/home'
+		controller: 'unviewCtrl',
+		templateUrl:'/viewlistingtemp'
 	});
 }]);

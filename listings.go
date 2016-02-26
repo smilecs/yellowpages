@@ -19,7 +19,7 @@ type Form struct {
 	Category       string        `bson:"category"`
 	Advert         string        `bson:"advert"`
 	Size           string        `bson:"size"`
-	Image          []string      `bson:"image"`
+	Image          string        `bson:"image"`
 	Verified       string        `bson:"verified"`
 	Approved       bool          `bson:"approved"`
 	Plus           string        `bson:"plus"`
@@ -134,6 +134,43 @@ func Getcat() ([]Category, error) {
 	return result, nil
 }
 
+func getSinglecat(r string) (Category, error) {
+	result := Category{}
+	session, err := mgo.Dial(config.xx)
+
+	if err != nil {
+		return result, err
+	}
+	defer session.Close()
+
+	collection := session.DB("yellowListings").C("Category")
+	err = collection.Find(bson.M{"_id": bson.ObjectIdHex(r)}).One(&result)
+	log.Println(result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+//GetcatListing function
+func GetcatListing(id string) ([]Form, error) {
+	result := []Form{}
+	session, err := mgo.Dial(config.xx)
+
+	if err != nil {
+		return result, err
+	}
+	defer session.Close()
+
+	collection := session.DB("yellowListings").C("Listings")
+	err = collection.Find(bson.M{"category": id}).All(&result)
+	log.Println(result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 //AddHandler for adding Listings
 func AddHandler(w http.ResponseWriter, r *http.Request) {
 	var formdata Form
@@ -145,6 +182,25 @@ func AddHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println(formdata)
 	Addlisting(formdata)
 
+}
+
+//GetHandler function
+func GetHandler(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("q")
+	log.Println(id)
+	data, _ := GetcatListing(id)
+	result, _ := json.Marshal(data)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
+}
+
+func getCatHandler(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("q")
+	log.Println(id)
+	data, _ := getSinglecat(id)
+	result, _ := json.Marshal(data)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
 }
 
 func addCatHandler(w http.ResponseWriter, r *http.Request) {
