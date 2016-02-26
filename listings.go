@@ -20,6 +20,7 @@ type Form struct {
 	Advert         string        `bson:"advert"`
 	Size           string        `bson:"size"`
 	Image          string        `bson:"image"`
+	Images         []string      `bson:"images"`
 	Verified       string        `bson:"verified"`
 	Approved       bool          `bson:"approved"`
 	Plus           string        `bson:"plus"`
@@ -34,7 +35,7 @@ type Category struct {
 //Addlisting function adding listings data to db
 func Addlisting(r Form) error {
 	s, err := mgo.Dial(config.xx)
-	log.Println(r)
+
 	defer s.Close()
 	if err != nil {
 		panic(err)
@@ -46,10 +47,11 @@ func Addlisting(r Form) error {
 //Addcat function for adding category
 func Addcat(r Category) error {
 	s, err := mgo.Dial(config.xx)
-	log.Println(r)
+
+	r.ID = bson.NewObjectId()
 	defer s.Close()
 	if err != nil {
-		panic(err)
+		log.Println(err)
 	}
 	s.DB("yellowListings").C("Category").Insert(r)
 	return err
@@ -179,7 +181,6 @@ func AddHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 	formdata.Approved = false
-	log.Println(formdata)
 	Addlisting(formdata)
 
 }

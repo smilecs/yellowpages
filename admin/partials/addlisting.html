@@ -36,14 +36,31 @@
 
   <div class="form-group">
   <label for="exampleInputFile">Type</label>
-  <select ng-model="data.Plus" ng-change="change(data)">
+  <select class="input-sm" ng-model="data.Plus" ng-change="change(data)">
     <option value=true>PlusListing</option>
     <option value=false>Listing</option>
   </select>
   </div>
 
   <div class="form-group" ng-show="data.Plus == 'true'">
-  <label for="exampleInputFile">Images</label>
-  <input type="file" />
+  <label for="exampleInputFile">Logo Image</label>
+  <input type="file" ng-model="file" class="input-lg" onchange="angular.element(this).scope().newfile1(this.files[0])" />
+    <div >
+      <a class=" col-sm-2">
+        <img src="{{f}}" class="img img-thumbnail" />
+      </a>
+      <div style="clear:both"></div>
+    </div>
   </div>
-<button type="button" class="btn btn-default" ng-click="add(data)">Submit</button>
+
+  <div class="form-group" ng-show="data.Plus == 'true'">
+  <label for="exampleInputFile">Images</label>
+  <input type="file" ng-model="file" class="input-lg" onchange="angular.element(this).scope().newfile(this.files[0])" />
+    <div >
+      <a ng-repeat="f in files" class=" col-sm-2">
+        <img src="{{f}}" class="img img-thumbnail" />
+      </a>
+      <div style="clear:both"></div>
+    </div>
+  </div>
+<button type="button" class="btn btn-lg btn-default" ng-click="add(data)">Submit</button>
