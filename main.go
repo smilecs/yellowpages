@@ -57,8 +57,15 @@ var (
 )
 
 func init() {
+
+	MONGOSERVER := os.Getenv("MONGOLAB_URI")
+	if MONGOSERVER == "" {
+		log.Println("No mongo server address set, resulting to default address")
+		MONGOSERVER = "mongodb://localhost"
+	}
 	config = Conf{
-		xx: "mongodb://localhost",
+
+		xx: MONGOSERVER,
 	}
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
