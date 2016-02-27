@@ -1,0 +1,43 @@
+{
+	"ImportPath": "github.com/smilecs/yellowpages",
+	"GoVersion": "go1.4",
+	"Deps": [
+		{
+			"ImportPath": "github.com/gorilla/context",
+			"Rev": "9337dde90c007a62005184aaaf0e1ca18a26f6bb"
+		},
+		{
+			"ImportPath": "github.com/julienschmidt/httprouter",
+			"Comment": "v1.1-4-g2f04f79",
+			"Rev": "2f04f7967ad1c082e0d1617cfb607bbf22c1c3d9"
+		},
+		{
+			"ImportPath": "github.com/justinas/alice",
+			"Rev": "f3f44bc5e92fddcc1832265f94ab6385243e551c"
+		},
+		{
+			"ImportPath": "github.com/rs/cors",
+			"Rev": "a4c23809d15590a94f37d870f991f0c49998591c"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2",
+			"Comment": "r2015.06.03-3-g3569c88",
+			"Rev": "3569c88678d88179dcbd68d02ab081cbca3cd4d0"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2/bson",
+			"Comment": "r2015.06.03-3-g3569c88",
+			"Rev": "3569c88678d88179dcbd68d02ab081cbca3cd4d0"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2/internal/sasl",
+			"Comment": "r2015.06.03-3-g3569c88",
+			"Rev": "3569c88678d88179dcbd68d02ab081cbca3cd4d0"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2/internal/scram",
+			"Comment": "r2015.06.03-3-g3569c88",
+			"Rev": "3569c88678d88179dcbd68d02ab081cbca3cd4d0"
+		}
+	]
+}
