@@ -8,8 +8,9 @@ app.config(['$routeProvider', function($routeProvider){
 		controller:'ListingCtrl'
 	}).when('/search', {
 		templateUrl:'/result'
-	}).when('/listing', {
-		templateUrl: '/listing'
+	}).when('/listing/:cat/:id', {
+		templateUrl: '/listing',
+		controller:'PlusListingCtrl'
 	});
 }]);
 
@@ -25,11 +26,20 @@ app.controller('ListingCtrl', function($scope, $http,  $routeParams){
 $scope.result = {};
 $scope.category = {};
 $http.get('/api/getcatList?q='+$routeParams.id).success(function(data, status){
-  console.log(data);
   $scope.result = data;
 });
 $http.get('/api/getsingle?q='+$routeParams.id).success(function(data,status){
-	console.log(data);
+	$scope.category = data;
+});
+});
+
+app.controller('PlusListingCtrl', function($scope, $http,  $routeParams){
+$scope.result = {};
+$scope.category = {};
+$http.get('/api/getsinglelist?q='+$routeParams.id).success(function(data, status){
+  $scope.result = data;
+});
+$http.get('/api/getsingle?q='+$routeParams.cat).success(function(data,status){
 	$scope.category = data;
 });
 });

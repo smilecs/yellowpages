@@ -89,6 +89,7 @@ func main() {
 	router.Get("/api/listings", commonHandlers.ThenFunc(GetListHandler))
 	router.Get("/api/getcatList", commonHandlers.ThenFunc(GetHandler))
 	router.Get("/api/getsingle", commonHandlers.ThenFunc(getCatHandler))
+	router.Get("/api/getsinglelist", commonHandlers.ThenFunc(getlistHandler))
 	log.Println(config.xx)
 	PORT := os.Getenv("PORT")
 	if PORT == "" {

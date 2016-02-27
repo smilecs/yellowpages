@@ -91,8 +91,25 @@ func Getunapproved() ([]Form, error) {
 
 	collection := session.DB("yellowListings").C("Listings")
 	err = collection.Find(bson.M{"approved": false}).All(&result)
-	log.Println(result)
 	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+func getSingleList(r string) (Form, error) {
+	result := Form{}
+	session, err := mgo.Dial(config.xx)
+
+	if err != nil {
+		return result, err
+	}
+	defer session.Close()
+
+	collection := session.DB("yellowListings").C("Listings")
+	err = collection.Find(bson.M{"_id": bson.ObjectIdHex(r)}).One(&result)
+	if err != nil {
+		log.Println(err)
 		return result, err
 	}
 	return result, nil
@@ -110,7 +127,6 @@ func GetListings() ([]Form, error) {
 
 	collection := session.DB("yellowListings").C("Listings")
 	err = collection.Find(bson.M{"approved": true}).All(&result)
-	log.Println(result)
 	if err != nil {
 		return result, err
 	}
@@ -129,7 +145,6 @@ func Getcat() ([]Category, error) {
 
 	collection := session.DB("yellowListings").C("Category")
 	err = collection.Find(bson.M{}).All(&result)
-	log.Println(result)
 	if err != nil {
 		return result, err
 	}
@@ -147,8 +162,8 @@ func getSinglecat(r string) (Category, error) {
 
 	collection := session.DB("yellowListings").C("Category")
 	err = collection.Find(bson.M{"_id": bson.ObjectIdHex(r)}).One(&result)
-	log.Println(result)
 	if err != nil {
+		log.Println(err)
 		return result, err
 	}
 	return result, nil
@@ -166,7 +181,6 @@ func GetcatListing(id string) ([]Form, error) {
 
 	collection := session.DB("yellowListings").C("Listings")
 	err = collection.Find(bson.M{"category": id}).All(&result)
-	log.Println(result)
 	if err != nil {
 		return result, err
 	}
@@ -188,8 +202,15 @@ func AddHandler(w http.ResponseWriter, r *http.Request) {
 //GetHandler function
 func GetHandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("q")
-	log.Println(id)
 	data, _ := GetcatListing(id)
+	result, _ := json.Marshal(data)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
+}
+
+func getlistHandler(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("q")
+	data, _ := getSingleList(id)
 	result, _ := json.Marshal(data)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(result)
@@ -197,7 +218,6 @@ func GetHandler(w http.ResponseWriter, r *http.Request) {
 
 func getCatHandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("q")
-	log.Println(id)
 	data, _ := getSinglecat(id)
 	result, _ := json.Marshal(data)
 	w.Header().Set("Content-Type", "application/json")
@@ -206,12 +226,10 @@ func getCatHandler(w http.ResponseWriter, r *http.Request) {
 
 func addCatHandler(w http.ResponseWriter, r *http.Request) {
 	var formdat Category
-	log.Println(r.Body)
 	err := json.NewDecoder(r.Body).Decode(&formdat)
 	if err != nil {
 		log.Println(err)
 	}
-	log.Println(formdat)
 	Addcat(formdat)
 	data, _ := Getcat()
 	result, _ := json.Marshal(data)
@@ -223,7 +241,6 @@ func addCatHandler(w http.ResponseWriter, r *http.Request) {
 //Approvehandler to approve lsitings for view
 func Approvehandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("q")
-	log.Println(id)
 	UpdateListing(id)
 	data, _ := Getunapproved()
 	result, _ := json.Marshal(data)

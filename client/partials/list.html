@@ -20,11 +20,10 @@
       <div class="listing-heading">
         <br/><br/>
         <h1>
-          <img src="http://placehold.it/100x100" class="img img-thumbnail pull-left item-img"/>
-          Past 3 Software and Design Studio Past 3 Software and Design Studio
-
+          <img src="{{result.Image}}" class="img img-thumbnail pull-left item-img"/>
+          {{result.CompanyName}}
           <div style="" class="listing-category">
-            <strong>Category:</strong> Markets
+            <strong>Category:</strong> {{category.Category}}
           </div>
         </h1>
       </div>
@@ -41,30 +40,24 @@
     <div class="listing-area">
         <h2>Address</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur
+          {{result.Address}}
         </p>
     </div>
 
     <div class="listing-area">
         <h2>Phone</h2>
         <p>
-          <a href="tel:0816111556553">083453453543</a>,&nbsp;&nbsp;&nbsp;<a href="tel:0816111556553">083453453543</a>
+          <a href="tel:{{result.Hotline}}">{{result.Hotline}}</a>
         </p>
     </div>
 
     <div class="listing-area">
         <h2>Images</h2>
         <div class="listing-images">
-          <a>
-            <img src="http://placehold.it/900x700"/>
+          <a ng-repeat="data in result.Images">
+            <img src="{{data}}"/>
           </a>
-          <a>
-            <img src="http://placehold.it/900x800"/>
-          </a>
-          <a>
-            <img src="http://placehold.it/900x700"/>
-          </a>
-        </div>
+          </div>
     </div>
 
   </section>
