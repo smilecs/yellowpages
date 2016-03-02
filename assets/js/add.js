@@ -29,7 +29,6 @@ $scope.change = function(data){
 
 $scope.newfile = function(file){
 
-  console.log(file);
   var reader = new FileReader();
   reader.onload = function(u){
         //$scope.files.push(u.target.result);
@@ -37,10 +36,10 @@ $scope.newfile = function(file){
           $scope.files.push(u.target.result);
           //console.log(u.target.result);
         });
-  }
+  };
   reader.readAsDataURL(file);
 
-}
+};
 
 $scope.newfile1 = function(file){
 
@@ -52,8 +51,8 @@ $scope.newfile1 = function(file){
           $scope.f = u.target.result;
           //console.log(u.target.result);
         });
-  }
+  };
   reader.readAsDataURL(file);
 
-}
+};
 }]);
