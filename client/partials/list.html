@@ -1,78 +1,80 @@
-<link href='https://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
-<link href="/assets/main.css" rel="stylesheet"/>
-
-<div class='text-center'>
-  <section class="nav-">
-    <div class="nav-search-and-link">
-      <div class=" nav-search">
-        <input type="text" class=""/>
-        <button class="">Search</button>
+<link href='https://fonts.googleapis.com/css?family=Raleway:400,100'
+      rel='stylesheet'
+      type='text/css'>
+  <link href="/assets/main.css"
+        rel="stylesheet" />
+  <div class='text-center'>
+    <section class="nav-">
+      <div class="nav-search-and-link">
+        <div class="nav-search">
+          <input class=""
+                 type="text" />
+          <button class="">Search</button>
+        </div>
+        <div class="nav-links">
+          <a>Home</a>
+          <a>About</a>
+        </div>
       </div>
-
-      <div class="nav-links">
-        <a>Home</a>
-        <a>About</a>
+    </section>
+    <section class="hero-xs"
+             style='display:table; background-image:url(assets/yellow-pages.jpg); background-size:cover'>
+      <div style='display:table-cell; vertical-align: middle;'>
+        <div class="listing-heading">
+          <br />
+          <br />
+          <h1>
+          <img class="img img-thumbnail pull-left item-img"
+               src="{{result.Image}}" />{{result.CompanyName}}</h1>
+          <div class="listing-category">
+          <strong>Category:&nbsp;</strong>{{category.Category}}</div>
+        </div>
       </div>
-    </div>
-  </section>
-  <section class="hero-xs" style='display:table; background-image:url(assets/yellow-pages.jpg); background-size:cover'>
-    <div style='display:table-cell; vertical-align: middle; font-weight:100'>
-      <div class="listing-heading">
-        <br/><br/>
-        <h1>
-          <img src="{{result.Image}}" class="img img-thumbnail pull-left item-img"/>
-          {{result.CompanyName}}
-          <div style="" class="listing-category">
-            <strong>Category:</strong> {{category.Category}}
-          </div>
-        </h1>
-      </div>
-    </div>
-  </section>
-  <br/><br/><br/>
-  <section class="listing-body">
-    <div class="listing-area">
+    </section>
+    <br />
+    <br />
+    <br />
+    <section class="listing-body">
+      <div class="listing-area">
         <h2>About</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-    </div>
-    <div class="listing-area">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+      <div class="listing-area">
         <h2>Address</h2>
-        <p>
-          {{result.Address}}
-        </p>
-    </div>
-
-    <div class="listing-area">
+        <p>{{result.Address}}</p>
+      </div>
+      <div class="listing-area">
         <h2>Phone</h2>
         <p>
           <a href="tel:{{result.Hotline}}">{{result.Hotline}}</a>
         </p>
-    </div>
-
-    <div class="listing-area">
+      </div>
+      <div class="listing-area">
         <h2>Images</h2>
         <div class="listing-images">
           <a ng-repeat="data in result.Images">
-            <img src="{{data}}"/>
+            <img src="{{data}}" />
           </a>
-          </div>
-    </div>
-
-  </section>
-  <section class="listing-images-section">
-
-  </section>
-
-  <br/><br/><br/>
-  <br/><br/>
-  <section class="footer">
+        </div>
+      </div>
+    </section>
+    <section class="listing-images-section"></section>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <section class="footer">
       <div class="container x">
-          <p> Copyright calabaryellowpages.com.ng 2016</p>
+        <p>Copyright calabaryellowpages.com.ng 2016</p>
       </div>
       <div class="container p3">
-          <p> made with <span class="heart">❤</span> by <a href="http://past3.com.ng">Past 3 Software and Design Studio</a></p>
+        <p>made with &nbsp;&nbsp;
+        <span class="heart">❤</span>&nbsp;&nbsp;by
+        <a href="http://past3.com.ng">Past 3 Software and Design Studio</a></p>
       </div>
-  </section>
-</div>
+    </section>
+  </div>
+</link>

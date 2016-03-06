@@ -1,58 +1,71 @@
-<link href='https://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
-<link href="/assets/main.css" rel="stylesheet"/>
-
-<div class='text-center'>
-  <section class="nav-">
-    <div class="nav-search-and-link">
-      <div class=" nav-search">
-        <input type="text" class=""/>
-        <button class="">Search</button>
-      </div>
-
-      <div class="nav-links">
-        <a>Home</a>
-        <a>About</a>
-      </div>
-    </div>
-  </section>
-  <section class="hero-xs" style='display:table; background-image:url(assets/yellow-pages.jpg); background-size:cover'>
-    <div style='display:table-cell; vertical-align: middle; font-weight:100'>
-        <h1 class="hero-h1"><strong>Category:</strong> {{category.Category}}</h1>
-    </div>
-  </section>
-  <br/><br/><br/>
-  <section class="item-listing-parent">
-    <section class="item-listings">
-        <div class="item" ng-repeat="data in result">
-          <div ng-if="data.Plus =='true'">
-
-          <span class="pull-right verified-mark"><strong>&#10004; verified</strong></span>
-
-            <h1>
-              <img src="{{data.Image}}" class="img img-thumbnail pull-left item-img"/>
-              <a href="#/listing/{{category.id}}/{{data.id}}" class="item-title">{{data.CompanyName}}</a>
-            </h1>
-            <address class="">
-              {{data.Address}}
-            </address>
-            <a href="tel:917387084384">Call {{data.Hotline}}</a>
-            </div>
-<div ng-if="data.Plus == 'false'">
-            <h1> {{data.CompanyName}}</h1>
-               <address class="">
-                 {{data.Address}}
-               </address>
-               <a href="tel:917387084384">Call {{data.Hotline}}</a>
-</div>
+<link href='https://fonts.googleapis.com/css?family=Raleway:400,100'
+      rel='stylesheet'
+      type='text/css'>
+  <link href="/assets/main.css"
+        rel="stylesheet" />
+  <div class='text-center'>
+    <section class="nav-">
+      <div class="nav-search-and-link">
+        <div class="nav-search">
+          <input class=""
+                 type="text" />
+          <button class="">Search</button>
         </div>
-
-    </section>
-  </section>
-  <br/><br/><br/>
-  <br/><br/>
-  <section class="footer">
-      <div class="container">
-          <p> Copyright calabaryellowpages.com.ng 2016</p>
+        <div class="nav-links">
+          <a>Home</a>
+          <a>About</a>
+        </div>
       </div>
-  </section>
-</div>
+    </section>
+    <section class="hero-xs"
+             style='display:table; background-image:url(assets/yellow-pages.jpg); background-size:cover'>
+      <div style='display:table-cell; vertical-align: middle; font-weight:100'>
+        <h1 class="hero-h1">
+        <strong>Category:</strong>{{category.Category}}</h1>
+      </div>
+    </section>
+    <br />
+    <br />
+    <br />
+    <section class="item-listing-parent">
+      <section class="item-listings">
+        <div class="item"
+             ng-repeat="data in result">
+          <div ng-if="data.Plus =='true'">
+            <span class="pull-right verified-mark">
+              <strong>&#10004; verified</strong>
+            </span>
+            <h1>
+              <img class="img img-thumbnail pull-left item-img"
+                   src="{{data.Image}}" />
+              <a class="item-title"
+                 href="#/listing/{{category.id}}/{{data.id}}">{{data.CompanyName}}</a>
+            </h1>
+            <address class="">{{data.Address}}</address>
+            <a href="tel:917387084384">Call {{data.Hotline}}</a>
+          </div>
+          <div ng-if="data.Plus == 'false'">
+            <h1>{{data.CompanyName}}</h1>
+            <address class="">{{data.Address}}</address>
+            <a href="tel:917387084384">Call {{data.Hotline}}</a>
+          </div>
+        </div>
+      </section>
+    </section>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <section class="footer">
+      <div class="container x">
+        <p>Copyright calabaryellowpages.com.ng 2016</p>
+      </div>
+      <div class="container p3">
+        <p>made with&nbsp;&nbsp;
+        <span class="heart">❤</span>&nbsp;&nbsp;by
+        <a href="http://past3.com.ng">Past 3 Software and Design Studio</a></p>
+      </div>
+    </section>
+  </div>
+</link>
