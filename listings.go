@@ -2,11 +2,16 @@ package main
 
 import (
 	"encoding/json"
+	"strconv"
+	"time"
 	//"github.com/gorilla/context"
+	"log"
+	"math/rand"
+	"net/http"
+	"strings"
+
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"log"
-	"net/http"
 )
 
 //Form struct holds all submitted form data for listings
@@ -21,6 +26,7 @@ type Form struct {
 	Size           string        `bson:"size"`
 	Image          string        `bson:"image"`
 	Images         []string      `bson:"images"`
+	Slug           string        `bson:"slug"`
 	Verified       string        `bson:"verified"`
 	Approved       bool          `bson:"approved"`
 	Plus           string        `bson:"plus"`
@@ -30,16 +36,20 @@ type Form struct {
 type Category struct {
 	ID       bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
 	Category string        `bson:"category"`
+	Slug     string        `bson:"slug"`
 }
 
 //Addlisting function adding listings data to db
 func Addlisting(r Form) error {
 	s, err := mgo.Dial(config.xx)
-
 	defer s.Close()
 	if err != nil {
 		panic(err)
 	}
+
+	p := rand.New(rand.NewSource(time.Now().UnixNano()))
+	str := strconv.Itoa(p.Intn(10))
+	r.Slug = strings.Replace(r.CompanyName, " ", "-", -1) + str
 	s.DB("yellowListings").C("Listings").Insert(r)
 	return err
 }
@@ -48,11 +58,13 @@ func Addlisting(r Form) error {
 func Addcat(r Category) error {
 	s, err := mgo.Dial(config.xx)
 
-	r.ID = bson.NewObjectId()
 	defer s.Close()
 	if err != nil {
 		log.Println(err)
 	}
+	p := rand.New(rand.NewSource(time.Now().UnixNano()))
+	str := strconv.Itoa(p.Intn(10))
+	r.Slug = strings.Replace(r.Category, " ", "-", -1) + str
 	s.DB("yellowListings").C("Category").Insert(r)
 	return err
 }
@@ -67,7 +79,7 @@ func UpdateListing(id string) error {
 	defer session.Close()
 
 	collection := session.DB("yellowListings").C("Listings")
-	query := bson.M{"_id": bson.ObjectIdHex(id)}
+	query := bson.M{"slug": id}
 	change := bson.M{"$set": bson.M{"approved": true}}
 
 	err = collection.Update(query, change)
@@ -107,7 +119,7 @@ func getSingleList(r string) (Form, error) {
 	defer session.Close()
 
 	collection := session.DB("yellowListings").C("Listings")
-	err = collection.Find(bson.M{"_id": bson.ObjectIdHex(r)}).One(&result)
+	err = collection.Find(bson.M{"slug": r}).One(&result)
 	if err != nil {
 		log.Println(err)
 		return result, err
@@ -161,7 +173,7 @@ func getSinglecat(r string) (Category, error) {
 	defer session.Close()
 
 	collection := session.DB("yellowListings").C("Category")
-	err = collection.Find(bson.M{"_id": bson.ObjectIdHex(r)}).One(&result)
+	err = collection.Find(bson.M{"slug": r}).One(&result)
 	if err != nil {
 		log.Println(err)
 		return result, err
@@ -180,7 +192,7 @@ func GetcatListing(id string) ([]Form, error) {
 	defer session.Close()
 
 	collection := session.DB("yellowListings").C("Listings")
-	err = collection.Find(bson.M{"category": id}).All(&result)
+	err = collection.Find(bson.M{"slug": id}).All(&result)
 	if err != nil {
 		return result, err
 	}
