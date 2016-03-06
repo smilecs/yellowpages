@@ -32,6 +32,17 @@ type Form struct {
 	Plus           string        `bson:"plus"`
 }
 
+//View struct holds data of both adverts and listing view
+type View struct {
+	CompanyName    string `bson:"companyname"`
+	Address        string `bson:"address"`
+	Hotline        string `bson:"hotline"`
+	Specialisation string `bson:"specialisation"`
+	Category       string `bson:"category"`
+	Plus           string `bson:"plus"`
+	Ad             string `bson:"ad"`
+}
+
 //Category struct for use in registration
 type Category struct {
 	ID       bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`

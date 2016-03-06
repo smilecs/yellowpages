@@ -1,0 +1,16 @@
+<div class="form-group">
+  <label for="exampleInputFile">Name</label>
+  <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Name">
+  </div>
+
+
+<div class="form-group">
+<label for="exampleInputFile">Advert Banner</label>
+<input type="file" ng-model="file" class="input-lg" onchange="angular.element(this).scope().newfile1(this.files[0])" />
+  <div >
+    <a class=" col-sm-2">
+      <img src="{{f}}" class="img img-thumbnail" />
+    </a>
+    <div style="clear:both"></div>
+  </div>
+</div>
