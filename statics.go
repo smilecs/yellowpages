@@ -19,6 +19,11 @@ func UnapprovedViewHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "admin/partials/view_listings.html")
 }
 
+//AdvertHandler for adding adverts
+func AdvertHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "admin/partials/newAd.html")
+}
+
 func addcatViewHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "admin/partials/addcat.html")
 }
@@ -42,7 +47,6 @@ func ResultHandler(w http.ResponseWriter, r *http.Request) {
 func ListingHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "client/partials/list.html")
 }
-
 
 //ListingHandler for listing view
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
