@@ -73,12 +73,10 @@ func Addlisting(r Form) error {
 	}
 
 	auth, err := aws.EnvAuth()
-	log.Println(auth)
 	if err != nil {
 		log.Fatal(err)
 	}
 	client := s3.New(auth, aws.USWest2)
-
 	bucket := client.Bucket("yellowpagesng")
 
 	p := rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -90,10 +88,7 @@ func Addlisting(r Form) error {
 	}
 
 	meta := strings.Split(r.Image, "base64,")[0]
-	log.Println(meta)
 	newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
-	log.Println(newmeta)
-
 	imagename := randSeq(10)
 
 	err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite)
@@ -114,29 +109,18 @@ func Addlisting(r Form) error {
 		}
 
 		meta := strings.Split(v, "base64,")[0]
-		log.Println(meta)
+
 		newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
-		log.Println(newmeta)
-		var fileext string
-		//switch newmeta {
-		switch fileext {
-		case "image/jpeg":
-			fileext = ".jpg"
-		case "image/png":
-			fileext = ".png"
-		case "image/gif":
-			fileext = ".gif"
-		}
+
 		imagename := randSeq(10)
-		log.Println(imagename)
+
 		err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite)
 		if err != nil {
 			log.Println(err)
 		}
-
-		log.Println(bucket.URL(imagename))
 		images = append(images, bucket.URL(imagename))
 	}
+
 	r.Images = images
 	r.Slug = strings.Replace(r.CompanyName, " ", "-", -1) + str
 	s.DB("yellowListings").C("Listings").Insert(r)
