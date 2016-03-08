@@ -1,14 +1,13 @@
 package main
 
 import (
-	"log"
-	"net/http"
-	"os"
-
 	"github.com/gorilla/context"
 	"github.com/julienschmidt/httprouter"
 	"github.com/justinas/alice"
 	"github.com/rs/cors"
+	"log"
+	"net/http"
+	"os"
 )
 
 // Router struct would carry the httprouter instance, so its methods could be verwritten and replaced with methds with wraphandler
@@ -55,6 +54,8 @@ type Conf struct {
 
 var (
 	config Conf
+
+	IMAGE_DIR = "./"
 )
 
 func init() {
@@ -79,7 +80,6 @@ func main() {
 	//fs := http.FileServer(http.Dir("admin/assets/"))
 	//http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 	router.Get("/addlistingtemp", commonHandlers.ThenFunc(AddListingViewHandler))
-	router.Get("/newad", commonHandlers.ThenFunc(AdvertHandler))
 	router.Get("/addcattemp", commonHandlers.ThenFunc(addcatViewHandler))
 	router.Get("/viewlistingtemp", commonHandlers.ThenFunc(UnapprovedViewHandler))
 	router.Get("/category", commonHandlers.ThenFunc(CategoryHandler))
