@@ -1,15 +1,20 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"strconv"
 	"time"
+
 	//"github.com/gorilla/context"
+
 	"log"
 	"math/rand"
 	"net/http"
 	"strings"
 
+	"github.com/mitchellh/goamz/aws"
+	"github.com/mitchellh/goamz/s3"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -50,6 +55,15 @@ type Category struct {
 	Slug     string        `bson:"slug"`
 }
 
+func randSeq(n int) string {
+	letters := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
+}
+
 //Addlisting function adding listings data to db
 func Addlisting(r Form) error {
 	s, err := mgo.Dial(config.xx)
@@ -58,8 +72,56 @@ func Addlisting(r Form) error {
 		panic(err)
 	}
 
+	auth, err := aws.EnvAuth()
+	if err != nil {
+		log.Fatal(err)
+	}
+	client := s3.New(auth, aws.USWest2)
+	bucket := client.Bucket("yellowpagesng")
+
 	p := rand.New(rand.NewSource(time.Now().UnixNano()))
 	str := strconv.Itoa(p.Intn(10))
+
+	byt, err := base64.StdEncoding.DecodeString(strings.Split(r.Image, "base64,")[1])
+	if err != nil {
+		log.Println(err)
+	}
+
+	meta := strings.Split(r.Image, "base64,")[0]
+	newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
+	imagename := randSeq(10)
+
+	err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite)
+	if err != nil {
+		log.Println(err)
+	}
+
+	log.Println(bucket.URL(imagename))
+
+	r.Image = bucket.URL(imagename)
+
+	var images []string
+	for _, v := range r.Images {
+
+		byt, err := base64.StdEncoding.DecodeString(strings.Split(v, "base64,")[1])
+		if err != nil {
+			log.Println(err)
+		}
+
+		meta := strings.Split(v, "base64,")[0]
+
+		newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
+
+		imagename := randSeq(10)
+
+		err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite)
+		if err != nil {
+			log.Println(err)
+		}
+		images = append(images, bucket.URL(imagename))
+	}
+
+	r.Images = images
 	r.Slug = strings.Replace(r.CompanyName, " ", "-", -1) + str
 	s.DB("yellowListings").C("Listings").Insert(r)
 	return err
