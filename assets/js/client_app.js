@@ -26,6 +26,8 @@ app.controller('ListingCtrl', function($scope, $http,  $routeParams){
 $scope.result = {};
 $scope.category = {};
 $http.get('/api/getcatList?q='+$routeParams.id).success(function(data, status){
+	console.log($routeParams.id);
+	console.log(data);
   $scope.result = data;
 });
 $http.get('/api/getsingle?q='+$routeParams.id).success(function(data,status){

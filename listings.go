@@ -203,7 +203,7 @@ func GetcatListing(id string) ([]Form, error) {
 	defer session.Close()
 
 	collection := session.DB("yellowListings").C("Listings")
-	err = collection.Find(bson.M{"slug": id}).All(&result)
+	err = collection.Find(bson.M{"category": id}).All(&result)
 	if err != nil {
 		return result, err
 	}
