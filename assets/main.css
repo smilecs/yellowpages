@@ -2,6 +2,10 @@ body{
   font-family: 'Raleway', sans-serif;
 }
 
+.hundred{
+  min-height: 100vh;
+}
+
 .nav-{
   position:fixed;
   width:100%;
