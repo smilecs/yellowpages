@@ -1,13 +1,14 @@
 package main
 
 import (
+	"log"
+	"net/http"
+	"os"
+
 	"github.com/gorilla/context"
 	"github.com/julienschmidt/httprouter"
 	"github.com/justinas/alice"
 	"github.com/rs/cors"
-	"log"
-	"net/http"
-	"os"
 )
 
 // Router struct would carry the httprouter instance, so its methods could be verwritten and replaced with methds with wraphandler
@@ -55,7 +56,7 @@ type Conf struct {
 var (
 	config Conf
 
-	IMAGE_DIR = "./"
+	//IMAGE_DIR = "./"
 )
 
 func init() {
@@ -99,6 +100,7 @@ func main() {
 	router.Get("/api/getcatList", commonHandlers.ThenFunc(GetHandler))
 	router.Get("/api/getsingle", commonHandlers.ThenFunc(getCatHandler))
 	router.Get("/api/getsinglelist", commonHandlers.ThenFunc(getlistHandler))
+	router.Get("/api/newview", commonHandlers.ThenFunc(GetNewView))
 	log.Println(config.xx)
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
