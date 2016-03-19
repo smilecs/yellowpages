@@ -87,6 +87,7 @@ func main() {
 	router.Get("/result", commonHandlers.ThenFunc(ResultHandler))
 	router.Get("/listing", commonHandlers.ThenFunc(ListingHandler))
 	router.Get("/home", commonHandlers.ThenFunc(HomeHandler))
+	router.Get("/newad", commonHandlers.ThenFunc(NewAdvertHandler))
 
 	router.ServeFiles("/assets/*filepath", http.Dir("assets"))
 
@@ -96,6 +97,7 @@ func main() {
 	router.Post("/api/addlisting", commonHandlers.ThenFunc(AddHandler))
 	router.Post("/api/approve", commonHandlers.ThenFunc(Approvehandler))
 	router.Get("/api/unapproved", commonHandlers.ThenFunc(GetunapprovedHandler))
+	router.Post("/api/newAd", commonHandlers.ThenFunc(NewAdHandler))
 	router.Get("/api/listings", commonHandlers.ThenFunc(GetListHandler))
 	router.Get("/api/getcatList", commonHandlers.ThenFunc(GetHandler))
 	router.Get("/api/getsingle", commonHandlers.ThenFunc(getCatHandler))

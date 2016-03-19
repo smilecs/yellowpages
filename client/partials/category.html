@@ -31,7 +31,7 @@
       <section class="item-listings">
         <div class="item"
              ng-repeat="data in result">
-          <div ng-if="data.Plus =='true'">
+          <div ng-if="data.Type =='true'">
             <span class="pull-right verified-mark">
               <strong>&#10004; verified</strong>
             </span>
@@ -44,14 +44,14 @@
             <address class="">{{data.Address}}</address>
             <a href="tel:917387084384">Call {{data.Hotline}}</a>
           </div>
-          <div ng-if="data.Plus == 'false'">
+          <div ng-if="data.Type == 'false'">
             <h1>{{data.CompanyName}}</h1>
             <address class="">{{data.Address}}</address>
             <a href="tel:917387084384">Call {{data.Hotline}}</a>
           </div>
 
-          <div class="ad-listing" ng-if="data.Image == 'true' ">
-            <img src="http://placehold.it/700x200" />
+          <div class="ad-listing" ng-if="data.Type == 'advert' ">
+            <img src="{{data.Image}}" />
           </div>
         </div>
 

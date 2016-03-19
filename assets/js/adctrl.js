@@ -7,7 +7,7 @@ $scope.data = {};
 */
 $scope.add = function(data){
 data.image = $scope.f;
-  $http.post('/api/addcat', data).success(function(data, status){
+  $http.post('/api/newAd', data).success(function(data, status){
     $scope.result = data;
     console.log(data);
     if(status === 200){

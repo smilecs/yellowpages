@@ -48,7 +48,12 @@ func ListingHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "client/partials/list.html")
 }
 
-//ListingHandler for listing view
+//HomeHandler for listing view
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "client/partials/home.html")
+}
+
+//NewAdvertHandler for new Adverts
+func NewAdvertHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "admin/partials/newAd.html")
 }

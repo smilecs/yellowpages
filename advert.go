@@ -20,6 +20,7 @@ type Advert struct {
 	ID    bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
 	Image string        `bson:"image"`
 	Name  string        `bson:"name"`
+	Type  string        `bson:"type"`
 }
 
 //NewAd function for adding new adverts
@@ -30,6 +31,8 @@ func NewAd(r Advert) error {
 	if err != nil {
 		panic(err)
 	}
+
+	r.Type = "advert"
 
 	auth, err := aws.EnvAuth()
 	if err != nil {

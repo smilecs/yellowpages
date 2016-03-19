@@ -24,17 +24,18 @@ type View struct {
 func RenderView(id string) ([]*View, error) {
 	tmp := []Form{}
 	result := []*View{}
-	res := []Advert{}
+	//res := []Advert{}
 	session, err := mgo.Dial(config.xx)
 	if err != nil {
 		return result, err
 	}
 	defer session.Close()
-	adCollection := session.DB("yellowListings").C("Adverts")
+	/*adCollection := session.DB("yellowListings").C("Adverts")
 	err = adCollection.Find(bson.M{}).All(&res)
 	if err != nil {
 		return result, err
-	}
+	}*/
+	res, _ := GetAds()
 	collection := session.DB("yellowListings").C("Listings")
 	err = collection.Find(bson.M{"category": id}).All(&tmp)
 	if err != nil {
@@ -49,6 +50,7 @@ func RenderView(id string) ([]*View, error) {
 				rss := res[i]
 				views.Image = rss.Image
 				views.ID = rss.ID
+				views.Type = rss.Type
 				views.CompanyName = rss.Name
 				result = append(result, views)
 			}
