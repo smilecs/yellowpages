@@ -32,6 +32,7 @@ type Form struct {
 	Image          string        `bson:"image"`
 	Images         []string      `bson:"images"`
 	Slug           string        `bson:"slug"`
+	About          string        `bson:"about"`
 	Verified       string        `bson:"verified"`
 	Approved       bool          `bson:"approved"`
 	Plus           string        `bson:"plus"`
@@ -112,7 +113,13 @@ func Addlisting(r Form) error {
 
 	r.Images = images
 	r.Slug = strings.Replace(r.CompanyName, " ", "-", -1) + str
-	s.DB("yellowListings").C("Listings").Insert(r)
+	index := Index{
+		key:        []string{"specialisation", "companyname"},
+		Unique:     true,
+		DropDups:   true,
+		Background: true,
+	}
+	s.DB("yellowListings").C("Listings").EnsureIndex(index).Insert(r)
 	return err
 }
 

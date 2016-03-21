@@ -25,13 +25,12 @@ $http.get('/api/getcat').success(function(data, status){
 app.controller('ListingCtrl', function($scope, $http,  $routeParams){
 $scope.result = {};
 $scope.category = {};
-$http.get('/api/getcatList?q='+$routeParams.id).success(function(data, status){
-	console.log($routeParams.id);
-	console.log(data);
+$http.get('/api/getsingle?q='+$routeParams.id).success(function(data, status){
   $scope.result = data;
 });
-$http.get('/api/getsingle?q='+$routeParams.id).success(function(data,status){
+$http.get('/api/newview?q='+$routeParams.id).success(function(data,status){
 	$scope.category = data;
+	console.log(data);
 });
 });
 

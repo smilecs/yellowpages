@@ -21,7 +21,7 @@
              style='display:table; background-image:url(assets/yellow-pages.jpg); background-size:cover'>
       <div style='display:table-cell; vertical-align: middle; font-weight:100'>
         <h1 class="hero-h1">
-        <strong>Category:</strong>{{category.Category}}</h1>
+        <strong>Category:</strong>{{result.Category}}</h1>
       </div>
     </section>
     <br />
@@ -30,7 +30,7 @@
     <section class="item-listing-parent hundred">
       <section class="item-listings">
         <div class="item"
-             ng-repeat="data in result">
+             ng-repeat="data in category">
           <div ng-if="data.Type =='true'">
             <span class="pull-right verified-mark">
               <strong>&#10004; verified</strong>
@@ -42,12 +42,12 @@
                  href="#/listing/{{category.Slug}}/{{data.Slug}}">{{data.CompanyName}}</a>
             </h1>
             <address class="">{{data.Address}}</address>
-            <a href="tel:917387084384">Call {{data.Hotline}}</a>
+            <a href="tel:{{data.Hotline}}">Call {{data.Hotline}}</a>
           </div>
           <div ng-if="data.Type == 'false'">
             <h1>{{data.CompanyName}}</h1>
             <address class="">{{data.Address}}</address>
-            <a href="tel:917387084384">Call {{data.Hotline}}</a>
+            <a href="tel:{{data.Hotline}}">Call {{data.Hotline}}</a>
           </div>
 
           <div class="ad-listing" ng-if="data.Type == 'advert' ">
