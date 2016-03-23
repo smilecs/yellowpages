@@ -57,3 +57,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 func NewAdvertHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "admin/partials/newAd.html")
 }
+
+//Searcher return view for search result
+func Searcher(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "client/partials/result.html")
+}

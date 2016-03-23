@@ -36,6 +36,7 @@ type Form struct {
 	Verified       string        `bson:"verified"`
 	Approved       bool          `bson:"approved"`
 	Plus           string        `bson:"plus"`
+	Pg             Page
 }
 
 //Category struct for use in registration
@@ -113,13 +114,15 @@ func Addlisting(r Form) error {
 
 	r.Images = images
 	r.Slug = strings.Replace(r.CompanyName, " ", "-", -1) + str
-	index := Index{
-		key:        []string{"specialisation", "companyname"},
+	index := mgo.Index{
+		Key:        []string{"$text:specialisation", "$text:companyname"},
 		Unique:     true,
 		DropDups:   true,
 		Background: true,
 	}
-	s.DB("yellowListings").C("Listings").EnsureIndex(index).Insert(r)
+	collection := s.DB("yellowListings").C("Listings")
+	collection.EnsureIndex(index)
+	collection.Insert(r)
 	return err
 }
 

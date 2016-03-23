@@ -2,7 +2,9 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
+	"strconv"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -18,6 +20,11 @@ type View struct {
 	Category       string        `bson:"category"`
 	Type           string
 	Image          string
+}
+type Result struct {
+	Data  []Form
+	Pag   Page
+	Query string
 }
 
 //RenderView function to return listings mixed with adds
@@ -72,6 +79,33 @@ func RenderView(id string) ([]*View, error) {
 	return result, nil
 }
 
+func Search(query1 string, count int, page int, perpage int) (Result, error) {
+	Results := Result{}
+	var Page Page
+	session, err := mgo.Dial(config.xx)
+	if err != nil {
+		return Results, err
+	}
+	defer session.Close()
+	col := session.DB("yellowListings").C("Listings")
+	index := mgo.Index{
+		Key: []string{"$text:specialisation", "$text:companyname"},
+	}
+	err = col.EnsureIndex(index)
+	if err != nil {
+		return Results, err
+	}
+
+	q := col.Find(bson.M{"$text": bson.M{"$search": query1}})
+	Page = SearchPagination(count, page, perpage)
+	err = q.Limit(perpage).Skip(Page.Skip).All(&Results.Data)
+	Results.Pag = Page
+	if err != nil {
+		return Results, err
+	}
+	return Results, nil
+}
+
 //GetNewView used to return new views
 func GetNewView(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("q")
@@ -79,4 +113,18 @@ func GetNewView(w http.ResponseWriter, r *http.Request) {
 	result, _ := json.Marshal(data)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(result)
+}
+func SearchHandler(w http.ResponseWriter, r *http.Request) {
+	var data Result
+	tmp := r.URL.Query().Get("page")
+	page, _ := strconv.Atoi(tmp)
+	data.Query = r.URL.Query().Get("q")
+	err := json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		log.Println(err)
+	}
+	result, _ := Search(data.Query, 50, page, 50)
+	newVal, _ := json.Marshal(result)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(newVal)
 }

@@ -29,28 +29,27 @@
     <br />
     <section class="item-listing-parent">
       <section class="item-listings">
-        <div class="item">
-          <h1>Past 3 Software and Design Studio Past 3 Software and Design Studio</h1>
-          <address class="">Qc 34e fsgfgdfgdf</address>
-          <a href="tel:917387084384">Call +91-7387084384</a>
-        </div>
-        <div class="item">
-          <span class="pull-right verified-mark">
-            <strong>&#10004; verified</strong>
-          </span>
-          <h1>
-            <img class="img img-thumbnail pull-left item-img"
-                 src="http://placehold.it/100x100" />
-            <a class="item-title"
-               href="#">Past 3 Software and Design Studio Past 3 Software and Design Studio</a>
-          </h1>
-          <address class="">Qc 34e fsgfgdfgdf</address>
-          <a href="tel:917387084384">Call +91-7387084384</a>
-        </div>
-        <div class="item">
-          <h1>Past 3 Software and Design Studio</h1>
-          <address class="">Qc 34e fsgfgdfgdf</address>
-          <a href="tel:917387084384">Call +91-7387084384</a>
+        <div class="item"
+             ng-repeat="data in category">
+          <div ng-if="data.Plus =='true'">
+            <span class="pull-right verified-mark">
+              <strong>&#10004; verified</strong>
+            </span>
+            <h1>
+              <img class="img img-thumbnail pull-left item-img"
+                   src="{{data.Image}}" />
+              <a class="item-title"
+                 href="#/listing/{{category.Slug}}/{{data.Slug}}">{{data.CompanyName}}</a>
+            </h1>
+            <address class="">{{data.Address}}</address>
+            <a href="tel:{{data.Hotline}}">Call {{data.Hotline}}</a>
+          </div>
+          <div ng-if="data.Plus == 'false'">
+            <h1>{{data.CompanyName}}</h1>
+            <address class="">{{data.Address}}</address>
+            <a href="tel:{{data.Hotline}}">Call {{data.Hotline}}</a>
+          </div>
+
         </div>
       </section>
     </section>
@@ -65,7 +64,7 @@
       </div>
       <div class="container p3">
         <p>made with &nbsp;&nbsp;
-        <span class="heart">❤</span>&nbsp;&nbsp;by 
+        <span class="heart">❤</span>&nbsp;&nbsp;by
         <a href="http://past3.com.ng">Past 3 Software and Design Studio</a></p>
       </div>
     </section>
