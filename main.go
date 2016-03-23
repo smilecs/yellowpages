@@ -88,7 +88,6 @@ func main() {
 	router.Get("/listing", commonHandlers.ThenFunc(ListingHandler))
 	router.Get("/home", commonHandlers.ThenFunc(HomeHandler))
 	router.Get("/newad", commonHandlers.ThenFunc(NewAdvertHandler))
-	router.Get("/result", commonHandlers.ThenFunc(Searcher))
 
 	router.ServeFiles("/assets/*filepath", http.Dir("assets"))
 

@@ -17,19 +17,19 @@ app.config(['$routeProvider', function($routeProvider){
 	});
 }]);
 
-app.controller('HomeCtrl', ['$scope', '$http', function($scope, $http){
+app.controller('HomeCtrl', ['$scope', '$http','$location', function($scope, $http, $location){
 $scope.result = {};
 $http.get('/api/getcat').success(function(data, status){
   console.log(data);
   $scope.result = data;
 });
 $scope.send = function(data){
-	$location.path('/result/data');
+	$location.path('/result/'+data);
 };
 
 }]);
 
-app.controller('ListingCtrl', function($scope, $http,  $routeParams){
+app.controller('ListingCtrl', function($scope, $http, $location, $routeParams){
 $scope.result = {};
 $scope.category = {};
 $http.get('/api/getsingle?q='+$routeParams.id).success(function(data, status){
@@ -40,12 +40,12 @@ $http.get('/api/newview?q='+$routeParams.id).success(function(data,status){
 	console.log(data);
 });
 $scope.send = function(data){
-	$location.path('/result/data');
+$location.path('/result/'+data);
 };
 
 });
 
-app.controller('PlusListingCtrl', function($scope, $http,  $routeParams){
+app.controller('PlusListingCtrl', function($scope, $http,  $location, $routeParams){
 $scope.result = {};
 $scope.category = {};
 $http.get('/api/getsinglelist?q='+$routeParams.id).success(function(data, status){
@@ -55,23 +55,23 @@ $http.get('/api/getsingle?q='+$routeParams.cat).success(function(data,status){
 	$scope.category = data;
 });
 $scope.send = function(data){
-	$location.path('/result/data');
+$location.path('/result/'+data);
 };
 
 });
 
-app.controller('SearchCtrl', function($scope, $http, $routeParams){
+app.controller('SearchCtrl', function($scope, $http, $routeParams, $location){
 	$scope.category = {};
 	$scope.pages = {};
 
 	$scope.send = function(data){
-		$location.path('/result/data');
+$location.path('/result/'+data);
 	};
 
-	$http.get('/api/result?page=1&q='+$routeParams.query).success(function(data, status){
+	$http.post('/api/result?page=1&q='+$routeParams.query).success(function(data, status){
 		console.log(data);
-		$scope.category = data[0];
-		$scope.pages = data[1];
+		$scope.category = data.Data;
+		$scope.pages = data;
 	});
 });
 

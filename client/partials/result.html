@@ -8,8 +8,8 @@
       <div class="nav-search-and-link">
         <div class="nav-search">
           <input class=""
-                 type="text" />
-          <button class="">Search</button>
+                 type="text" ng-model="data.query"/>
+          <button class="" ng-click="send(data.query)">Search</button>
         </div>
         <div class="nav-links">
           <a>Home</a>
@@ -21,7 +21,7 @@
              style='display:table; background-image:url(assets/yellow-pages.jpg); background-size:cover'>
       <div style='display:table-cell; vertical-align: middle; font-weight:100'>
         <h1 class="hero-h1">
-        <strong>Query:</strong>Super Markets in Calabar</h1>
+        <strong>Query:</strong>{{pages.Query}}</h1>
       </div>
     </section>
     <br />

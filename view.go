@@ -124,6 +124,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 	result, _ := Search(data.Query, 50, page, 50)
+	result.Query = data.Query
 	newVal, _ := json.Marshal(result)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(newVal)

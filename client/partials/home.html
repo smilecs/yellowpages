@@ -24,8 +24,9 @@
               <h1 class="hero-h1">Looking for Businesses in Cross River State?</h1>
               <div class=" hero-search">
                 <input class=""
-                       type="text" />
-                <button class="">Search</button>
+                       type="text" ng-model="datas.query"/>
+                <button class="" ng-click="send(datas.query)">Search</button>
+
               </div>
             </div>
           </section>
