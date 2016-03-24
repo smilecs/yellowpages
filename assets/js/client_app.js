@@ -14,6 +14,9 @@ app.config(['$routeProvider', function($routeProvider){
 	}).when('/result/:query', {
 		templateUrl: '/result',
 		controller:'SearchCtrl'
+	}).when('/result/:query/:index', {
+		templateUrl: '/result',
+		controller: 'PageCtrl'
 	});
 }]);
 
@@ -32,15 +35,21 @@ $scope.send = function(data){
 app.controller('ListingCtrl', function($scope, $http, $location, $routeParams){
 $scope.result = {};
 $scope.category = {};
+$scope.pages = {};
 $http.get('/api/getsingle?q='+$routeParams.id).success(function(data, status){
   $scope.result = data;
 });
-$http.get('/api/newview?q='+$routeParams.id).success(function(data,status){
-	$scope.category = data;
+$http.get('/api/newview?page=1&q='+$routeParams.id).success(function(data,status){
+	$scope.category = data.Data;
 	console.log(data);
+	$scope.pages = data;
 });
 $scope.send = function(data){
-$location.path('/result/'+data);
+	$http.post('/api/newview?page='+data+'&q='+$routeParams.id).success(function(data, status){
+		console.log(data.Data[0]);
+		$scope.category = data.Data;
+		$scope.pages = data;
+	});
 };
 
 });
@@ -79,4 +88,12 @@ app.controller('Searchbtn', function($scope){
 	$scope.send = function(data){
 		$location.path('/result/data');
 	};
+});
+
+app.controller('PageCtrl', function($scope, $http, $routeParams){
+	$http.post('/api/result?page='+$routeParams.index+'&q='+$routeParams.query).success(function(data, status){
+		console.log(data);
+		$scope.category = data.Data;
+		$scope.pages = data;
+	});
 });

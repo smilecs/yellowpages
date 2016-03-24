@@ -62,6 +62,20 @@
     <br />
     <br />
     <br />
+    <nav>
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li ng-repeat="num in pages.Pag.Pages"><a href="#" ng-click="$event.preventDefault();send($index + 1)">{{$index + 1}}</a></li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
     <section class="footer">
       <div class="container x">
         <p>Copyright calabaryellowpages.com.ng 2016</p>

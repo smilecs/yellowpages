@@ -21,6 +21,10 @@ type View struct {
 	Type           string
 	Image          string
 }
+type NewView struct {
+	Data []*View
+	Pag  Page
+}
 type Result struct {
 	Data  []Form
 	Pag   Page
@@ -28,30 +32,30 @@ type Result struct {
 }
 
 //RenderView function to return listings mixed with adds
-func RenderView(id string) ([]*View, error) {
+func RenderView(id string, count int, page int, perpage int) (NewView, error) {
 	tmp := []Form{}
+	newV := NewView{}
 	result := []*View{}
 	//res := []Advert{}
 	session, err := mgo.Dial(config.xx)
 	if err != nil {
-		return result, err
+		return newV, err
 	}
 	defer session.Close()
-	/*adCollection := session.DB("yellowListings").C("Adverts")
-	err = adCollection.Find(bson.M{}).All(&res)
-	if err != nil {
-		return result, err
-	}*/
 	res, _ := GetAds()
 	collection := session.DB("yellowListings").C("Listings")
-	err = collection.Find(bson.M{"category": id}).All(&tmp)
+	q := collection.Find(bson.M{"category": id})
+	Page := SearchPagination(count, page, perpage)
+	err = q.Limit(perpage).Skip(Page.Skip).All(&tmp)
 	if err != nil {
-		return result, err
+		return newV, err
 	}
 	ik := len(res)
 	for i := 0; i < len(tmp); i++ {
 		rs := tmp[i]
-		if i%2 > 0 {
+		log.Println(i)
+		if (i+1)%2 > 0 {
+
 			if i < ik {
 				views := new(View)
 				rss := res[i]
@@ -75,13 +79,14 @@ func RenderView(id string) ([]*View, error) {
 		result = append(result, view)
 
 	}
-
-	return result, nil
+	newV.Data = result
+	newV.Pag = Page
+	return newV, nil
 }
 
 func Search(query1 string, count int, page int, perpage int) (Result, error) {
 	Results := Result{}
-	var Page Page
+
 	session, err := mgo.Dial(config.xx)
 	if err != nil {
 		return Results, err
@@ -97,7 +102,7 @@ func Search(query1 string, count int, page int, perpage int) (Result, error) {
 	}
 
 	q := col.Find(bson.M{"$text": bson.M{"$search": query1}})
-	Page = SearchPagination(count, page, perpage)
+	Page := SearchPagination(count, page, perpage)
 	err = q.Limit(perpage).Skip(Page.Skip).All(&Results.Data)
 	Results.Pag = Page
 	if err != nil {
@@ -109,7 +114,9 @@ func Search(query1 string, count int, page int, perpage int) (Result, error) {
 //GetNewView used to return new views
 func GetNewView(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("q")
-	data, _ := RenderView(id)
+	tmp := r.URL.Query().Get("page")
+	page, _ := strconv.Atoi(tmp)
+	data, _ := RenderView(id, 50, page, 50)
 	result, _ := json.Marshal(data)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(result)
