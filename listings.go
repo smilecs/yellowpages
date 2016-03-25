@@ -33,6 +33,12 @@ type Form struct {
 	Images         []string      `bson:"images"`
 	Slug           string        `bson:"slug"`
 	About          string        `bson:"about"`
+	RC             string        `bson:"rc"`
+	Branch         string        `bson:"branch"`
+	Product        string        `bson:"product"`
+	Email          string        `bson:"email"`
+	Website        string        `bson:"website"`
+	DHr            string        `bson:"dhr"`
 	Verified       string        `bson:"verified"`
 	Approved       bool          `bson:"approved"`
 	Plus           string        `bson:"plus"`

@@ -73,6 +73,7 @@ func init() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
+
 func main() {
 	commonHandlers := alice.New(context.ClearHandler, loggingHandler, recoverHandler)
 	router := NewRouter()
