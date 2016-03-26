@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -45,8 +46,11 @@ func RenderView(id string, count int, page int, perpage int) (NewView, error) {
 	res, _ := GetAds()
 	collection := session.DB("yellowListings").C("Listings")
 	q := collection.Find(bson.M{"category": id})
-	Page := SearchPagination(count, page, perpage)
+	n, _ := q.Count()
+	fmt.Println(n)
+	Page := SearchPagination(n, page, perpage)
 	err = q.Limit(perpage).Skip(Page.Skip).All(&tmp)
+
 	if err != nil {
 		return newV, err
 	}

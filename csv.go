@@ -39,15 +39,20 @@ type Cat struct {
 }
 
 /*func main() {
-	s, err := mgo.Dial("mongodb://localhost")
-	defer s.Close()
+s, err := mgo.Dial("mongodb://localhost")
+defer s.Close()
+if err != nil {
+	panic(err)
+}
+collection := s.DB("yellowListings").C("Listings")
+col := s.DB("yellowListings").C("Category")
+/*	files, err := ioutil.ReadDir("csvs/")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-	collection := s.DB("yellowListings").C("Listings")
-	col := s.DB("yellowListings").C("Category")
-
-	dat, err := ioutil.ReadFile("Yellow.csv")
+	for _, file := range files {*/
+/*	dat, err := ioutil.ReadFile("csvs/Updated Calabar Yellow Pages Listing - BABY PRODUCTS & SERVICES.csv")
+	//fmt.Println(file.Name())
 	check(err)
 	r := csv.NewReader(strings.NewReader(string(dat)))
 	records, err := r.ReadAll()
@@ -98,5 +103,6 @@ type Cat struct {
 		form.Plus = "false"
 		collection.Insert(form)
 	}
+	//}
 }
 */
