@@ -92,7 +92,7 @@ func RenderView(id string, count int, page int, perpage int) (NewView, error) {
 	return newV, nil
 }
 
-func PlusView(id string, count int, page int, perpage int) (NewView, error) {
+func PlusView(page int, perpage int) (NewView, error) {
 	tmp := []Form{}
 	newV := NewView{}
 	result := []*View{}
@@ -102,9 +102,9 @@ func PlusView(id string, count int, page int, perpage int) (NewView, error) {
 		return newV, err
 	}
 	defer session.Close()
-	res, _ := GetAds()
+
 	collection := session.DB("yellowListings").C("Listings")
-	q := collection.Find(bson.M{"type": "plus"})
+	q := collection.Find(bson.M{"plus": "true"})
 	n, _ := q.Count()
 	fmt.Println(n)
 	Page := SearchPagination(n, page, perpage)
@@ -113,23 +113,10 @@ func PlusView(id string, count int, page int, perpage int) (NewView, error) {
 	if err != nil {
 		return newV, err
 	}
-	k := 0
-	ik := len(res)
+
 	for i := 0; i < len(tmp); i++ {
 		rs := tmp[i]
-		if (i+1)%2 > 0 {
-			if k < ik {
-				views := new(View)
-				rss := res[k]
-				views.Image = rss.Image
-				views.ID = rss.ID
-				views.Type = rss.Type
-				views.CompanyName = rss.Name
-				result = append(result, views)
-				k++
-			}
 
-		}
 		view := new(View)
 		view.Hotline = rs.Hotline
 		view.ID = rs.ID
@@ -174,6 +161,14 @@ func Search(query1 string, count int, page int, perpage int) (Result, error) {
 		return Results, err
 	}
 	return Results, nil
+}
+func FalseH(w http.ResponseWriter, r *http.Request) {
+	tmp := r.URL.Query().Get("page")
+	page, _ := strconv.Atoi(tmp)
+	data, _ := PlusView(page, 50)
+	result, _ := json.Marshal(data)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
 }
 
 //GetNewView used to return new views

@@ -360,3 +360,19 @@ func getcatHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(result)
 }
+
+func Fictionalcat(w http.ResponseWriter, r *http.Request) {
+	cat := Category{}
+	s, err := mgo.Dial(config.xx)
+	defer s.Close()
+	if err != nil {
+		log.Println(err)
+	}
+	cat.Slug = "PlusListings"
+	cat.Category = "PlusListings"
+	s.DB("yellowListings").C("Category").Insert(cat)
+
+	cat.Category = "Sponsored"
+	cat.Slug = "Sponsored"
+	s.DB("yellowListings").C("Category").Insert(cat)
+}

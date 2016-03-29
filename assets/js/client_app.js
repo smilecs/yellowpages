@@ -6,6 +6,12 @@ app.config(['$routeProvider', function($routeProvider){
 	}).when('/category/:id', {
 		templateUrl:'/category',
 		controller:'ListingCtrl'
+	}).when('/plus/:id', {
+		templateUrl:'/category',
+		controller:'FalseCtrl'
+	}).when('/ads/:id', {
+		templateUrl:'/category',
+		controller:'ListingCtrl'
 	}).when('/search', {
 		templateUrl:'/result'
 	}).when('/listing/:cat/:id', {
@@ -53,11 +59,37 @@ $http.get('/api/newview?page=1&q='+$routeParams.id).success(function(data,status
 
 });
 $scope.send = function(data){
+	$location.path('/result/'+data);
+};
+
+});
+
+app.controller('FalseCtrl', function($scope, $http, $location, $routeParams){
+$scope.result = {};
+$scope.category = {};
+$scope.pages = {};
+$scope.newerScope = [];
+$http.get('/api/getsingle?q='+$routeParams.id).success(function(data, status){
+  $scope.result = data;
+});
+$http.get('/api/falseview?page=1').success(function(data,status){
+	$scope.category = data.Data;
+	$scope.pages = data;
+	console.log(data)
+	$scope.newScope = data.Pag.Pages;
+	for(var i =0; i < $scope.newScope.length; i++){
+		var tmp = {"data": i+1};
+		$scope.newerScope.push(tmp);
+	}
+
+
+});
+$scope.send = function(data){
 $scope.pages = {};
 $scope.newScope = {};
 $scope.newerScope = {};
 //$scope.apply();
-	$http.get('/api/newview?page='+data+'&q='+$routeParams.id).success(function(data, status){
+	$http.get('/api/falseview?page='+data).success(function(data, status){
 	console.log(data);
 
 	});
