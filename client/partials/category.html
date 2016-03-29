@@ -39,14 +39,18 @@
               <img class="img img-thumbnail pull-left item-img"
                    src="{{data.Image}}" />
               <a class="item-title"
-                 href="#/listing/{{category.Slug}}/{{data.Slug}}">{{data.CompanyName}}</a>
+                 href="#/listing/{{data.Category}}/{{data.Slug}}">{{data.CompanyName}}</a>
             </h1>
             <address class="">{{data.Address}}</address>
+            <span>{{data.Specialisation}}</span><br />
+            <span>{{data.Dhr}}</span><br />
             <a href="tel:{{data.Hotline}}">Call {{data.Hotline}}</a>
           </div>
           <div ng-if="data.Type == 'false'">
             <h1>{{data.CompanyName}}</h1>
             <address class="">{{data.Address}}</address>
+            <span>{{data.Specialisation}}</span><br />
+            <span>{{data.Dhr}}</span><br />
             <a href="tel:{{data.Hotline}}">Call {{data.Hotline}}</a>
           </div>
 
@@ -63,13 +67,14 @@
     <br />
     <br />
     <nav>
+
   <ul class="pagination">
     <li>
       <a href="#" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-    <li ng-repeat="num in pages.Pag.Pages"><a href="#" ng-click="$event.preventDefault();send($index + 1)">{{$index + 1}}</a></li>
+    <li ng-repeat="num in newerScope"><a href="#" ng-click="$event.preventDefault();send($index + 1)">{{$index +1}}</a></li>
       <a href="#" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>

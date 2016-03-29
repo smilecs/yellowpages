@@ -36,19 +36,30 @@ app.controller('ListingCtrl', function($scope, $http, $location, $routeParams){
 $scope.result = {};
 $scope.category = {};
 $scope.pages = {};
+$scope.newerScope = [];
 $http.get('/api/getsingle?q='+$routeParams.id).success(function(data, status){
   $scope.result = data;
 });
 $http.get('/api/newview?page=1&q='+$routeParams.id).success(function(data,status){
 	$scope.category = data.Data;
-	console.log(data);
 	$scope.pages = data;
+	console.log(data)
+	$scope.newScope = data.Pag.Pages;
+	for(var i =0; i < $scope.newScope.length; i++){
+		var tmp = {"data": i+1};
+		$scope.newerScope.push(tmp);
+	}
+
+
 });
 $scope.send = function(data){
-	$http.post('/api/newview?page='+data+'&q='+$routeParams.id).success(function(data, status){
-		console.log(data.Data[0]);
-		$scope.category = data.Data;
-		$scope.pages = data;
+$scope.pages = {};
+$scope.newScope = {};
+$scope.newerScope = {};
+//$scope.apply();
+	$http.get('/api/newview?page='+data+'&q='+$routeParams.id).success(function(data, status){
+	console.log(data);
+
 	});
 };
 
@@ -61,6 +72,7 @@ $http.get('/api/getsinglelist?q='+$routeParams.id).success(function(data, status
   $scope.result = data;
 });
 $http.get('/api/getsingle?q='+$routeParams.cat).success(function(data,status){
+	console.log(data);
 	$scope.category = data;
 });
 $scope.send = function(data){

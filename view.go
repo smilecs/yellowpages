@@ -21,6 +21,8 @@ type View struct {
 	Category       string        `bson:"category"`
 	Type           string
 	Image          string
+	Slug           string
+	Dhr            string
 }
 type NewView struct {
 	Data []*View
@@ -54,26 +56,85 @@ func RenderView(id string, count int, page int, perpage int) (NewView, error) {
 	if err != nil {
 		return newV, err
 	}
+	k := 0
 	ik := len(res)
 	for i := 0; i < len(tmp); i++ {
 		rs := tmp[i]
-		log.Println(i)
 		if (i+1)%2 > 0 {
-
-			if i < ik {
+			if k < ik {
 				views := new(View)
-				rss := res[i]
+				rss := res[k]
 				views.Image = rss.Image
 				views.ID = rss.ID
 				views.Type = rss.Type
 				views.CompanyName = rss.Name
 				result = append(result, views)
+				k++
 			}
 
 		}
 		view := new(View)
 		view.Hotline = rs.Hotline
 		view.ID = rs.ID
+		view.Slug = rs.Slug
+		view.Dhr = rs.DHr
+		view.Category = rs.Category
+		view.Address = rs.Address
+		view.CompanyName = rs.CompanyName
+		view.Image = rs.Image
+		view.Specialisation = rs.Specialisation
+		view.Type = rs.Plus
+		result = append(result, view)
+
+	}
+	newV.Data = result
+	newV.Pag = Page
+	return newV, nil
+}
+
+func PlusView(id string, count int, page int, perpage int) (NewView, error) {
+	tmp := []Form{}
+	newV := NewView{}
+	result := []*View{}
+	//res := []Advert{}
+	session, err := mgo.Dial(config.xx)
+	if err != nil {
+		return newV, err
+	}
+	defer session.Close()
+	res, _ := GetAds()
+	collection := session.DB("yellowListings").C("Listings")
+	q := collection.Find(bson.M{"type": "plus"})
+	n, _ := q.Count()
+	fmt.Println(n)
+	Page := SearchPagination(n, page, perpage)
+	err = q.Limit(perpage).Skip(Page.Skip).All(&tmp)
+
+	if err != nil {
+		return newV, err
+	}
+	k := 0
+	ik := len(res)
+	for i := 0; i < len(tmp); i++ {
+		rs := tmp[i]
+		if (i+1)%2 > 0 {
+			if k < ik {
+				views := new(View)
+				rss := res[k]
+				views.Image = rss.Image
+				views.ID = rss.ID
+				views.Type = rss.Type
+				views.CompanyName = rss.Name
+				result = append(result, views)
+				k++
+			}
+
+		}
+		view := new(View)
+		view.Hotline = rs.Hotline
+		view.ID = rs.ID
+		view.Slug = rs.Slug
+		view.Dhr = rs.DHr
 		view.Category = rs.Category
 		view.Address = rs.Address
 		view.CompanyName = rs.CompanyName
