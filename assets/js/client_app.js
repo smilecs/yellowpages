@@ -68,7 +68,7 @@ $scope.send = function(data){
 $scope.sends = function(data){
 $scope.pages = {};
 $scope.newScope = {};
-$scope.newerScope = {};
+$scope.newerScope = [];
 
 	$http.get('/api/newview?page='+data).success(function(data, status){
 		$scope.category = data.Data;
@@ -106,10 +106,15 @@ $http.get('/api/falseview?page=1').success(function(data,status){
 
 
 });
+
 $scope.send = function(data){
+	$location.path('/result/'+data);
+};
+
+$scope.sends = function(data){
 $scope.pages = {};
 $scope.newScope = {};
-$scope.newerScope = {};
+$scope.newerScope = [];
 
 	$http.get('/api/falseview?page='+data).success(function(data, status){
 		$scope.category = data.Data;
@@ -146,10 +151,15 @@ $http.get('/api/falseview?page=1').success(function(data,status){
 
 
 });
+
 $scope.send = function(data){
+	$location.path('/result/'+data);
+};
+
+$scope.sends = function(data){
 $scope.pages = {};
 $scope.newScope = {};
-$scope.newerScope = {};
+$scope.newerScope = [];
 	$http.get('/api/falseview?page='+data).success(function(data, status){
 	console.log(data);
 	$scope.category = data.Data;
