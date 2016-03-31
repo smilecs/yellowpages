@@ -51,7 +51,7 @@ type Cat struct {
 }
 
 func MainSeal() {
-	s, err := mgo.Dial("mongodb://localhost")
+	s, err := mgo.Dial(config.xx)
 	defer s.Close()
 	if err != nil {
 		panic(err)
