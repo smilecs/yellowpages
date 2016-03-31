@@ -65,6 +65,25 @@ $scope.send = function(data){
 	$location.path('/result/'+data);
 };
 
+$scope.sends = function(data){
+$scope.pages = {};
+$scope.newScope = {};
+$scope.newerScope = {};
+
+	$http.get('/api/newview?page='+data).success(function(data, status){
+		$scope.category = data.Data;
+		$scope.pages = data;
+		console.log(data)
+		$scope.newScope = data.Pag.Pages;
+		for(var i =0; i < $scope.newScope.length; i++){
+			var tmp = {"data": i+1};
+			$scope.newerScope.push(tmp);
+		}
+$scope.$apply();
+	});
+};
+
+
 });
 
 app.controller('FalseCtrl', function($scope, $http, $location, $routeParams){
