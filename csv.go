@@ -1,6 +1,18 @@
 package main
 
-import "gopkg.in/mgo.v2/bson"
+import (
+	"encoding/csv"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"math/rand"
+	"strconv"
+	"strings"
+	"time"
+
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
+)
 
 func check(e error) {
 	if e != nil {
@@ -38,8 +50,7 @@ type Cat struct {
 	Slug     string        `bson:"slug"`
 }
 
-/*
-func main() {
+func MainSeal() {
 	s, err := mgo.Dial("mongodb://localhost")
 	defer s.Close()
 	if err != nil {
@@ -107,4 +118,3 @@ func main() {
 		}
 	}
 }
-*/
