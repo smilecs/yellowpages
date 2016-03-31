@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -367,6 +368,7 @@ func Fictionalcat(w http.ResponseWriter, r *http.Request) {
 	defer s.Close()
 	if err != nil {
 		log.Println(err)
+		fmt.Println(err)
 	}
 	cat.Slug = "PlusListings"
 	cat.Category = "PlusListings"
