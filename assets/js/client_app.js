@@ -23,6 +23,9 @@ app.config(['$routeProvider', function($routeProvider){
 	}).when('/result/:query/:index', {
 		templateUrl: '/result',
 		controller: 'PageCtrl'
+	}).when('/advert/:id', {
+		templateUrl:'/category',
+		controller:'AdvCtrl'
 	});
 }]);
 
@@ -88,14 +91,63 @@ $scope.send = function(data){
 $scope.pages = {};
 $scope.newScope = {};
 $scope.newerScope = {};
-//$scope.apply();
+
+	$http.get('/api/falseview?page='+data).success(function(data, status){
+		$scope.category = data.Data;
+		$scope.pages = data;
+		console.log(data)
+		$scope.newScope = data.Pag.Pages;
+		for(var i =0; i < $scope.newScope.length; i++){
+			var tmp = {"data": i+1};
+			$scope.newerScope.push(tmp);
+		}
+$scope.$apply();
+	});
+};
+
+});
+
+app.controller('AdvCtrl', function($scope, $http, $location, $routeParams){
+$scope.result = {};
+$scope.category = {};
+$scope.pages = {};
+$scope.newerScope = [];
+$http.get('/api/getsingle?q='+$routeParams.id).success(function(data, status){
+  $scope.result = data;
+});
+$http.get('/api/falseview?page=1').success(function(data,status){
+	$scope.category = data.Data;
+	$scope.pages = data;
+	console.log(data)
+	$scope.newScope = data.Pag.Pages;
+	for(var i =0; i < $scope.newScope.length; i++){
+		var tmp = {"data": i+1};
+		$scope.newerScope.push(tmp);
+	}
+
+
+});
+$scope.send = function(data){
+$scope.pages = {};
+$scope.newScope = {};
+$scope.newerScope = {};
 	$http.get('/api/falseview?page='+data).success(function(data, status){
 	console.log(data);
+	$scope.category = data.Data;
+	$scope.pages = data;
+	console.log(data)
+	$scope.newScope = data.Pag.Pages;
+	for(var i =0; i < $scope.newScope.length; i++){
+		var tmp = {"data": i+1};
+		$scope.newerScope.push(tmp);
+	}
+$scope.$apply();
 
 	});
 };
 
 });
+
 
 app.controller('PlusListingCtrl', function($scope, $http,  $location, $routeParams){
 $scope.result = {};
@@ -122,9 +174,16 @@ $location.path('/result/'+data);
 	};
 
 	$http.post('/api/result?page=1&q='+$routeParams.query).success(function(data, status){
-		console.log(data);
 		$scope.category = data.Data;
 		$scope.pages = data;
+		console.log(data)
+		$scope.newScope = data.Pag.Pages;
+		for(var i =0; i < $scope.newScope.length; i++){
+			var tmp = {"data": i+1};
+			$scope.newerScope.push(tmp);
+		}
+		$scope.$apply();
+
 	});
 });
 

@@ -92,6 +92,41 @@ func RenderView(id string, count int, page int, perpage int) (NewView, error) {
 	return newV, nil
 }
 
+func AdvertView(page int, perpage int) (NewView, error) {
+	newV := NewView{}
+	result := []*View{}
+	res := []Advert{}
+	session, err := mgo.Dial(config.xx)
+	if err != nil {
+		return newV, err
+	}
+	defer session.Close()
+	collection := session.DB("yellowListings").C("Adverts")
+	q := collection.Find(bson.M{})
+	k, _ := q.Count()
+	Page := SearchPagination(k, page, perpage)
+	err = q.Limit(perpage).Skip(Page.Skip).All(&res)
+
+	if err != nil {
+		return newV, err
+	}
+
+	for i := 0; i < k; i++ {
+
+		views := new(View)
+		rss := res[i]
+		views.Image = rss.Image
+		views.ID = rss.ID
+		views.Type = rss.Type
+		views.CompanyName = rss.Name
+		result = append(result, views)
+
+	}
+	newV.Data = result
+	newV.Pag = Page
+	return newV, nil
+}
+
 func PlusView(page int, perpage int) (NewView, error) {
 	tmp := []Form{}
 	newV := NewView{}
@@ -166,6 +201,15 @@ func FalseH(w http.ResponseWriter, r *http.Request) {
 	tmp := r.URL.Query().Get("page")
 	page, _ := strconv.Atoi(tmp)
 	data, _ := PlusView(page, 50)
+	result, _ := json.Marshal(data)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
+}
+
+func FalseA(w http.ResponseWriter, r *http.Request) {
+	tmp := r.URL.Query().Get("page")
+	page, _ := strconv.Atoi(tmp)
+	data, _ := AdvertView(page, 50)
 	result, _ := json.Marshal(data)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(result)

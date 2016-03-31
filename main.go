@@ -107,6 +107,7 @@ func main() {
 	router.Get("/api/newview", commonHandlers.ThenFunc(GetNewView))
 	router.Get("/api/falseview", commonHandlers.ThenFunc(FalseH))
 	router.Get("/false", commonHandlers.ThenFunc(Fictionalcat))
+	router.Get("/advert", commonHandlers.ThenFunc(FalseA))
 	log.Println(config.xx)
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
