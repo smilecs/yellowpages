@@ -51,6 +51,7 @@ func wrapHandler(h http.Handler) httprouter.Handle {
 //Conf nbfmjh
 type Conf struct {
 	xx string
+	xy string
 }
 
 var (
@@ -62,14 +63,15 @@ var (
 func init() {
 
 	MONGOSERVER := os.Getenv("MONGOLAB_URI")
+	MONGODB := os.Getenv("MONGODB")
 	if MONGOSERVER == "" {
 		log.Println("No mongo server address set, resulting to default address")
 		MONGOSERVER = "mongodb://localhost"
-	} else {
-		log.Println("mongo server address set")
+		MONGODB = "yellowlistings"
+		//mongodb://localhost
 	}
 	config = Conf{
-
+		xy: MONGODB,
 		xx: MONGOSERVER,
 	}
 

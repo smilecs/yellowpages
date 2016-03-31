@@ -127,7 +127,7 @@ func Addlisting(r Form) error {
 		DropDups:   true,
 		Background: true,
 	}
-	collection := s.DB("yellowListings").C("Listings")
+	collection := s.DB(config.xy).C("Listings")
 	collection.EnsureIndex(index)
 	collection.Insert(r)
 	return err
@@ -144,7 +144,7 @@ func Addcat(r Category) error {
 	p := rand.New(rand.NewSource(time.Now().UnixNano()))
 	str := strconv.Itoa(p.Intn(10))
 	r.Slug = strings.Replace(r.Category, " ", "-", -1) + str
-	s.DB("yellowListings").C("Category").Insert(r)
+	s.DB(config.xy).C("Category").Insert(r)
 	return err
 }
 
@@ -157,7 +157,7 @@ func UpdateListing(id string) error {
 
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Listings")
+	collection := session.DB(config.xy).C("Listings")
 	query := bson.M{"slug": id}
 	change := bson.M{"$set": bson.M{"approved": true}}
 
@@ -180,7 +180,7 @@ func Getunapproved() ([]Form, error) {
 	}
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Listings")
+	collection := session.DB(config.xy).C("Listings")
 	err = collection.Find(bson.M{"approved": false}).All(&result)
 	if err != nil {
 		return result, err
@@ -197,7 +197,7 @@ func getSingleList(r string) (Form, error) {
 	}
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Listings")
+	collection := session.DB(config.xy).C("Listings")
 	err = collection.Find(bson.M{"slug": r}).One(&result)
 	if err != nil {
 		log.Println(err)
@@ -216,7 +216,7 @@ func GetListings() ([]Form, error) {
 	}
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Listings")
+	collection := session.DB(config.xy).C("Listings")
 	err = collection.Find(bson.M{"approved": true}).All(&result)
 	if err != nil {
 		return result, err
@@ -234,7 +234,7 @@ func Getcat() ([]Category, error) {
 	}
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Category")
+	collection := session.DB(config.xy).C("Category")
 	err = collection.Find(bson.M{}).All(&result)
 	if err != nil {
 		return result, err
@@ -251,7 +251,7 @@ func getSinglecat(r string) (Category, error) {
 	}
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Category")
+	collection := session.DB(config.xy).C("Category")
 	err = collection.Find(bson.M{"slug": r}).One(&result)
 	if err != nil {
 		log.Println(err)
@@ -270,7 +270,7 @@ func GetcatListing(id string) ([]Form, error) {
 	}
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Listings")
+	collection := session.DB(config.xy).C("Listings")
 	err = collection.Find(bson.M{"category": id}).All(&result)
 	if err != nil {
 		return result, err
@@ -372,9 +372,9 @@ func Fictionalcat(w http.ResponseWriter, r *http.Request) {
 	}
 	cat.Slug = "PlusListings"
 	cat.Category = "PlusListings"
-	s.DB("yellowListings").C("Category").Insert(cat)
+	s.DB(config.xy).C("Category").Insert(cat)
 
 	cat.Category = "Sponsored"
 	cat.Slug = "Sponsored"
-	s.DB("yellowListings").C("Category").Insert(cat)
+	s.DB(config.xy).C("Category").Insert(cat)
 }

@@ -46,7 +46,7 @@ func RenderView(id string, count int, page int, perpage int) (NewView, error) {
 	}
 	defer session.Close()
 	res, _ := GetAds()
-	collection := session.DB("yellowListings").C("Listings")
+	collection := session.DB(config.xy).C("Listings")
 	q := collection.Find(bson.M{"category": id})
 	n, _ := q.Count()
 	fmt.Println(n)
@@ -101,7 +101,7 @@ func AdvertView(page int, perpage int) (NewView, error) {
 		return newV, err
 	}
 	defer session.Close()
-	collection := session.DB("yellowListings").C("Adverts")
+	collection := session.DB(config.xy).C("Adverts")
 	q := collection.Find(bson.M{})
 	k, _ := q.Count()
 	Page := SearchPagination(k, page, perpage)
@@ -138,7 +138,7 @@ func PlusView(page int, perpage int) (NewView, error) {
 	}
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Listings")
+	collection := session.DB(config.xy).C("Listings")
 	q := collection.Find(bson.M{"plus": "true"})
 	n, _ := q.Count()
 	fmt.Println(n)
@@ -179,7 +179,7 @@ func Search(query1 string, count int, page int, perpage int) (Result, error) {
 		return Results, err
 	}
 	defer session.Close()
-	col := session.DB("yellowListings").C("Listings")
+	col := session.DB(config.xy).C("Listings")
 	index := mgo.Index{
 		Key: []string{"$text:specialisation", "$text:companyname"},
 	}

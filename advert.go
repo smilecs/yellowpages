@@ -62,7 +62,7 @@ func NewAd(r Advert) error {
 
 	r.Image = bucket.URL(imagename)
 
-	s.DB("yellowListings").C("Adverts").Insert(r)
+	s.DB(config.xy).C("Adverts").Insert(r)
 	return err
 }
 
@@ -76,7 +76,7 @@ func GetAds() ([]Advert, error) {
 	}
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Adverts")
+	collection := session.DB(config.xy).C("Adverts")
 	err = collection.Find(bson.M{}).All(&result)
 	if err != nil {
 		return result, err

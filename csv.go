@@ -56,8 +56,8 @@ func MainSeal() {
 	if err != nil {
 		panic(err)
 	}
-	collection := s.DB("yellowListings").C("Listings")
-	col := s.DB("yellowListings").C("Category")
+	collection := s.DB(config.xy).C("Listings")
+	col := s.DB(config.xy).C("Category")
 	files, err := ioutil.ReadDir("csvs/")
 	if err != nil {
 		log.Fatal(err)
