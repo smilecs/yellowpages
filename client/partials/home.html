@@ -1,16 +1,6 @@
-<link href='https://fonts.googleapis.com/css?family=Raleway:400,100'
-      rel='stylesheet'
-      type='text/css'>
-  <link href="/assets/main.css"
-        rel="stylesheet" />
   <div class='text-center'>
-    <section class="nav-">
+    <section class="nav-" style="padding:10px">
       <div class="nav-search-and-link">
-        <div class="nav-search">
-          <input class=""
-                 type="text" ng-model="data.query"/>
-          <button class="" ng-click="send(data.query)">Search</button>
-        </div>
         <div class="nav-links">
           <a href="#/">Home</a>
           <a href="#/plus/PlusListings">PlusListings</a>
@@ -33,7 +23,7 @@
           </section>
           <section class="container categories hundred">
             <h1 class="categories-header">Categories</h1>
-            <div class="col-md-6 category" style="padding-bottom:30px;"
+            <div class="col-md-6 category" style="padding-bottom:45px;"
                  ng-repeat="data in result">
               <a href="#/category/{{data.Slug}}">{{data.Category}}</a>
             </div>

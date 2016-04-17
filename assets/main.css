@@ -78,10 +78,9 @@ body{
 }
 
 .categories a{
-    font-size:4em;
+    font-size:2.8em;
     color:#111;
     font-weight:100;
-
 }
 .hero-search>input{
     border-radius:0;
@@ -89,7 +88,6 @@ body{
     padding-top:15px;
     padding-bottom:15px;
     color:#111;
-
 }
 .hero-search>button{
     color:#fff;
@@ -283,4 +281,8 @@ body{
 }
 .p3 a{
   color:#f9f9f9;;
+}
+
+.categories a {
+  line-height: 1;
 }
