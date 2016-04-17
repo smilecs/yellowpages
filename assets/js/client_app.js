@@ -139,7 +139,7 @@ $scope.newerScope = [];
 $http.get('/api/getsingle?q='+$routeParams.id).success(function(data, status){
   $scope.result = data;
 });
-$http.get('/api/falseview?page=1').success(function(data,status){
+$http.get('/advert?page=1').success(function(data,status){
 	$scope.category = data.Data;
 	$scope.pages = data;
 	console.log(data)

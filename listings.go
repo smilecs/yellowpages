@@ -51,6 +51,7 @@ type Category struct {
 	ID       bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
 	Category string        `bson:"category"`
 	Slug     string        `bson:"slug"`
+	Show     string        `bson:"show"`
 }
 
 func randSeq(n int) string {
@@ -144,6 +145,7 @@ func Addcat(r Category) error {
 	p := rand.New(rand.NewSource(time.Now().UnixNano()))
 	str := strconv.Itoa(p.Intn(10))
 	r.Slug = strings.Replace(r.Category, " ", "-", -1) + str
+	r.Show = "true"
 	s.DB(config.xy).C("Category").Insert(r)
 	return err
 }
@@ -235,7 +237,7 @@ func Getcat() ([]Category, error) {
 	defer session.Close()
 
 	collection := session.DB(config.xy).C("Category")
-	err = collection.Find(bson.M{}).All(&result)
+	err = collection.Find(bson.M{"show": "true"}).All(&result)
 	if err != nil {
 		return result, err
 	}
