@@ -74,7 +74,7 @@ func MainSeal() {
 		}
 		cat := new(Cat)
 		cat.Category = records[0][0]
-		//cat.Show = "true"
+		cat.Show = "true"
 		cat.Slug = strings.Replace(records[0][0], " ", "-", -1)
 		cat.Slug = strings.Replace(cat.Slug, "&", "AND", -1)
 		col.Insert(cat)
