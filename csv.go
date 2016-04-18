@@ -65,7 +65,7 @@ func MainSeal() {
 	}
 	for _, file := range files {
 		dat, err := ioutil.ReadFile("csvs/" + file.Name())
-		//fmt.Println(file.Name())
+		fmt.Println(file.Name())
 		check(err)
 		r := csv.NewReader(strings.NewReader(string(dat)))
 		records, err := r.ReadAll()
@@ -74,15 +74,14 @@ func MainSeal() {
 		}
 		cat := new(Cat)
 		cat.Category = records[0][0]
-		cat.Show = "true"
+		//cat.Show = "true"
 		cat.Slug = strings.Replace(records[0][0], " ", "-", -1)
 		cat.Slug = strings.Replace(cat.Slug, "&", "AND", -1)
 		col.Insert(cat)
 		ru := 9 + 1
 		for i := 4; i < len(records); i++ {
 			data := records[i]
-			fmt.Println(i)
-			fmt.Println(data)
+
 			form := new(Forms)
 			for k := 0; k < len(data); k++ {
 				switch k {
