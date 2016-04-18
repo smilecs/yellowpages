@@ -48,6 +48,7 @@ type Cat struct {
 	ID       bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
 	Category string        `bson:"category"`
 	Slug     string        `bson:"slug"`
+	Show     string        `bson:"show"`
 }
 
 func MainSeal() {
@@ -73,6 +74,7 @@ func MainSeal() {
 		}
 		cat := new(Cat)
 		cat.Category = records[0][0]
+		cat.Show = "true"
 		cat.Slug = strings.Replace(records[0][0], " ", "-", -1)
 		cat.Slug = strings.Replace(cat.Slug, "&", "AND", -1)
 		col.Insert(cat)
