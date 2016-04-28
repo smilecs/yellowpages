@@ -88,7 +88,7 @@ func Addlisting(r Form) error {
 
 	meta := strings.Split(r.Image, "base64,")[0]
 	newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
-	imagename := randSeq(10)
+	imagename := randSeq(30)
 
 	err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite)
 	if err != nil {
