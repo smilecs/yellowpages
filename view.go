@@ -244,5 +244,6 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 func CsvHandler(w http.ResponseWriter, r *http.Request) {
 	MainSeal()
 	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte("done"))
 
 }

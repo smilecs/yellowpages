@@ -29,7 +29,7 @@ app.config(['$routeProvider', function($routeProvider){
 	});
 }]);
 
-app.controller('HomeCtrl', ['$scope', '$http','$location', function($scope, $http, $location){
+app.controller('HomeCtrl', ['$scope', '$http','$location', '$anchorScroll', function($scope, $http, $location, $anchorScroll){
 $scope.result = {};
 $http.get('/api/getcat').success(function(data, status){
   console.log(data);
@@ -38,6 +38,10 @@ $http.get('/api/getcat').success(function(data, status){
 $scope.send = function(data){
 	$location.path('/result/'+data);
 };
+
+$scope.scrollTo = function (id) {
+  $anchorScroll(id);
+}
 
 }]);
 
