@@ -18,9 +18,81 @@
 <body ng-app="yellowclient">
 <!-- ng-view for angular routed content -->
 <div ng-view=""></div>
+<section class="footer text-center">
+  Click the pay with quickteller button to add a Pluslisting to yellowpages after successful payment. i.e You will be redirected to registration page.
+  <em><small><a class="quickteller-checkout-anchor" id="99401" style="text-align:left;">payment button
+  will appear here shortly...</a></small></em>
+  <div class="container x">
+    <p>Copyright calabaryellowpages.com.ng 2016</p>
+  </div>
+  <div class="container p3">
+    <p>made with&nbsp;&nbsp;
+    <span class="heart">❤</span>&nbsp;&nbsp;by
+    <a href="http://past3.com.ng">Past 3 Software and Design Studio</a></p>
+  </div>
+</section>
 <!-- Bootstrap 3.3.5
 <script src="../assets/bootstrap/js/bootstrap.min.js">
 </script> -->
+<script type="text/javascript">
+var num = 0;
+var QTCheckout = QTCheckout || {};
+
+var testMode = false;
+
+var baseUrl = "";
+for(var i = 0; i < 7; i++){
+  num += Math.floor((Math.random() * 10) + 1);
+}
+
+QTCheckout.paymentItems = QTCheckout.paymentItems || [];
+QTCheckout.paymentItems.push({
+
+paymentCode: '99401',
+
+extraData: {
+
+amount: "2000",
+
+buttonSize: 'default',
+
+customerId: num,
+
+mobileNumber: 'default',
+
+emailAddress: 'default',
+
+redirectUrl: 'calabaryellowpages.com/newPlus'
+
+}
+
+});
+
+if (testMode == true)
+baseUrl ="https://stageserv.interswitchng.com/quicktellercheckout/scripts/quickteller-checkout-min.js?v=";
+else
+baseUrl = "https://paywith.quickteller.com/scripts/quickteller-checkout-min.js?v=";
+if(!QTCheckout.qtScript) {
+
+var qtScript = document.createElement('script');
+
+qtScript.type = 'text/javascript'; qtScript.async = true;
+
+qtScript.src = baseUrl + new Date().getDay();
+ var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(qtScript, s);
+
+QTCheckout.qtScript = qtScript;
+
+}
+
+else if (QTCheckout.buildPaymentItemsUI) {
+
+QTCheckout.buildPaymentItemsUI();
+
+}
+
+</script>
 <script src="../assets/js/angular.min.js">
 </script>
 <script src="../assets/js/angular-route.min.js">

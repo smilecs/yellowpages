@@ -197,6 +197,12 @@ func Search(query1 string, count int, page int, perpage int) (Result, error) {
 	}
 	return Results, nil
 }
+
+func Get_Params(w http.ResponseWriter, r *http.Request) {
+	log.Println(r.FormValue("resp_code"))
+	//if  r.FormValue("resp_code")
+}
+
 func FalseH(w http.ResponseWriter, r *http.Request) {
 	tmp := r.URL.Query().Get("page")
 	page, _ := strconv.Atoi(tmp)
