@@ -57,3 +57,11 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 func NewAdvertHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "admin/partials/newAd.html")
 }
+
+func NoPaymentAfter(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "cust/partials/warning.html")
+}
+
+func PaymentAfter(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "cust/partials/newapp.html")
+}

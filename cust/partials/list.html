@@ -1,0 +1,67 @@
+  <div class='text-center'>
+    <section class="nav-">
+      <div class="nav-search-and-link">
+        <div class="nav-search">
+          <input class=""
+                 type="text" ng-model="data.query"/>
+          <button class="" ng-click="send(data.query)">Search</button>
+        </div>
+        <div class="nav-links">
+          <a href="#/">Home</a>
+          <a href="#/plus/PlusListings">PlusListings</a>
+          <a href="#/advert/Sponsored">Sponsored</a>
+        </div>
+      </div>
+    </section>
+    <section class="hundred">
+          <section class="hero-xs"
+                   style='display:table; background-image:url(assets/yellow-pages.jpg); background-size:cover'>
+            <div style='display:table-cell; vertical-align: middle;'>
+              <div class="listing-heading">
+                <br />
+                <br />
+                <h1>
+                <img class="img img-thumbnail pull-left item-img"
+                     src="{{result.Image}}" />{{result.CompanyName}}</h1>
+                <div class="listing-category">
+                <strong>Category:&nbsp;</strong>{{category.Category}}</div>
+              </div>
+            </div>
+          </section>
+          <br />
+          <br />
+          <br />
+          <section class="listing-body">
+            <div class="listing-area">
+              <h2>About</h2>
+              <p>{{result.About}}</p>
+            </div>
+            <div class="listing-area">
+              <h2>Address</h2>
+              <p>{{result.Address}}</p>
+            </div>
+            <div class="listing-area">
+              <h2>Phone</h2>
+              <p>
+                <a href="tel:{{result.Hotline}}">{{result.Hotline}}</a>
+              </p>
+            </div>
+            <div class="listing-area">
+              <h2>Images</h2>
+              <div class="listing-images">
+                <a ng-repeat="data in result.Images">
+                  <img src="{{data}}" />
+                </a>
+              </div>
+            </div>
+          </section>
+          <section class="listing-images-section "></section>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+  </section>
+
+  </div>
+</link>

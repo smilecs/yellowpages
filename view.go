@@ -200,7 +200,16 @@ func Search(query1 string, count int, page int, perpage int) (Result, error) {
 
 func Get_Params(w http.ResponseWriter, r *http.Request) {
 	log.Println(r.FormValue("resp_code"))
-	//if  r.FormValue("resp_code")
+
+}
+
+func Post_Params(w http.ResponseWriter, r *http.Request) {
+	log.Println(r.FormValue("resp_code"))
+	if r.FormValue("resp-code") == "" {
+		http.Redirect(w, r, "/newapp", http.StatusFound)
+	} else {
+
+	}
 }
 
 func FalseH(w http.ResponseWriter, r *http.Request) {

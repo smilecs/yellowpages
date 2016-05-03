@@ -112,6 +112,10 @@ func main() {
 	router.Get("/false", commonHandlers.ThenFunc(Fictionalcat))
 	router.Get("/advert", commonHandlers.ThenFunc(FalseA))
 	router.Get("/Upload", commonHandlers.ThenFunc(CsvHandler))
+	//forpayment
+	router.Get("/newapp", commonHandlers.ThenFunc(PaymentAfter))
+	router.Post("/newapp", commonHandlers.ThenFunc(Post_Params))
+	router.Get("/error", commonHandlers.ThenFunc(NoPaymentAfter))
 	log.Println(config.xx)
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
