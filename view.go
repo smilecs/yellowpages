@@ -200,6 +200,7 @@ func Search(query1 string, count int, page int, perpage int) (Result, error) {
 
 func Get_Params(w http.ResponseWriter, r *http.Request) {
 	log.Println(r.FormValue("resp_code"))
+	log.Println("here")
 
 }
 

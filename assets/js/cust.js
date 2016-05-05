@@ -28,7 +28,7 @@ $scope.add = function(data){
     }
   });
 };
-$scope.change = function(data){
+$scope.change = function(data){e
   console.log("start");
   if(data.Plus === true){
     $scope.show = true;
