@@ -1,12 +1,23 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/json"
+	"fmt"
+	"strconv"
+	"time"
+
 	//"github.com/gorilla/context"
+
+	"log"
+	"math/rand"
+	"net/http"
+	"strings"
+
+	"github.com/mitchellh/goamz/aws"
+	"github.com/mitchellh/goamz/s3"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"log"
-	"net/http"
 )
 
 //Form struct holds all submitted form data for listings
@@ -21,26 +32,105 @@ type Form struct {
 	Size           string        `bson:"size"`
 	Image          string        `bson:"image"`
 	Images         []string      `bson:"images"`
+	Slug           string        `bson:"slug"`
+	About          string        `bson:"about"`
+	RC             string        `bson:"rc"`
+	Branch         string        `bson:"branch"`
+	Product        string        `bson:"product"`
+	Email          string        `bson:"email"`
+	Website        string        `bson:"website"`
+	DHr            string        `bson:"dhr"`
 	Verified       string        `bson:"verified"`
 	Approved       bool          `bson:"approved"`
 	Plus           string        `bson:"plus"`
+	Pg             Page
 }
 
 //Category struct for use in registration
 type Category struct {
 	ID       bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
 	Category string        `bson:"category"`
+	Slug     string        `bson:"slug"`
+	Show     string        `bson:"show"`
+}
+
+func randSeq(n int) string {
+	letters := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
 }
 
 //Addlisting function adding listings data to db
 func Addlisting(r Form) error {
 	s, err := mgo.Dial(config.xx)
-
 	defer s.Close()
 	if err != nil {
 		panic(err)
 	}
-	s.DB("yellowListings").C("Listings").Insert(r)
+
+	auth, err := aws.EnvAuth()
+	if err != nil {
+		log.Fatal(err)
+	}
+	client := s3.New(auth, aws.USWest2)
+	bucket := client.Bucket("yellowpagesng")
+
+	p := rand.New(rand.NewSource(time.Now().UnixNano()))
+	str := strconv.Itoa(p.Intn(10))
+
+	byt, err := base64.StdEncoding.DecodeString(strings.Split(r.Image, "base64,")[1])
+	if err != nil {
+		log.Println(err)
+	}
+
+	meta := strings.Split(r.Image, "base64,")[0]
+	newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
+	imagename := randSeq(30)
+
+	err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite)
+	if err != nil {
+		log.Println(err)
+	}
+
+	log.Println(bucket.URL(imagename))
+
+	r.Image = bucket.URL(imagename)
+
+	var images []string
+	for _, v := range r.Images {
+
+		byt, err := base64.StdEncoding.DecodeString(strings.Split(v, "base64,")[1])
+		if err != nil {
+			log.Println(err)
+		}
+
+		meta := strings.Split(v, "base64,")[0]
+
+		newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
+
+		imagename := randSeq(10)
+
+		err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite)
+		if err != nil {
+			log.Println(err)
+		}
+		images = append(images, bucket.URL(imagename))
+	}
+
+	r.Images = images
+	r.Slug = strings.Replace(r.CompanyName, " ", "-", -1) + str
+	index := mgo.Index{
+		Key:        []string{"$text:specialisation", "$text:companyname"},
+		Unique:     true,
+		DropDups:   true,
+		Background: true,
+	}
+	collection := s.DB(config.xy).C("Listings")
+	collection.EnsureIndex(index)
+	collection.Insert(r)
 	return err
 }
 
@@ -48,12 +138,15 @@ func Addlisting(r Form) error {
 func Addcat(r Category) error {
 	s, err := mgo.Dial(config.xx)
 
-	r.ID = bson.NewObjectId()
 	defer s.Close()
 	if err != nil {
 		log.Println(err)
 	}
-	s.DB("yellowListings").C("Category").Insert(r)
+	p := rand.New(rand.NewSource(time.Now().UnixNano()))
+	str := strconv.Itoa(p.Intn(10))
+	r.Slug = strings.Replace(r.Category, " ", "-", -1) + str
+	r.Show = "true"
+	s.DB(config.xy).C("Category").Insert(r)
 	return err
 }
 
@@ -66,8 +159,8 @@ func UpdateListing(id string) error {
 
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Listings")
-	query := bson.M{"_id": bson.ObjectIdHex(id)}
+	collection := session.DB(config.xy).C("Listings")
+	query := bson.M{"slug": id}
 	change := bson.M{"$set": bson.M{"approved": true}}
 
 	err = collection.Update(query, change)
@@ -89,7 +182,7 @@ func Getunapproved() ([]Form, error) {
 	}
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Listings")
+	collection := session.DB(config.xy).C("Listings")
 	err = collection.Find(bson.M{"approved": false}).All(&result)
 	if err != nil {
 		return result, err
@@ -106,8 +199,8 @@ func getSingleList(r string) (Form, error) {
 	}
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Listings")
-	err = collection.Find(bson.M{"_id": bson.ObjectIdHex(r)}).One(&result)
+	collection := session.DB(config.xy).C("Listings")
+	err = collection.Find(bson.M{"slug": r}).One(&result)
 	if err != nil {
 		log.Println(err)
 		return result, err
@@ -125,7 +218,7 @@ func GetListings() ([]Form, error) {
 	}
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Listings")
+	collection := session.DB(config.xy).C("Listings")
 	err = collection.Find(bson.M{"approved": true}).All(&result)
 	if err != nil {
 		return result, err
@@ -143,8 +236,8 @@ func Getcat() ([]Category, error) {
 	}
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Category")
-	err = collection.Find(bson.M{}).All(&result)
+	collection := session.DB(config.xy).C("Category")
+	err = collection.Find(bson.M{"show": "true"}).All(&result)
 	if err != nil {
 		return result, err
 	}
@@ -160,8 +253,8 @@ func getSinglecat(r string) (Category, error) {
 	}
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Category")
-	err = collection.Find(bson.M{"_id": bson.ObjectIdHex(r)}).One(&result)
+	collection := session.DB(config.xy).C("Category")
+	err = collection.Find(bson.M{"slug": r}).One(&result)
 	if err != nil {
 		log.Println(err)
 		return result, err
@@ -179,7 +272,7 @@ func GetcatListing(id string) ([]Form, error) {
 	}
 	defer session.Close()
 
-	collection := session.DB("yellowListings").C("Listings")
+	collection := session.DB(config.xy).C("Listings")
 	err = collection.Find(bson.M{"category": id}).All(&result)
 	if err != nil {
 		return result, err
@@ -269,4 +362,21 @@ func getcatHandler(w http.ResponseWriter, r *http.Request) {
 	result, _ := json.Marshal(data)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(result)
+}
+
+func Fictionalcat(w http.ResponseWriter, r *http.Request) {
+	cat := Category{}
+	s, err := mgo.Dial(config.xx)
+	defer s.Close()
+	if err != nil {
+		log.Println(err)
+		fmt.Println(err)
+	}
+	cat.Slug = "PlusListings"
+	cat.Category = "PlusListings"
+	s.DB(config.xy).C("Category").Insert(cat)
+
+	cat.Category = "Sponsored"
+	cat.Slug = "Sponsored"
+	s.DB(config.xy).C("Category").Insert(cat)
 }

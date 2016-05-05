@@ -1,3 +1,37 @@
+<script type="text/javascript">
+
+
+Quickteller.checkout({
+
+"paymentCode" : "",
+
+"buttonSize": "small | medium | large",
+
+"redirectUrl": "http://example.com/redirect",
+
+"amount": "",
+
+"customerId": "",
+
+"mobileNumber": "",
+
+"emailAddress": ""
+
+}, "btn_div", function(){
+
+//fn called before loading payment pop-up.
+
+}, function (status) {
+
+//fn called just before closing payment pop-up.
+
+});
+
+
+
+
+</script>
+
 <div class="form-group">
   <label for="exampleInputPassword1">COMPANY NAME</label>
   <input type="text" class="form-control" id="exampleInputPassword1" ng-model="data.CompanyName">
@@ -17,8 +51,8 @@
 <div class="form-group">
   <label for="exampleInputFile">CATEGORY</label>
   <select class="form-control" id="exampleInputFile" ng-model="data.Category">
-  <option ng-repeat="data in cats" value="{{data.id}}">
-    {{data.Category}}
+  <option ng-repeat="datas in cats" value="{{datas.Slug}}">
+    {{datas.Category}}
   </option>
 </select>
   </div>
@@ -43,6 +77,16 @@
   </div>
 
   <div class="form-group" ng-show="data.Plus == 'true'">
+  <label for="exampleInputFile">Description</label>
+  <textarea ng-model="data.About" class="form-control"></textarea>
+  </div>
+
+  <div class="form-group" ng-show="data.Plus == 'true'">
+  <label for="exampleInputFile">Website Link</label>
+  <input type="text" ng-model="data.Link" class="form-control" />
+  </div>
+
+  <div class="form-group" ng-show="data.Plus == 'true'">
   <label for="exampleInputFile">Logo Image</label>
   <input type="file" ng-model="file" class="input-lg" onchange="angular.element(this).scope().newfile1(this.files[0])" />
     <div >
@@ -52,6 +96,7 @@
       <div style="clear:both"></div>
     </div>
   </div>
+
 
   <div class="form-group" ng-show="data.Plus == 'true'">
   <label for="exampleInputFile">Images</label>
@@ -63,4 +108,6 @@
       <div style="clear:both"></div>
     </div>
   </div>
-<button type="button" class="btn btn-lg btn-default" ng-click="add(data)">Submit</button>
+<button type="button" class="btn btn-lg btn-default" ng-click="add(data)">Submit</button> <div id="pay">
+
+</div>

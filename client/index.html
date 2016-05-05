@@ -1,28 +1,118 @@
 <!DOCTYPE html>
-<html ng-app="yellowclient">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>YellowPages</title>
-    <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
-  </head>
-  <body >
+<html >
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content=
+"width=device-width, initial-scale=1">
+<title>Yellow Pages</title>
+<!-- Bootstrap 3.3.5 -->
+<link rel="stylesheet" href=
+"../assets/bootstrap/css/bootstrap.min.css">
+<link href='https://fonts.googleapis.com/css?family=Raleway:400,100'
+      rel='stylesheet'
+      type='text/css'>
+  <link href="/assets/main.css"
+        rel="stylesheet" />
+</head>
+<body ng-app="yellowclient">
+<!-- ng-view for angular routed content -->
+<div ng-view=""></div>
+<section class="footer text-center">
 
+  <div class="container x">
+    <p style="max-width:38em;display:inline-block; color:#f9f9f9;">
+      Click the pay with quickteller button to add a Pluslisting to yellowpages after successful payment. i.e You will be redirected to registration page.
+      <br/>
+      <em>
+        <small><a class="quickteller-checkout-anchor" id="99401" style="text-align:left;">payment button
+      will appear here shortly...</a></small>
+      </em>
 
-      <!-- ng-view for angular routed content -->
-          <div ng-view>
+    </p>
+    <br/>
 
+  </div>
+  <div class="container p3">
+    <p style="color: yellow;">Copyright calabaryellowpages.com.ng 2016</p>
+    <p>made with&nbsp;&nbsp;
+    <span class="heart">❤</span>&nbsp;&nbsp;by
+    <a href="http://past3.com.ng">Past 3 Software and Design Studio</a></p>
+  </div>
+</section>
+<!-- Bootstrap 3.3.5
+<script src="../assets/bootstrap/js/bootstrap.min.js">
+</script> -->
+<script type="text/javascript">
+var num = "";
+var QTCheckout = QTCheckout || {};
+var rq = "6026";
+var testMode = false;
 
-          </div>
+var baseUrl = "";
+for(var i = 0; i < 7; i++){
+  num += Math.floor((Math.random() * 10) + 1);
+  console.log(num);
+}
+rq = num + rq;
+//rq = '12345676026'
+QTCheckout.paymentItems = QTCheckout.paymentItems || [];
+QTCheckout.paymentItems.push({
 
+paymentCode: '99401',
 
-    <!-- Bootstrap 3.3.5 -->
-    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-   <script src="../assets/js/angular.min.js"></script>
-   <script src="../assets/js/angular-route.min.js"></script>
-   <script src="../assets/js/angular-cookies.min.js"></script>
-   <script src="../assets/js/client_app.js"></script>
+extraData: {
 
-  </body>
+amount: "200000",
+
+buttonSize: 'small',
+
+customerId: num,
+
+mobileNumber: 'default',
+
+emailAddress: 'default',
+
+redirectUrl: 'https://calabaryellowpages.herokuapp.com/newPlus',
+
+requestReference: rq
+
+}
+
+});
+
+if (testMode == true)
+baseUrl ="https://stageserv.interswitchng.com/quicktellercheckout/scripts/quickteller-checkout-min.js?v=";
+else
+baseUrl = "https://paywith.quickteller.com/scripts/quickteller-checkout-min.js?v=";
+if(!QTCheckout.qtScript) {
+
+var qtScript = document.createElement('script');
+
+qtScript.type = 'text/javascript'; qtScript.async = true;
+
+qtScript.src = baseUrl + new Date().getDay();
+ var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(qtScript, s);
+
+QTCheckout.qtScript = qtScript;
+
+}
+
+else if (QTCheckout.buildPaymentItemsUI) {
+
+QTCheckout.buildPaymentItemsUI();
+
+}
+
+</script>
+<script src="../assets/js/angular.min.js">
+</script>
+<script src="../assets/js/angular-route.min.js">
+</script>
+<script src="../assets/js/angular-cookies.min.js">
+</script>
+<script src="../assets/js/client_app.js">
+</script>
+</body>
 </html>

@@ -12,6 +12,9 @@ app.config(['$routeProvider', function($routeProvider){
 	}).when('/addcat', {
 		controller:'catCtrl',
 		templateUrl:'/addcattemp'
+	}).when('/newad', {
+		controller:'adCtrl',
+		templateUrl:'/newad'
 	})
 	.when('/', {
 		controller: 'unviewCtrl',
