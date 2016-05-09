@@ -63,5 +63,5 @@ func NoPaymentAfter(w http.ResponseWriter, r *http.Request) {
 }
 
 func PaymentAfter(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "cust/newapp.html")
+	//http.ServeFile(w, r, "cust/newapp.html")
 }
