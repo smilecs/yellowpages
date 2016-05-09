@@ -1,7 +1,7 @@
 var app = angular.module('yellow', ['ngRoute', 'ngCookies']);
 app.config(['$routeProvider', function($routeProvider){
 	$routeProvider.when('/', {
-		templateUrl: '/addlistingtemp',
+		templateUrl: '/addlisting',
     controller: 'AddCtrl'
 	});
 }]);

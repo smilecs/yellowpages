@@ -14,6 +14,10 @@ func AddListingViewHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "admin/partials/addlisting.html")
 }
 
+func AddListingView(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "admin/partials/newapp.html")
+}
+
 //UnapprovedViewHandler to render veiw page
 func UnapprovedViewHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "admin/partials/view_listings.html")

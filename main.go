@@ -86,6 +86,7 @@ func main() {
 	//fs := http.FileServer(http.Dir("admin/assets/"))
 	//http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 	router.Get("/addlistingtemp", commonHandlers.ThenFunc(AddListingViewHandler))
+	router.Get("/addlisting", commonHandlers.ThenFunc(AddListingView))
 	router.Get("/addcattemp", commonHandlers.ThenFunc(addcatViewHandler))
 	router.Get("/viewlistingtemp", commonHandlers.ThenFunc(UnapprovedViewHandler))
 	router.Get("/category", commonHandlers.ThenFunc(CategoryHandler))
