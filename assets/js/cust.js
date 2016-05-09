@@ -6,7 +6,7 @@ app.config(['$routeProvider', function($routeProvider){
 	});
 }]);
 
-app.controller('AddCtlr', ['$scope', '$http', function($scope, $http){
+app.controller('AddCtrl', ['$scope', '$http', function($scope, $http){
 $scope.data = {};
 $scope.cats = {};
 $scope.show = [];
