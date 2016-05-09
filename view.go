@@ -207,7 +207,7 @@ func Get_Params(w http.ResponseWriter, r *http.Request) {
 func Post_Params(w http.ResponseWriter, r *http.Request) {
 	log.Println(r.FormValue("resp_code"))
 	if r.FormValue("resp_code") != "" {
-
+		log.Println("mjjjjjjj")
 		//http.Redirect(w, r, "/newapp", http.StatusFound)
 		http.ServeFile(w, r, "cust/newapp.html")
 	} else {
