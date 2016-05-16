@@ -64,6 +64,7 @@ $http.get('/api/newview?page=1&q='+$routeParams.id).success(function(data,status
 	}
 
 
+
 });
 $scope.send = function(data){
 	$location.path('/result/'+data);
