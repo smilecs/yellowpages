@@ -21,6 +21,19 @@
 <div ng-view=""></div>
 <section class="footer text-center">
   Click the pay with quickteller button to add a Pluslisting to yellowpages after successful payment. i.e You will be redirected to registration page.
+  <form action="https://stageserv.interswitchng.com/quicktellercheckout" method="post">
+    <input type="hidden" name="paymentCode" value="99401" />
+    <input type="hidden" name="amount" value="2550000" />
+    <input type="hidden" name="customerId" value="90680596759" />
+    <input type="hidden" name="redirecturl" value="https://calabaryellowpages.herokuapp.com" />
+    <input type="hidden" name="mobileNumber" value="07033383068" />
+    <input type="hidden" name="emailAddress" value="info@niqs.org.ng" />
+    <div class="buttons">
+        <div class="right">
+            <input type="submit" value="PAY" class="button" />
+        </div>
+    </div>
+</form>
   <em><small><a class="quickteller-checkout-anchor" id="99401" style="text-align:left;">payment button
   will appear here shortly...</a></small></em>
   <div class="container x">
