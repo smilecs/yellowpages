@@ -1,7 +1,7 @@
 var app = angular.module('yellow', ['ngRoute', 'ngCookies']);
 app.config(['$routeProvider', function($routeProvider){
 	$routeProvider.when('/', {
-		templateUrl: '/addlisting',
+		templateUrl: '/cust',
     controller: 'AddCtrl'
 	});
 }]);
@@ -28,6 +28,18 @@ $scope.add = function(data){
     }
   });
 };
+
+$scope.ads = function(data){
+data.image = $scope.f;
+  $http.post('/api/newAd', data).success(function(data, status){
+    $scope.result = data;
+    console.log(data);
+    if(status === 200){
+      //$location.path('/');
+    }
+  });
+};
+
 $scope.change = function(data){e
   console.log("start");
   if(data.Plus === true){

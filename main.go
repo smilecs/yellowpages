@@ -94,7 +94,7 @@ func main() {
 	router.Get("/listing", commonHandlers.ThenFunc(ListingHandler))
 	router.Get("/home", commonHandlers.ThenFunc(HomeHandler))
 	router.Get("/newad", commonHandlers.ThenFunc(NewAdvertHandler))
-
+	router.Get("/cust", commonHandlers.ThenFunc(CustHandler))
 	router.ServeFiles("/assets/*filepath", http.Dir("assets"))
 	//api requests below
 	router.Post("/api/addcat", commonHandlers.ThenFunc(addCatHandler))

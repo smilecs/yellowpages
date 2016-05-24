@@ -28,6 +28,10 @@ func AdvertHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "admin/partials/newAd.html")
 }
 
+func CustHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "admin/partials/newapp.html")
+}
+
 func addcatViewHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "admin/partials/addcat.html")
 }
@@ -67,5 +71,5 @@ func NoPaymentAfter(w http.ResponseWriter, r *http.Request) {
 }
 
 func PaymentAfter(w http.ResponseWriter, r *http.Request) {
-	//	http.ServeFile(w, r, "cust/newapp.html")
+	//http.ServeFile(w, r, "cust/newapp.html")
 }

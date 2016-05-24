@@ -1,10 +1,39 @@
+<div class="form-group">
+<label for="exampleInputFile">Type</label>
+<select class="input-sm" ng-model="data.Plus" ng-change="change(data)">
+  <option value=true>PlusListing</option>
+  <option value=false>Advert</option>
+</select>
+</div>
+<div ng-show="data.Plus == 'false'">
+  <div class="form-group">
+    <label for="exampleInputFile">Name</label>
+    <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Name">
+    </div>
 
+
+  <div class="form-group">
+  <label for="exampleInputFile">Advert Banner</label>
+  <input type="file" ng-model="file" class="input-lg" onchange="angular.element(this).scope().newfile1(this.files[0])" />
+    <div >
+      <a class=" col-sm-2">
+        <img src="{{f}}" class="img img-thumbnail" />
+      </a>
+      <div style="clear:both"></div>
+    </div>
+  </div>
+  <div class="form-group">
+  <button type="button" class="btn btn-info" ng-click="ads(data)">Create Advert</button>
+  </div>
+
+</div>
+<div ng-show="data.Plus == 'true'">
 
 <div class="form-group">
   <label for="exampleInputPassword1">COMPANY NAME</label>
   <input type="text" class="form-control" id="exampleInputPassword1" ng-model="data.CompanyName">
 </div>
-<div class="form-group">
+<div class="form-group" >
   <label for="exampleInputPassword1">PHYSICAL ADDRESS</label>
   <input type="text" class="form-control" id="exampleInputPassword1" ng-model="data.Address">
 </div>
@@ -24,22 +53,18 @@
   </option>
 </select>
   </div>
-  
-  <div class="form-group">
-  <label for="exampleInputFile">Type</label>
-  <select class="input-sm" ng-model="data.Plus" ng-change="change(data)">
-    <option value=true>PlusListing</option>
-    <option value=false>Listing</option>
-  </select>
+
+  <div class="form-group" ng-show="data.Plus == 'true'">
+  <label for="exampleInputFile">Description</label>
+  <textarea ng-model="data.About" class="form-control"></textarea>
   </div>
 
-    <label for="exampleInputFile">Description</label>
-  <textarea ng-model="data.About" class="form-control"></textarea>
-
-    <label for="exampleInputFile">Website Link</label>
+  <div class="form-group" ng-show="data.Plus == 'true'">
+  <label for="exampleInputFile">Website Link</label>
   <input type="text" ng-model="data.Link" class="form-control" />
+  </div>
 
-
+  <div class="form-group" ng-show="data.Plus == 'true'">
   <label for="exampleInputFile">Logo Image</label>
   <input type="file" ng-model="file" class="input-lg" onchange="angular.element(this).scope().newfile1(this.files[0])" />
     <div >
@@ -48,10 +73,10 @@
       </a>
       <div style="clear:both"></div>
     </div>
+  </div>
 
 
-
-
+  <div class="form-group" ng-show="data.Plus == 'true'">
   <label for="exampleInputFile">Images</label>
   <input type="file" ng-model="file" class="input-lg" onchange="angular.element(this).scope().newfile(this.files[0])" />
     <div >
@@ -60,7 +85,6 @@
       </a>
       <div style="clear:both"></div>
     </div>
-
-<button type="button" class="btn btn-lg btn-default" ng-click="add(data)">Submit</button> <div id="pay">
-
+  </div>
+  <button type="button" class="btn btn-lg btn-default" ng-click="add(data)">Submit</button>
 </div>
