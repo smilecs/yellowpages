@@ -1,112 +1,51 @@
 <!DOCTYPE html>
-<html >
+<html ng-app="yellow">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content=
-"width=device-width, initial-scale=1">
-<title>Yellow Pages</title>
-<!-- Bootstrap 3.3.5 -->
+<title>YellowPages</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta content=
+"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+name="viewport"><!-- Bootstrap 3.3.5 -->
 <link rel="stylesheet" href=
-"../assets/bootstrap/css/bootstrap.min.css">
-<link href='https://fonts.googleapis.com/css?family=Raleway:400,100'
-      rel='stylesheet'
-      type='text/css'>
-  <link href="/assets/main.css"
-        rel="stylesheet" />
+"../assets/bootstrap/css/bootstrap.min.css"><!-- Font Awesome -->
+<link rel="stylesheet" href=
+"https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet" href=
+"https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="../assets/dist/css/AdminLTE.min.css">
+<!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+<link rel="stylesheet" href=
+"../assets/dist/css/skins/_all-skins.min.css">
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
+<body class="hold-transition skin-yellow-light sidebar-mini">
+<div ng-view></div>
 
-<body ng-app="yellowclient">
-<!-- ng-view for angular routed content -->
-<div ng-view=""></div>
-<section class="footer text-center">
-  Click the pay with quickteller button to add a Pluslisting to yellowpages after successful payment. i.e You will be redirected to registration page.
-  <form action="https://stageserv.interswitchng.com/quicktellercheckout" method="post">
-    <input type="hidden" name="paymentCode" value="99401" />
-    <input type="hidden" name="amount" value="2550000" />
-    <input type="hidden" name="customerId" value="90680596759" />
-    <input type="hidden" name="redirecturl" value="https://calabaryellowpages.herokuapp.com" />
-    <input type="hidden" name="mobileNumber" value="07033383068" />
-    <input type="hidden" name="emailAddress" value="info@niqs.org.ng" />
-	<input type="hidden" name="requestRequest" value="10030000002345" />
-    <div class="buttons">
-        <div class="right">
-            <input type="submit" value="PAY" class="button" />
-        </div>
-    </div>
-</form>
-  <em><small><a class="quickteller-checkout-anchor" id="99401" style="text-align:left;">payment button
-  will appear here shortly...</a></small></em>
-  <div class="container x">
-    <p>Copyright calabaryellowpages.com.ng 2016</p>
-  </div>
-  <div class="container p3">
-    <p>made with&nbsp;&nbsp;
-    <span class="heart">❤</span>&nbsp;&nbsp;by
-    <a href="http://past3.com.ng">Past 3 Software and Design Studio</a></p>
-  </div>
-</section>
-<!-- Bootstrap 3.3.5
+<script src="../assets/plugins/jQuery/jQuery-2.1.4.min.js">
+</script> <!-- Bootstrap 3.3.5 -->
+
 <script src="../assets/bootstrap/js/bootstrap.min.js">
-</script> -->
-<script type="text/javascript">
-var num = 0;
-var QTCheckout = QTCheckout || {};
+</script> <!-- SlimScroll -->
 
-var testMode = true;
+<script src=
+"../assets/plugins/slimScroll/jquery.slimscroll.min.js">
+</script> <!-- FastClick -->
 
-var baseUrl = "";
-for(var i = 0; i < 7; i++){
-  num += Math.floor((Math.random() * 10) + 1);
-}
+<script src="../assets/plugins/fastclick/fastclick.min.js">
+</script> <!-- AdminLTE App -->
 
-QTCheckout.paymentItems = QTCheckout.paymentItems || [];
-QTCheckout.paymentItems.push({
-
-paymentCode: '99401',
-
-extraData: {
-
-amount: 'default',
-
-buttonSize: 'default',
-
-customerId: 'default'
-
-mobileNumber: 'default',
-
-emailAddress: 'default',
-
-redirectUrl: 'default'
-
-}
-
-});
-
-if (testMode == true)
-baseUrl ="https://stageserv.interswitchng.com/quicktellercheckout/scripts/quickteller-checkout-min.js?v=";
-else
-baseUrl = "https://paywith.quickteller.com/scripts/quickteller-checkout-min.js?v=";
-if(!QTCheckout.qtScript) {
-
-var qtScript = document.createElement('script');
-
-qtScript.type = 'text/javascript'; qtScript.async = true;
-
-qtScript.src = baseUrl + new Date().getDay();
- var s = document.getElementsByTagName('script')[0];
-s.parentNode.insertBefore(qtScript, s);
-
-QTCheckout.qtScript = qtScript;
-
-}
-
-else if (QTCheckout.buildPaymentItemsUI) {
-
-QTCheckout.buildPaymentItemsUI();
-
-}
-
+<script src="../assets/dist/js/app.min.js">
 </script>
 <script src="../assets/js/angular.min.js">
 </script>
@@ -114,7 +53,10 @@ QTCheckout.buildPaymentItemsUI();
 </script>
 <script src="../assets/js/angular-cookies.min.js">
 </script>
-<script src="../assets/js/client_app.js">
+<script src="/cust/js/main.js">
 </script>
+<script src="/cust/js/authservice.js"></script>
+<script src="/cust/js/login.js"></script>
+<script src="/cust/js/applicant.js"></script>
 </body>
 </html>

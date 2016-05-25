@@ -34,6 +34,8 @@ type Form struct {
 	Images         []string      `bson:"images"`
 	Slug           string        `bson:"slug"`
 	About          string        `bson:"about"`
+	Username       string        `bson:"username"`
+	Password       string        `bson:"password"`
 	RC             string        `bson:"rc"`
 	Branch         string        `bson:"branch"`
 	Product        string        `bson:"product"`
@@ -379,4 +381,25 @@ func Fictionalcat(w http.ResponseWriter, r *http.Request) {
 	cat.Category = "Sponsored"
 	cat.Slug = "Sponsored"
 	s.DB(config.xy).C("Category").Insert(cat)
+}
+
+func Login(w http.ResponseWriter, r *http.Request) {
+	var form Form
+	var result Form
+	s, err := mgo.Dial(config.xx)
+	defer s.Close()
+	if err != nil {
+		log.Println(err)
+	}
+	err = json.NewDecoder(r.Body).Decode(&form)
+	if err != nil {
+		log.Println(err)
+	}
+
+	err = s.DB(config.xy).C("Listings").Find(bson.M{"username": form.Username, "password": form.Password}).One(&result)
+	if err != nil {
+		log.Println(err)
+	}
+	w.Write([]byte("logged"))
+
 }

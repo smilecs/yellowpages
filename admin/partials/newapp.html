@@ -86,5 +86,20 @@
       <div style="clear:both"></div>
     </div>
   </div>
+  <div class="form-group" ng-show="data.Plus == 'true'">
+  <label for="exampleInputFile">Website Link</label>
+  <input type="text" ng-model="data.Link" class="form-control" />
+  </div>
+
+  <div class="form-group">
+  <label for="exampleInputFile">Username</label>
+  <input type="text" ng-model="data.Username" class="form-control" />
+  </div>
+
+  <div class="form-group">
+  <label for="exampleInputFile">Password</label>
+  <input type="password" ng-model="data.Password" class="form-control" />
+  </div>
+
   <button type="button" class="btn btn-lg btn-default" ng-click="add(data)">Submit</button>
 </div>
