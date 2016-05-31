@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -60,32 +61,33 @@ func RenderView(id string, count int, page int, perpage int) (NewView, error) {
 	ik := len(res)
 	for i := 0; i < len(tmp); i++ {
 		rs := tmp[i]
-		if (i+1)%2 > 0 {
-			if k < ik {
-				views := new(View)
-				rss := res[k]
-				views.Image = rss.Image
-				views.ID = rss.ID
-				views.Type = rss.Type
-				views.CompanyName = rss.Name
-				result = append(result, views)
-				k++
+		if rs.Plus == "false" || time.Now().Sub(rs.Date).Hours() > 740 {
+			if (i+1)%2 > 0 {
+				if k < ik {
+					views := new(View)
+					rss := res[k]
+					views.Image = rss.Image
+					views.ID = rss.ID
+					views.Type = rss.Type
+					views.CompanyName = rss.Name
+					result = append(result, views)
+					k++
+				}
+
 			}
-
+			view := new(View)
+			view.Hotline = rs.Hotline
+			view.ID = rs.ID
+			view.Slug = rs.Slug
+			view.Dhr = rs.DHr
+			view.Category = rs.Category
+			view.Address = rs.Address
+			view.CompanyName = rs.CompanyName
+			view.Image = rs.Image
+			view.Specialisation = rs.Specialisation
+			view.Type = rs.Plus
+			result = append(result, view)
 		}
-		view := new(View)
-		view.Hotline = rs.Hotline
-		view.ID = rs.ID
-		view.Slug = rs.Slug
-		view.Dhr = rs.DHr
-		view.Category = rs.Category
-		view.Address = rs.Address
-		view.CompanyName = rs.CompanyName
-		view.Image = rs.Image
-		view.Specialisation = rs.Specialisation
-		view.Type = rs.Plus
-		result = append(result, view)
-
 	}
 	newV.Data = result
 	newV.Pag = Page

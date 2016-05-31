@@ -45,6 +45,7 @@ type Form struct {
 	Verified       string        `bson:"verified"`
 	Approved       bool          `bson:"approved"`
 	Plus           string        `bson:"plus"`
+	Date           time.Time     `bson:"date"`
 	Pg             Page
 }
 
@@ -124,6 +125,7 @@ func Addlisting(r Form) error {
 
 	r.Images = images
 	r.Slug = strings.Replace(r.CompanyName, " ", "-", -1) + str
+	r.Date = time.Now()
 	index := mgo.Index{
 		Key:        []string{"$text:specialisation", "$text:companyname"},
 		Unique:     true,
@@ -174,6 +176,28 @@ func UpdateListing(id string) error {
 	return nil
 }
 
+//TimeUpdateListing to change time
+func TimeUpdateListing(id string) error {
+	session, err := mgo.Dial(config.xx)
+	if err != nil {
+		return err
+	}
+
+	defer session.Close()
+
+	collection := session.DB(config.xy).C("Listings")
+	query := bson.M{"slug": id}
+	change := bson.M{"$set": bson.M{"date": time.Now()}}
+
+	err = collection.Update(query, change)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 //Getunapproved function for Getunapproved handler
 func Getunapproved() ([]Form, error) {
 	result := []Form{}
@@ -186,6 +210,24 @@ func Getunapproved() ([]Form, error) {
 
 	collection := session.DB(config.xy).C("Listings")
 	err = collection.Find(bson.M{"approved": false}).All(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+//Getunapproved function for Getunapproved handler
+func GetPlusForPay(r string) ([]Form, error) {
+	result := []Form{}
+	session, err := mgo.Dial(config.xx)
+
+	if err != nil {
+		return result, err
+	}
+	defer session.Close()
+
+	collection := session.DB(config.xy).C("Listings")
+	err = collection.Find(bson.M{"_id": r}).All(&result)
 	if err != nil {
 		return result, err
 	}
@@ -231,6 +273,7 @@ func GetListings() ([]Form, error) {
 //Getcat list
 func Getcat() ([]Category, error) {
 	result := []Category{}
+	//	log.Println("time" + " " + time.Now())
 	session, err := mgo.Dial(config.xx)
 
 	if err != nil {
@@ -343,9 +386,22 @@ func Approvehandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(result)
 }
 
+func TimeUpdatehandler(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("q")
+	TimeUpdateListing(id)
+	http.ServeFile(w, r, "cust/partials/success.html")
+}
+
 //GetunapprovedHandler gets unapproved listings
 func GetunapprovedHandler(w http.ResponseWriter, r *http.Request) {
 	data, _ := Getunapproved()
+	result, _ := json.Marshal(data)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
+}
+
+func GetPlusPayHandler(w http.ResponseWriter, r *http.Request) {
+	data, _ := GetPlusForPay(r.URL.Query().Get("id"))
 	result, _ := json.Marshal(data)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(result)
@@ -400,6 +456,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	w.Write([]byte("logged"))
+	data, _ := json.Marshal(result)
+	w.Write(data)
 
 }

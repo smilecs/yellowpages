@@ -32,7 +32,37 @@
 <div class="content-wrapper"><!-- Content Header (Page header) -->
 <!-- Main content -->
 <section class="content ">
-
+  <div class="row">
+             <div class="col-md-6" ng-repeat="data in result">
+               <div class="box box-solid">
+                 <div class="box-header with-border">
+                   <i class="fa fa-text-width"></i>
+                   <h3 class="box-title">{{data.CompanyName}}</h3>
+                 </div><!-- /.box-header -->
+                 <div class="box-body">
+                   <dl>
+                     <dt>{{data.Address}}</dt>
+                     <dd>{{data.Hotline}}</dd>
+                     <dd>{{data.Specialisation}}</dd>
+                   </dl>
+                   <form action="https://stageserv.interswitchng.com/quicktellercheckout" method="post">
+                     <input type="hidden" name="paymentCode" value="99401" />
+                     <input type="hidden" name="amount" value="200000" />
+                     <input type="hidden" name="customerId" value="90680596759" />
+                     <input type="hidden" name="redirecturl" value="https://calabaryellowpages.herokuapp.com/client/update?q={{update}}" />
+                     <input type="text" name="mobileNumber" placeholder="Your Mobile Number"/>
+                     <input type="text" name="emailAddress" placeholder="Email Address"/>
+                     	<input type="hidden" name="requestRequest" value="10030000002345" />
+                     <div class="buttons">
+                         <div class="right">
+                             <input type="submit" value="PAY" class="button" />
+                         </div>
+                     </div>
+                   </form>
+                 </div><!-- /.box-body -->
+               </div><!-- /.box -->
+             </div><!-- ./col -->
+           </div>
 </section>
 <!-- /.content --></div>
 <!-- /.content-wrapper -->

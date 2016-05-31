@@ -24,7 +24,8 @@ $scope.add = function(data){
     $scope.files = [];
     $scope.image = '';
     if(status === 200){
-      $location.path('/');
+      $location.path('/cust/partials/suc.html');
+			//todo move to page to instruct on success and recurring payments
     }
   });
 };

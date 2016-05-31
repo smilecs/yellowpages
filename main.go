@@ -96,6 +96,7 @@ func main() {
 	router.Get("/home", commonHandlers.ThenFunc(HomeHandler))
 	router.Get("/newad", commonHandlers.ThenFunc(NewAdvertHandler))
 	router.Get("/cust", commonHandlers.ThenFunc(CustHandler))
+	router.Get("/client/update", commonHandlers.ThenFunc(TimeUpdatehandler))
 	router.ServeFiles("/assets/*filepath", http.Dir("assets"))
 	router.ServeFiles("/cust/partials/*filepath", http.Dir("cust/partials"))
 	router.ServeFiles("/cust/js/*filepath", http.Dir("cust/js"))
@@ -114,6 +115,7 @@ func main() {
 	router.Get("/api/getsinglelist", commonHandlers.ThenFunc(getlistHandler))
 	router.Get("/api/newview", commonHandlers.ThenFunc(GetNewView))
 	router.Get("/api/falseview", commonHandlers.ThenFunc(FalseH))
+	router.Get("/api/plus", commonHandlers.ThenFunc(GetPlusPayHandler))
 	router.Get("/false", commonHandlers.ThenFunc(Fictionalcat))
 
 	router.Get("/advert", commonHandlers.ThenFunc(FalseA))

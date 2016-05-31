@@ -75,7 +75,7 @@ $scope.pages = {};
 $scope.newScope = {};
 $scope.newerScope = [];
 
-	$http.get('/api/newview?page='+data).success(function(data, status){
+	$http.get('/api/newview?page='+data+"&q="+$routeParams.id).success(function(data, status){
 		$scope.category = data.Data;
 		$scope.pages = data;
 		console.log(data)
@@ -84,7 +84,7 @@ $scope.newerScope = [];
 			var tmp = {"data": i+1};
 			$scope.newerScope.push(tmp);
 		}
-$scope.$apply();
+//$scope.$apply();
 	});
 };
 
@@ -202,6 +202,7 @@ $location.path('/result/'+data);
 app.controller('SearchCtrl', function($scope, $http, $routeParams, $location){
 	$scope.category = {};
 	$scope.pages = {};
+	$scope.newerScope = [];
 
 	$scope.send = function(data){
 $location.path('/result/'+data);
@@ -216,7 +217,7 @@ $location.path('/result/'+data);
 			var tmp = {"data": i+1};
 			$scope.newerScope.push(tmp);
 		}
-		$scope.$apply();
+	//	$scope.$apply();
 
 	});
 });

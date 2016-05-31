@@ -4,17 +4,12 @@ function config($routeProvider, $locationProvider){
 	$routeProvider.when('/', {
 		controller: 'UpdateCtrl',
 		 templateUrl:'/cust/partials/main.html'
-	}).when('/course', {
-		controller: 'CourseCtrl',
-		templateUrl:'/adm/course.html'
 	}).when('/login', {
 		controller: 'LoginCtrl',
 		controllerAs: 'vm',
-		templateUrl:'/client/assets/partials/login.html'
+		templateUrl:'/cust/partials/login.html'
 	}).when('/logout', {
 		controller:'logoutCtrl'
-	}).when('/profile', {
-		templateUrl:'client/assets/partials/profile.html'
 	});
 }
 
@@ -32,7 +27,7 @@ function run ($rootScope, $location, $cookieStore, $http){
 			console.log("cam");
 			/*var landingUrl = "http://localhost:8080/admin"; //URL complete
 			window.location.href = landingUrl;*/
-			//$location.path('/login');
+			$location.path('/login');
 		}
 	});
 }
