@@ -47,7 +47,7 @@
                    </dl>
                    <form action="https://stageserv.interswitchng.com/quicktellercheckout" method="post">
                      <input type="hidden" name="paymentCode" value="99401" />
-                     <input type="hidden" name="amount" value="200000" />
+                     <input type="hidden" name="amount" value="99500" />
                      <input type="hidden" name="customerId" value="90680596759" />
                      <input type="hidden" name="redirecturl" value="https://calabaryellowpages.herokuapp.com/client/update?q={{update}}" />
                      <input type="text" name="mobileNumber" placeholder="Your Mobile Number"/>
@@ -65,6 +65,74 @@
            </div>
 </section>
 <!-- /.content --></div>
+<script type="text/javascript">
+var num = "";
+var QTCheckout = QTCheckout || {};
+var rq = "6026";
+var testMode = false;
+
+var baseUrl = "";
+for(var i = 0; i < 7; i++){
+  num += Math.floor((Math.random() * 10) + 1);
+  console.log(num);
+}
+rq = num + rq;
+//rq = '12345676026'
+document.getElementById(customerId).innerHTML = num;
+document.getElementById(requestRequest).innerHTML = rq;
+
+QTCheckout.paymentItems = QTCheckout.paymentItems || [];
+QTCheckout.paymentItems.push({
+
+paymentCode: '99401',
+
+extraData: {
+
+amount: "200000",
+
+buttonSize: 'small',
+
+customerId: num,
+
+mobileNumber: 'default',
+
+emailAddress: 'default',
+
+redirectUrl: 'https://calabaryellowpages.herokuapp.com/newapp',
+
+
+requestReference: rq
+
+}
+
+});
+
+if (testMode == true)
+baseUrl ="https://stageserv.interswitchng.com/quicktellercheckout/scripts/quickteller-checkout-min.js?v=";
+else
+baseUrl = "https://paywith.quickteller.com/scripts/quickteller-checkout-min.js?v=";
+if(!QTCheckout.qtScript) {
+
+var qtScript = document.createElement('script');
+
+qtScript.type = 'text/javascript'; qtScript.async = true;
+
+qtScript.src = baseUrl + new Date().getDay();
+ var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(qtScript, s);
+
+QTCheckout.qtScript = qtScript;
+
+}
+
+else if (QTCheckout.buildPaymentItemsUI) {
+
+QTCheckout.buildPaymentItemsUI();
+
+}
+
+</script>
+
 <!-- /.content-wrapper -->
 <footer class="main-footer">
 <div class="pull-right hidden-xs"><b>Version</b> 2.3.0</div>
