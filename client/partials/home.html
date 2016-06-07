@@ -26,11 +26,31 @@
               <br/><br/>
             </div>
           </section>
+          <style>
+
+            .card {
+              background: #fff;
+              border-radius: 2px;
+              display: inline-block;
+              position: relative;
+            }
+
+            .card-1 {
+              box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+              transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+            }
+
+            .card-1:hover {
+              box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+            }
+
+          </style>
           <section class="container categories hundred" id="categories">
             <h1 class="categories-header">Categories</h1>
-            <div class="col-md-6 category" style="padding-bottom:45px;"
-                 ng-repeat="data in result">
-              <a href="#/category/{{data.Slug}}">{{data.Category}}</a>
+            <div class="col-sm-6 category  " style="padding-bottom:15px;" ng-repeat="data in result">
+              <div class="card card-1" style="width:100%; padding:30px 15px;" >
+                <a href="#/category/{{data.Slug}}">{{data.Category}}</a>
+              </div>
             </div>
             <br />
             <br />
@@ -39,6 +59,6 @@
             <br />
           </section>
       </section>
-    
+
   </div>
 </link>

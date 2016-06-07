@@ -9,13 +9,10 @@
 <!-- Bootstrap 3.3.5 -->
 <link rel="stylesheet" href=
 "../assets/bootstrap/css/bootstrap.min.css">
-<link href='https://fonts.googleapis.com/css?family=Raleway:400,100'
-      rel='stylesheet'
-      type='text/css'>
   <link href="/assets/main.css"
         rel="stylesheet" />
 </head>
-<body ng-app="yellowclient">
+<body ng-app="yellowclient" style="margin-bottom:-100px;">
 <!-- ng-view for angular routed content -->
 <div ng-view=""></div>
 <section class="footer text-center">
@@ -23,23 +20,32 @@
   <div class="container x">
     <p style="max-width:38em;display:inline-block; color:#f9f9f9;">
       Fill the form below and click the pay button to add a Pluslisting to yellowpages after successful payment. i.e You will be redirected to registration page.
-      <br/>
-      <form action="https://stageserv.interswitchng.com/quicktellercheckout" method="post">
+    </p>
+      <br/><br/>
+      <form action="https://stageserv.interswitchng.com/quicktellercheckout" method="post" >
         <input type="hidden" name="paymentCode" value="99401" />
         <input type="hidden" name="amount" value="99500" />
         <input type="hidden" name="customerId" value="90680596759" />
         <input type="hidden" name="redirecturl" value="https://calabaryellowpages.herokuapp.com" />
-        <input type="text" name="mobileNumber" placeholder="Your Mobile Number"/>
-        <input type="text" name="emailAddress" placeholder="Email Address"/>
-        	<input type="hidden" name="requestRequest" value="10030000002345" />
-        <div class="buttons">
+        <input type="hidden" name="requestRequest" value="10030000002345" class="form-control"/>
+
+        <div class="" style="text-align:center; display:block; width:100%;">
+          <div class="col-sm-3" style="display:inline-block;float:none;">
+            <input type="text" name="mobileNumber" placeholder="Your Mobile Number" class="form-control"/>
+          </div>
+          <div class="col-sm-3" style="display:inline-block;float:none;">
+            <input type="text" name="emailAddress" placeholder="Email Address" class="form-control"/>
+          </div>
+          <div class="clearfix"></div>
+        <br/>
+        <div class="buttons ">
             <div class="right">
-                <input type="submit" value="PAY" class="button" />
+                <input type="submit" value="PAY" class="button btn btn-default" />
             </div>
         </div>
       </form>
 
-    </p>
+
     <br/>
 
   </div>
@@ -100,7 +106,6 @@ baseUrl ="https://stageserv.interswitchng.com/quicktellercheckout/scripts/quickt
 else
 baseUrl = "https://paywith.quickteller.com/scripts/quickteller-checkout-min.js?v=";
 if(!QTCheckout.qtScript) {
-
 var qtScript = document.createElement('script');
 
 qtScript.type = 'text/javascript'; qtScript.async = true;
@@ -120,11 +125,7 @@ QTCheckout.buildPaymentItemsUI();
 }
 
 </script>
-<script src="../assets/js/angular.min.js">
-</script>
-<script src="../assets/js/angular-route.min.js">
-</script>
-<script src="../assets/js/angular-cookies.min.js">
+<script src="../assets/js/angular_cookies_route.js">
 </script>
 <script src="../assets/js/client_app.js">
 </script>
