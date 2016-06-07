@@ -48,9 +48,9 @@
           <section class="container categories hundred" id="categories">
             <h1 class="categories-header">Categories</h1>
             <div class="col-sm-6 category  " style="padding-bottom:15px;" ng-repeat="data in result">
-              <div class="card card-1" style="width:100%; padding:30px 15px;" >
-                <a href="#/category/{{data.Slug}}">{{data.Category}}</a>
-              </div>
+              <a href="#/category/{{data.Slug}}" class="card card-1" style="width:100%; padding:30px 15px;" >
+                {{data.Category}}
+              </a>
             </div>
             <br />
             <br />
