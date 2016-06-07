@@ -77,3 +77,7 @@ func PaymentAfter(w http.ResponseWriter, r *http.Request) {
 func ClientAdmin(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "cust/index.html")
 }
+
+func LoginAdmin(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "admin/login.html")
+}

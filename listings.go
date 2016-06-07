@@ -57,6 +57,11 @@ type Category struct {
 	Show     string        `bson:"show"`
 }
 
+type Admin struct {
+	ID       bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
+	username string        `bson:"username"`
+}
+
 func randSeq(n int) string {
 	letters := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	b := make([]rune, n)
@@ -84,46 +89,50 @@ func Addlisting(r Form) error {
 	p := rand.New(rand.NewSource(time.Now().UnixNano()))
 	str := strconv.Itoa(p.Intn(10))
 
-	byt, err := base64.StdEncoding.DecodeString(strings.Split(r.Image, "base64,")[1])
-	if err != nil {
-		log.Println(err)
-	}
-
-	meta := strings.Split(r.Image, "base64,")[0]
-	newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
-	imagename := randSeq(30)
-
-	err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite)
-	if err != nil {
-		log.Println(err)
-	}
-
-	log.Println(bucket.URL(imagename))
-
-	r.Image = bucket.URL(imagename)
-
-	var images []string
-	for _, v := range r.Images {
-
-		byt, err := base64.StdEncoding.DecodeString(strings.Split(v, "base64,")[1])
+	if r.Image != "" {
+		byt, err := base64.StdEncoding.DecodeString(strings.Split(r.Image, "base64,")[1])
 		if err != nil {
 			log.Println(err)
 		}
 
-		meta := strings.Split(v, "base64,")[0]
-
+		meta := strings.Split(r.Image, "base64,")[0]
 		newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
-
-		imagename := randSeq(10)
+		imagename := randSeq(30)
 
 		err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite)
 		if err != nil {
 			log.Println(err)
 		}
-		images = append(images, bucket.URL(imagename))
+
+		log.Println(bucket.URL(imagename))
+
+		r.Image = bucket.URL(imagename)
+
+		var images []string
+		for _, v := range r.Images {
+
+			byt, err := base64.StdEncoding.DecodeString(strings.Split(v, "base64,")[1])
+			if err != nil {
+				log.Println(err)
+			}
+
+			meta := strings.Split(v, "base64,")[0]
+
+			newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
+
+			imagename := randSeq(10)
+
+			err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite)
+			if err != nil {
+				log.Println(err)
+			}
+			images = append(images, bucket.URL(imagename))
+		}
+
+		r.Images = images
+
 	}
 
-	r.Images = images
 	r.Slug = strings.Replace(r.CompanyName, " ", "-", -1) + str
 	r.Date = time.Now()
 	index := mgo.Index{
@@ -459,4 +468,27 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	data, _ := json.Marshal(result)
 	w.Write(data)
 
+}
+
+func AdminLogin(w http.ResponseWriter, r *http.Request) {
+	var form Form
+	var result Admin
+
+	s, err := mgo.Dial(config.xx)
+	defer s.Close()
+	if err != nil {
+		log.Println(err)
+	}
+
+	err = json.NewDecoder(r.Body).Decode(&form)
+	if err != nil {
+		log.Println(err)
+	}
+
+	err = s.DB(config.xy).C("admin").Find(bson.M{"username": form.Username, "password": form.Password}).One(&result)
+	if err ! = nil {
+		log.Println(err)
+	}
+	data, _ := json.Marshal(result)
+	w.Write(data)
 }

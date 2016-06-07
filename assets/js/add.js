@@ -1,8 +1,9 @@
-angular.module('yellowpages').controller('AddCtlr', ['$scope', '$http', function($scope, $http){
+angular.module('yellowpages').controller('AddCtlr', ['$scope', '$http', 'Notification', function($scope, $http, Notification){
 $scope.data = {};
 $scope.cats = {};
 $scope.show = [];
 $scope.files = [];
+$scope.show = "hide";
 $http.get('/api/getcat').success(function(data, status){
   $scope.cats = data;
 });
@@ -10,14 +11,18 @@ $scope.add = function(data){
   data.images = $scope.files;
   data.image = $scope.f;
   console.log(data);
+  $scope.show = "show";
 
-  $http.post('/api/addlisting', data).success(function(data, status){
+  $http.post('/api/addlisting', data).then(function(){
     $scope.data = {};
+    Notification({message: 'Success', title: 'Listing Management'});
+    $scope.show = "hide";
     $scope.files = [];
     $scope.image = '';
-    if(status === 200){
-      $location.path('/');
-    }
+    //$location.path('/');
+
+  }, function(){
+      Notification.error("Error Adding Data");
   });
 };
 $scope.change = function(data){

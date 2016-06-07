@@ -16,6 +16,12 @@
   <label for="exampleInputFile">SPECIALIZATION</label>
   <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Specialisation">
   </div>
+
+  <div class="form-group">
+    <label for="exampleInputFile">WORKING DAYS</label>
+    <input type="text" class="form-control" id="exampleInputFile" ng-model="data.DHr">
+    </div>
+
 <div class="form-group">
   <label for="exampleInputFile">CATEGORY</label>
   <select class="form-control" id="exampleInputFile" ng-model="data.Category">
@@ -51,7 +57,7 @@
 
   <div class="form-group" ng-show="data.Plus == 'true'">
   <label for="exampleInputFile">Website Link</label>
-  <input type="text" ng-model="data.Link" class="form-control" />
+  <input type="text" ng-model="data.Website" class="form-control" />
   </div>
 
   <div class="form-group" ng-show="data.Plus == 'true'">
@@ -77,5 +83,5 @@
     </div>
   </div>
 <button type="button" class="btn btn-lg btn-default" ng-click="add(data)">Submit</button> <div id="pay">
-
+  <md-progress-circular md-mode="{{indeterminate}}" ng-show="show == 'show'"></md-progress-circular>
 </div>
