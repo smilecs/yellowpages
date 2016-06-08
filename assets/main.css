@@ -1,5 +1,5 @@
 body{
-  font-family: 'Raleway', sans-serif;
+  font-family: -apple-system, “San Francisco”, “Helvetica Neue”, Helvetica, “Lucida Grande”, Roboto, “Segoe UI”, Arial, Ubuntu, sans-serif;
 }
 
 .hundred{
@@ -79,9 +79,10 @@ body{
 }
 
 .categories a{
-    font-size:2.8em;
+    font-size:1.8em;
     color:#111;
     font-weight:100;
+    text-decoration: none;
 }
 .hero-search>input{
     border-radius:0;
@@ -153,12 +154,18 @@ body{
 .item{
   display:inline-block;
   padding:15px;
+  margin-bottom: 20px;
   width:100%;
-  -webkit-box-shadow: 0px 5px 21px -5px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 5px 21px -5px rgba(0,0,0,0.75);
-  box-shadow: 0px 5px 21px -5px rgba(0,0,0,0.75);
+  //-webkit-box-shadow: 0px 5px 21px -5px rgba(0,0,0,0.75);
+  -webkit-shadow: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3xpx rgba(0,0,0,0.23);
+  -moz-shadow: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
+  //box-shadow: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
+
+  box-shadow: 0px 5px 13px -3px rgba(0,0,0,0.75);
 
 }
+
+
 .item-title{
   color:black;
 
