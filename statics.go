@@ -81,3 +81,7 @@ func ClientAdmin(w http.ResponseWriter, r *http.Request) {
 func LoginAdmin(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "admin/login.html")
 }
+
+func ClientIndex(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "cust/addList.html")
+}

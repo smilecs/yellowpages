@@ -85,6 +85,7 @@ func main() {
 	router.Get("/login", commonHandlers.ThenFunc(LoginAdmin))
 	router.Get("/", commonHandlers.ThenFunc(ClientViewHandler))
 	router.Get("/client", commonHandlers.ThenFunc(ClientAdmin))
+	router.Get("/Newlisting", commonHandlers.ThenFunc(ClientIndex))
 	//fs := http.FileServer(http.Dir("admin/assets/"))
 	//http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 	router.Get("/addlistingtemp", commonHandlers.ThenFunc(AddListingViewHandler))
