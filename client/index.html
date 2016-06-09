@@ -26,44 +26,41 @@
   <div class="tc dtc v-mid pa1 pa3-ns measure">
     <h2 class="tc f1 ">Register your business on Calabar Yellowpages</h2>
     <div class="pt3">
-        <button class="btn btn-lg  btn-default mr2 br0">Regular Listing</button><button class="btn btn-lg btn-default btn-danger br0">Plus Listing</button>
+        <a class="btn btn-lg  btn-default mr2 br0" href="/newlisting">Regular Listing<br/><small>(free)</small></a>
+        <a ng-click="showDiv = !showDiv" class="btn btn-lg  dim bg-black white br0 ph5">Plus Listing<br/><small>(₦995/month)</small></a>
+    </div>
+
+    <div ng-show="showDiv" class="tc pt4" >
+      <p class="f3 pa3 measure dib" >
+        Fill the form below to Pay for, and add Pluslisting to yellowpages. After payment, you will be redirected to a page to insert your details.
+      </p>
+        <form action="https://stageserv.interswitchng.com/quicktellercheckout" method="post" >
+          <input type="hidden" name="paymentCode" value="99401" />
+          <input type="hidden" name="amount" value="99500" />
+          <input type="hidden" name="customerId" value="90680596759" />
+          <input type="hidden" name="redirecturl" value="https://calabaryellowpages.herokuapp.com" />
+          <input type="hidden" name="requestRequest" value="10030000002345" class="form-control"/>
+
+          <div class="" style="text-align:center; display:block; width:100%;">
+            <div class="col-sm-3" style="display:inline-block;float:none;">
+              <input type="text" name="mobileNumber" placeholder="Your Mobile Number" class="form-control b--black-70 br0"/>
+            </div>
+            <div class="col-sm-3" style="display:inline-block;float:none;">
+              <input type="text" name="emailAddress" placeholder="Email Address" class="form-control b--black-70 br0"/>
+            </div>
+            <div class="clearfix"></div>
+          <br/>
+          <div class="buttons ">
+              <div class="right">
+                  <input type="submit" value="Continue" class="btn btn-lg  dim bg-black white br0" />
+              </div>
+          </div>
+        </form>
     </div>
   </div>
 </section>
-<section class="footer text-center">
+<section class="footer text-center pv6">
 
-  <div class="container x">
-    <p style="max-width:38em;display:inline-block; color:#f9f9f9;">
-      Fill the form below and click the pay button to add a Pluslisting to yellowpages after successful payment. i.e You will be redirected to registration page.
-    </p>
-      <br/><br/>
-      <form action="https://stageserv.interswitchng.com/quicktellercheckout" method="post" >
-        <input type="hidden" name="paymentCode" value="99401" />
-        <input type="hidden" name="amount" value="99500" />
-        <input type="hidden" name="customerId" value="90680596759" />
-        <input type="hidden" name="redirecturl" value="https://calabaryellowpages.herokuapp.com" />
-        <input type="hidden" name="requestRequest" value="10030000002345" class="form-control"/>
-
-        <div class="" style="text-align:center; display:block; width:100%;">
-          <div class="col-sm-3" style="display:inline-block;float:none;">
-            <input type="text" name="mobileNumber" placeholder="Your Mobile Number" class="form-control"/>
-          </div>
-          <div class="col-sm-3" style="display:inline-block;float:none;">
-            <input type="text" name="emailAddress" placeholder="Email Address" class="form-control"/>
-          </div>
-          <div class="clearfix"></div>
-        <br/>
-        <div class="buttons ">
-            <div class="right">
-                <input type="submit" value="PAY" class="button btn btn-default" />
-            </div>
-        </div>
-      </form>
-
-
-    <br/>
-
-  </div>
   <div class="container p3">
     <p style="color: yellow;">Copyright calabaryellowpages.com.ng 2016</p>
     <p>made with&nbsp;&nbsp;
