@@ -25,6 +25,12 @@ type View struct {
 	Slug           string
 	Dhr            string
 }
+
+type User struct {
+	ID       bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
+	Username string        `bson:"username"`
+	Password string        `bson:"password"`
+}
 type NewView struct {
 	Data []*View
 	Pag  Page
@@ -245,6 +251,22 @@ func GetNewView(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(result)
 }
+
+func NewUserHandler(w http.ResponseWriter, r *http.Request) {
+	var user User
+	err := json.NewDecoder(r.Body).Decode(&user)
+	if err != nil {
+		log.Println(err)
+	}
+	session, err := mgo.Dial(config.xx)
+	if err != nil {
+
+	}
+	defer session.Close()
+	col := session.DB(config.xy).C("admin")
+	col.Insert(user)
+}
+
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	var data Result
 	tmp := r.URL.Query().Get("page")

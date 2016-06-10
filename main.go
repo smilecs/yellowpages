@@ -105,6 +105,7 @@ func main() {
 	//api requests below
 	router.Post("/api/addcat", commonHandlers.ThenFunc(addCatHandler))
 	router.Get("/api/getcat", commonHandlers.ThenFunc(getcatHandler))
+	router.Post("/api/newuser", commonHandlers.ThenFunc(NewUserHandler))
 	router.Post("/api/addlisting", commonHandlers.ThenFunc(AddHandler))
 	router.Post("/api/approve", commonHandlers.ThenFunc(Approvehandler))
 	router.Post("/login", commonHandlers.ThenFunc(Login))
