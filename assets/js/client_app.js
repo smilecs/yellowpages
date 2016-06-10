@@ -31,8 +31,10 @@ app.config(['$routeProvider', function($routeProvider){
 
 app.controller('HomeCtrl', ['$scope', '$http','$location', '$anchorScroll', function($scope, $http, $location, $anchorScroll){
 $scope.result = {};
+$scope.show = "show";
 $http.get('/api/getcat').success(function(data, status){
   console.log(data);
+	$scope.show = "hide";
   $scope.result = data;
 });
 $scope.send = function(data){
@@ -49,6 +51,7 @@ app.controller('ListingCtrl', function($scope, $http, $location, $routeParams){
 $scope.result = {};
 $scope.category = {};
 $scope.pages = {};
+$scope.show = "show";
 $scope.newerScope = [];
 $http.get('/api/getsingle?q='+$routeParams.id).success(function(data, status){
   $scope.result = data;
@@ -56,6 +59,7 @@ $http.get('/api/getsingle?q='+$routeParams.id).success(function(data, status){
 $http.get('/api/newview?page=1&q='+$routeParams.id).success(function(data,status){
 	$scope.category = data.Data;
 	$scope.pages = data;
+	$scope.show = "hide";
 	console.log(data)
 	$scope.newScope = data.Pag.Pages;
 	for(var i =0; i < $scope.newScope.length; i++){
@@ -96,12 +100,14 @@ $scope.result = {};
 $scope.category = {};
 $scope.pages = {};
 $scope.newerScope = [];
+$scope.show = "show";
 $http.get('/api/getsingle?q='+$routeParams.id).success(function(data, status){
   $scope.result = data;
 });
 $http.get('/api/falseview?page=1').success(function(data,status){
 	$scope.category = data.Data;
 	$scope.pages = data;
+	$scope.show = "hide";
 	console.log(data)
 	$scope.newScope = data.Pag.Pages;
 	for(var i =0; i < $scope.newScope.length; i++){
@@ -203,6 +209,7 @@ app.controller('SearchCtrl', function($scope, $http, $routeParams, $location){
 	$scope.category = {};
 	$scope.pages = {};
 	$scope.newerScope = [];
+	$scope.show = "show";
 
 	$scope.send = function(data){
 $location.path('/result/'+data);
@@ -210,6 +217,7 @@ $location.path('/result/'+data);
 
 	$http.post('/api/result?page=1&q='+$routeParams.query).success(function(data, status){
 		$scope.category = data.Data;
+		$scope.show = "hide";
 		$scope.pages = data;
 		console.log(data)
 		$scope.newScope = data.Pag.Pages;
