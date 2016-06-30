@@ -485,6 +485,7 @@ func AdminLogin(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
+	log.Println(form.Username)
 	err = s.DB(config.xy).C("admin").Find(bson.M{"username": form.Username, "password": form.Password}).One(&result)
 	if err != nil {
 		log.Println(err)

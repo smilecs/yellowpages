@@ -2,14 +2,15 @@ angular.module('yellow').controller('LoginCtrl',LoginCtrl);
 LoginCtrl.$inject = ['$scope', '$location', 'AuthenticationService'];
 function LoginCtrl($scope, $location, AuthenticationService){
   console.log("called");
+  $scope.vm = {};
+  //var vm = this;
+  //vm.login = login;
 
-  var vm = this;
-  vm.login = login;
   $scope.hide = "true";
   (function initController(){
     //AuthenticationService.ClearCredentials();
   })();
-function login(){
+$scope.login = function login(){
     console.log("called");
     vm.dataLoading = true;
     AuthenticationService.Login(vm.Username, vm.Password, function(response){

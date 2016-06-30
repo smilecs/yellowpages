@@ -38,7 +38,7 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
 
-    <form action="../../index2.html" method="post">
+
       <div class="form-group has-feedback">
           <input type="text" ng-model="vm.Username" class="form-control" required="" />
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
@@ -51,15 +51,15 @@
 
       <div class="row">
         <div class="col-xs-8">
-
+          {{vm}}
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button  ng-click="login(vm)" class="btn btn-primary btn-block btn-flat">Sign In</button>
         </div>
         <!-- /.col -->
       </div>
-    </form>
+
     <!-- /.social-auth-links -->
 
 

@@ -1,20 +1,20 @@
 var app = angular.module('yellowpages', ['ngCookies']);
 
 app.controller('LoginCtrl',LoginCtrl);
-LoginCtrl.$inject = ['$scope', '$location', 'AuthenticationService'];
-function LoginCtrl($scope, $location, AuthenticationService){
+LoginCtrl.$inject = ['$window', '$scope', '$location', 'AuthenticationService'];
+function LoginCtrl($window, $scope, $location, AuthenticationService){
   console.log("called");
-
+  $scope.vm = {};
   var vm = this;
-  vm.login = login;
+  vm.login = $scope.login;
   $scope.hide = "true";
   (function initController(){
     //AuthenticationService.ClearCredentials();
   })();
-function login(){
+$scope.login = function login(dat){
     console.log("called");
-    vm.dataLoading = true;
-   AuthenticationService.Login(vm.Username, vm.Password, function(response){
+  vm.dataLoading = true;
+   AuthenticationService.Login(dat.Username, dat.Password, function(response){
       if(response.id){
         console.log("true");
         AuthenticationService.SetCredent(vm.Username, vm.Password, response.id);

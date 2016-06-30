@@ -9,13 +9,13 @@ $rootScope.bl = false;
   return service;
 
   function Login (username, password, callback){
-console.log("auth service");
+console.log(username);
     $http.post('/adminlogin', { Username: username, Password: password })
     .success(function (response) {
                 console.log(response);
                   callback(response);
               });
-  }
+  };
 
 
     function SetCredent(username, password, id){
