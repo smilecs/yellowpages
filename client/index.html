@@ -8,7 +8,7 @@
 <title>Yellow Pages</title>
 <!-- Bootstrap 3.3.5 -->
 <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://npmcdn.com/tachyons@4.0.0-beta.29/css/tachyons.min.css">
+<link rel="stylesheet" href="/assets/tachyons.min.css">
   <link href="/assets/main.css"
         rel="stylesheet" />
         <link rel="stylesheet" href="../assets/dist/css/angular-material.min.css">
@@ -22,7 +22,49 @@
     width:100%;
     min-height: 300px;
   }
+
+  /* -----
+  SVG Icons - svgicons.sparkk.fr
+  ----- */
+
+  .svg-icon {
+    width: 1em;
+    height: 1em;
+  }
+
+  .svg-icon path,
+  .svg-icon polygon,
+  .svg-icon rect {
+    fill: #4691f6;
+  }
+
+  .svg-icon circle {
+    stroke: #4691f6;
+    stroke-width: 1;
+  }
+
+
 </style>
+
+
+<style type="text/css">
+
+#share-buttons a {
+  text-decoration:none;
+  cursor: pointer;
+  cursor: hand;
+}
+
+#share-buttons img {
+width: 55px;
+padding: 5px;
+border: 0;
+box-shadow: 0;
+display: inline;
+}
+
+</style>
+
 <section class="join-us dt" style="background-image:url(assets/join.jpg); background-size:cover">
   <div class="tc dtc v-mid pa1 pa3-ns measure">
     <h2 class="tc f1 ">Register your business on Calabar Yellowpages</h2>
@@ -60,10 +102,46 @@
     </div>
   </div>
 </section>
-<section class="footer text-center pv6">
 
-  <div class="container p3">
+
+
+
+<section class="footer text-center pv3">
+
+
+
+<br/>
+  <div class="container p3 dt ">
+    <div class="tr dtc v-mid pa1 pa3-ns white-90 col-sm-6">
+      <h2 class=" f4 ">Calabar Yellow Pages also includes a printed copy</h2>
+      <h3 class=" f2 ">Click below for more information on how to enlist</h3>
+      <div class="pt3">
+          <a class="btn btn-lg  ba b--white-90 black-80 mr2 br0"  href="/assets/info.pdf" target="_blank">Learn more</small></a>
+      </div>
+    </div>
+
+    <!-- I got these buttons from simplesharebuttons.com -->
+
+    <div id="share-buttons" class="col-sm-6 tl dtc v-mid pa1 pa3-ns pt4-ns ">
+        <h4 class="white-90">Follow Us</h4>
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/Calabar-Yellow-Pages-211417710464/?fref=ts" target="_blank">
+            <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
+        </a>
+
+        <!-- Twitter -->
+        <a href="https://twitter.com/calabarpages" target="_blank">
+            <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
+        </a>
+
+
+    </div>
+    <div style="clear:both"></div>
+    <br/><br/>
+
     <p style="color: yellow;">Copyright calabaryellowpages.com.ng 2016</p>
+
+
     <p>made with&nbsp;&nbsp;
     <span class="heart">❤</span>&nbsp;&nbsp;by
     <a href="http://past3.com.ng">Past 3 Software and Design Studio</a></p>

@@ -136,7 +136,7 @@ body{
 }
 @media(min-width:400px)  {
   .item-listings{
-    width:80rem;
+    max-width:80rem;
   }
 }
 .item-listings h1{
