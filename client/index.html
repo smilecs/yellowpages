@@ -43,6 +43,15 @@
     stroke-width: 1;
   }
 
+  a.md-default-theme:not(.md-button), a:not(.md-button) {
+      color: inherit;
+  }
+
+  a.md-default-theme:not(.md-button):hover, a:not(.md-button):hover {
+      color: inherit;
+  }
+
+
 
 </style>
 
@@ -56,11 +65,11 @@
 }
 
 #share-buttons img {
-width: 55px;
-padding: 5px;
-border: 0;
-box-shadow: 0;
-display: inline;
+  width: 70px;
+  padding: 5px;
+  border: 0;
+  box-shadow: 0;
+  display: inline;
 }
 
 </style>
@@ -69,8 +78,8 @@ display: inline;
   <div class="tc dtc v-mid pa1 pa3-ns measure">
     <h2 class="tc f1 ">Register your business on Calabar Yellowpages</h2>
     <div class="pt3">
-        <a class="btn btn-lg  btn-default mr2 br0" href="/newlisting">Regular Listing<br/><small>(free)</small></a>
-        <a ng-click="showDiv = !showDiv" class="btn btn-lg  dim bg-black white br0 ph5">Plus Listing<br/><small>(₦995/month)</small></a>
+        <a class="btn btn-lg  mr2 br0" href="/newlisting" style="background-color:rgba(255, 212, 0, 0.7); ">Regular Listing<br/><small>(free)</small></a>
+        <a ng-click="showDiv = !showDiv" class="btn btn-lg  dim bg-black white br0 ph5" style="color:white">Plus Listing<br/><small>(₦995/month)</small></a>
     </div>
 
     <div ng-show="showDiv" class="tc pt4" >
@@ -106,24 +115,30 @@ display: inline;
 
 
 
-<section class="footer text-center pv3">
+<section class="bg-black-90 text-center pv3">
 
 
 
 <br/>
   <div class="container p3 dt ">
-    <div class="tr dtc v-mid pa1 pa3-ns white-90 col-sm-6">
-      <h2 class=" f4 ">Calabar Yellow Pages also includes a printed copy</h2>
-      <h3 class=" f2 ">Click below for more information on how to enlist</h3>
+    <div class="tc dtc v-mid pa1 pa3-ns white-90 ">
+      <h3 class=" f2 ">For more information about how to enlist</h3>
       <div class="pt3">
-          <a class="btn btn-lg  ba b--white-90 black-80 mr2 br0"  href="/assets/info.pdf" target="_blank">Learn more</small></a>
+          <a class="btn btn-lg  ba b--white-90 black-80 mr2 br0 fa fa-user"  href="/assets/info.pdf" target="_blank"> <img src="/assets/d.png"/>&nbsp;&nbsp;Download</small></a>
       </div>
     </div>
 
-    <!-- I got these buttons from simplesharebuttons.com -->
 
-    <div id="share-buttons" class="col-sm-6 tl dtc v-mid pa1 pa3-ns pt4-ns ">
-        <h4 class="white-90">Follow Us</h4>
+    <div style="clear:both"></div>
+    <br/><br/>
+
+
+  </div>
+</section>
+<section class="gray" style="background-color:#101010">
+  <div class="tc pa3">
+    <span>Follow Us</span>
+    <div id="share-buttons" class=" db pv2">
         <!-- Facebook -->
         <a href="https://www.facebook.com/Calabar-Yellow-Pages-211417710464/?fref=ts" target="_blank">
             <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
@@ -134,18 +149,18 @@ display: inline;
             <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
         </a>
 
-
     </div>
-    <div style="clear:both"></div>
-    <br/><br/>
-
-    <p style="color: yellow;">Copyright calabaryellowpages.com.ng 2016</p>
-
-
-    <p>made with&nbsp;&nbsp;
-    <span class="heart">❤</span>&nbsp;&nbsp;by
-    <a href="http://past3.com.ng">Past 3 Software and Design Studio</a></p>
   </div>
+</section>
+<section class=" bg-black gray " >
+<div class="tc ">
+    <span style="color: yellow;" class="f5">Copyright calabaryellowpages.com.ng 2016</span><br/>
+    <span class="f6">  made with&nbsp;&nbsp;
+      <span class="heart">❤</span>&nbsp;&nbsp;by
+      <a href="http://past3.com.ng">Past 3 Software and Design Studio</a>
+    </span>
+</div>
+<div style="clear:both"></div>
 </section>
 <!-- Bootstrap 3.3.5
 <script src="../assets/bootstrap/js/bootstrap.min.js">
