@@ -41,6 +41,24 @@ type Result struct {
 	Query string
 }
 
+//GetAdmins
+func GetAdmins() ([]User, error) {
+	result := []User{}
+	session, err := mgo.Dial(config.xx)
+
+	if err != nil {
+		return result, err
+	}
+	defer session.Close()
+
+	collection := session.DB(config.xy).C("admin")
+	err = collection.Find(bson.M{}).All(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 //RenderView function to return listings mixed with adds
 func RenderView(id string, count int, page int, perpage int) (NewView, error) {
 	tmp := []Form{}
@@ -281,6 +299,13 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	newVal, _ := json.Marshal(result)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(newVal)
+}
+
+func GetAdminsHandler(w http.ResponseWriter, r *http.Request) {
+	data, _ := GetAdmins()
+	result, _ := json.Marshal(data)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
 }
 
 func CsvHandler(w http.ResponseWriter, r *http.Request) {

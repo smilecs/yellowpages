@@ -15,6 +15,9 @@ app.config(['$routeProvider', function($routeProvider){
 	}).when('/newad', {
 		controller:'adCtrl',
 		templateUrl:'/newad'
+	}).when('/newuser',{
+		controller:'NewUserCtrl',
+		templateUrl:'temp/form.html',
 	})
 	.when('/', {
 		controller: 'unviewCtrl',
@@ -40,3 +43,30 @@ function run ($window, $rootScope, $location, $cookieStore, $http){
 		}
 	});
 }
+
+app.controller('NewUserCtrl', ['$scope', '$http','$location', 'Notification', function($scope, $http, $location, Notification){
+$scope.result = {};
+$scope.show = "show";
+
+$http.get('/api/adminList').then(function(data){
+	console.log(data.data);
+	$scope.result = data.data;
+	//Notification({message: 'Success', title: 'Listing Management'});
+}, function(){
+	Notification.error("Error Getting Data");
+});
+
+
+$scope.send = function(data){
+	$location.path('/result/'+data);
+};
+
+$scope.add = function(data){
+	$http.post('/api/newuser', data).then(function(){
+		Notification({message: 'Success', title: 'Listing Management'});
+	}, function(){
+		Notification.error("Error Adding Data");
+	});
+};
+
+}]);

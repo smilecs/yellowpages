@@ -1,4 +1,4 @@
-var app = angular.module('yellowclient', ['ngRoute', 'ngCookies']);
+var app = angular.module('yellowclient', ['ngRoute', 'ngMaterial']);
 app.config(['$routeProvider', function($routeProvider){
 	$routeProvider.when('/', {
 		templateUrl: '/home',

@@ -100,6 +100,7 @@ func main() {
 	router.Get("/cust", commonHandlers.ThenFunc(CustHandler))
 	router.Get("/client/update", commonHandlers.ThenFunc(TimeUpdatehandler))
 	router.ServeFiles("/assets/*filepath", http.Dir("assets"))
+	router.ServeFiles("/temp/*filepath", http.Dir("admin/partials"))
 	router.ServeFiles("/cust/partials/*filepath", http.Dir("cust/partials"))
 	router.ServeFiles("/cust/js/*filepath", http.Dir("cust/js"))
 	//api requests below
@@ -120,6 +121,7 @@ func main() {
 	router.Get("/api/newview", commonHandlers.ThenFunc(GetNewView))
 	router.Get("/api/falseview", commonHandlers.ThenFunc(FalseH))
 	router.Get("/api/plus", commonHandlers.ThenFunc(GetPlusPayHandler))
+	router.Get("/api/adminList", commonHandlers.ThenFunc(GetAdminsHandler))
 	router.Get("/false", commonHandlers.ThenFunc(Fictionalcat))
 
 	router.Get("/advert", commonHandlers.ThenFunc(FalseA))
