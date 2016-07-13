@@ -81,6 +81,8 @@ func init() {
 func main() {
 	commonHandlers := alice.New(context.ClearHandler, loggingHandler, recoverHandler)
 	router := NewRouter()
+
+	router.ServeFiles("/zohoverify/*filepath", http.Dir("assets"))
 	router.Get("/admin", commonHandlers.ThenFunc(FrontAdminHandler))
 	router.Get("/login", commonHandlers.ThenFunc(LoginAdmin))
 	router.Get("/", commonHandlers.ThenFunc(ClientViewHandler))
