@@ -167,6 +167,7 @@ func Addcat(r Category) error {
 func UpdateListing(id string) error {
 	session, err := mgo.Dial(config.xx)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
@@ -179,6 +180,7 @@ func UpdateListing(id string) error {
 	err = collection.Update(query, change)
 
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
@@ -389,7 +391,6 @@ func addCatHandler(w http.ResponseWriter, r *http.Request) {
 func Approvehandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("q")
 	UpdateListing(id)
-
 }
 
 func TimeUpdatehandler(w http.ResponseWriter, r *http.Request) {
