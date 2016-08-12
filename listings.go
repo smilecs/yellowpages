@@ -389,10 +389,7 @@ func addCatHandler(w http.ResponseWriter, r *http.Request) {
 func Approvehandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("q")
 	UpdateListing(id)
-	data, _ := Getunapproved()
-	result, _ := json.Marshal(data)
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(result)
+
 }
 
 func TimeUpdatehandler(w http.ResponseWriter, r *http.Request) {
