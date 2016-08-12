@@ -134,6 +134,9 @@ func Addlisting(r Form) error {
 	}
 
 	r.Slug = strings.Replace(r.CompanyName, " ", "-", -1) + str
+	r.Slug = strings.Replace(r.Slug, "&", "-", -1) + str
+	r.Slug = strings.Replace(r.Slug, "/", "-", -1) + str
+	r.Slug = strings.Replace(r.Slug, ",", "-", -1) + str
 	r.Date = time.Now()
 	index := mgo.Index{
 		Key:        []string{"$text:specialisation", "$text:companyname"},
@@ -174,7 +177,7 @@ func UpdateListing(id string) error {
 	defer session.Close()
 
 	collection := session.DB(config.xy).C("Listings")
-	query := bson.M{"slug": id}
+	query := bson.M{"_id": bson.ObjectIdHex(id)}
 	change := bson.M{"$set": bson.M{"approved": true}}
 
 	err = collection.Update(query, change)
