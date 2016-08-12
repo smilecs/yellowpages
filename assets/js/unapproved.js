@@ -5,7 +5,9 @@ $scope.result = {};
   });
   $scope.approve = function(pos, data){
     console.log("clicked");
-    $scope.result = $scope.result.splice(pos, 1);
+    //$scope.result = $scope.result.splice(pos, 1);
+    console.log($scope.result.splice(pos, 1));
+    console.log($scope.result);
     $http.post('/api/approve?q='+data).success(function(data,status){
     //$scope.result = data;
       Notification({message: 'Listing Approved', title: 'Listing Management'});
