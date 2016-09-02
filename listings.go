@@ -240,14 +240,8 @@ func GetTr() error {
 	defer session.Close()
 
 	collection := session.DB(config.xy).C("Listings")
-	coll := session.DB(config.xy).C("Category")
 	change := bson.M{"category": "TRANSPORT-TRAVELS8"}
-	chann := bson.M{"slug": "TRANSPORT-TRAVELS8"}
 	err = collection.Update(bson.M{"category": bson.RegEx{"TRANSPORT-*", ""}}, change)
-	if err != nil {
-		return err
-	}
-	err = coll.Update(bson.M{"slug": bson.RegEx{"TRANSPORT-*", ""}}, chann)
 	if err != nil {
 		return err
 	}
