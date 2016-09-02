@@ -241,8 +241,9 @@ func GetTr() error {
 
 	collection := session.DB(config.xy).C("Listings")
 	change := bson.M{"category": "TRANSPORT-TRAVELS8"}
-	err = collection.Update(bson.M{"category": bson.RegEx{"TRANSPORT-*", ""}}, change)
+	err = collection.Update(bson.M{"category": "TRANSPORT-&-TRAVELS8"}, change)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	return nil
