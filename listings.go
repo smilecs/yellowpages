@@ -161,6 +161,7 @@ func Addcat(r Category) error {
 	p := rand.New(rand.NewSource(time.Now().UnixNano()))
 	str := strconv.Itoa(p.Intn(10))
 	r.Slug = strings.Replace(r.Category, " ", "-", -1) + str
+	r.Slug = strings.Replace(r.Slug, "&", "-", -1) + str
 	r.Show = "true"
 	s.DB(config.xy).C("Category").Insert(r)
 	return err
@@ -228,6 +229,29 @@ func Getunapproved() ([]Form, error) {
 		return result, err
 	}
 	return result, nil
+}
+
+func GetTr() error {
+	session, err := mgo.Dial(config.xx)
+
+	if err != nil {
+		return err
+	}
+	defer session.Close()
+
+	collection := session.DB(config.xy).C("Listings")
+	coll := session.DB(config.xy).C("Category")
+	change := bson.M{"category": "TRANSPORT-TRAVELS8"}
+	chann := bson.M{"slug": "TRANSPORT-TRAVELS8"}
+	err = collection.Update(bson.M{"category": bson.RegEx{"TRANSPORT-*", ""}}, change)
+	if err != nil {
+		return err
+	}
+	err = coll.Update(bson.M{"slug": bson.RegEx{"TRANSPORT-*", ""}}, chann)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 //Getunapproved function for Getunapproved handler
@@ -493,4 +517,8 @@ func AdminLogin(w http.ResponseWriter, r *http.Request) {
 	}
 	data, _ := json.Marshal(result)
 	w.Write(data)
+}
+
+func Fix(w http.ResponseWriter, r *http.Request) {
+	GetTr()
 }

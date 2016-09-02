@@ -103,7 +103,7 @@
       </p>
         <form action="https://stageserv.interswitchng.com/quicktellercheckout" method="post" >
           <input type="hidden" name="paymentCode" value="99401" />
-          <input type="hidden" name="amount" value="99500" />
+          <input type="hidden" name="amount" id="amount" value="99500" />
           <input type="hidden" name="customerId" value="90680596759" />
           <input type="hidden" name="redirecturl" id="url" value="https://calabaryellowpages.herokuapp.com" />
           <input type="hidden" name="requestRequest" value="10030000002345" class="form-control"/>
@@ -114,6 +114,12 @@
             </div>
             <div class="col-sm-3" style="display:inline-block;float:none;">
               <input type="text" name="emailAddress" placeholder="Email Address" class="form-control b--black-70 br0"/>
+            </div>
+            <div class="col-sm-3" style="display:inline-block;float:none;">
+              <select id="amt">
+                <option value="3000">1 Year (3000)</option>
+                <option value="6000">2 Years (6000)</option>
+              </select>
             </div>
             <div class="clearfix"></div>
           <br/>
@@ -181,6 +187,9 @@
 <script src="../assets/bootstrap/js/bootstrap.min.js">
 </script> -->
 <script type="text/javascript">
+  function modify(data){
+      document.getElementById('amount').value = data;
+  };
 var num = "";
 var QTCheckout = QTCheckout || {};
 var rq = "6026";
@@ -193,9 +202,9 @@ for(var i = 0; i < 7; i++){
 }
 rq = num + rq;
 //rq = '12345676026'
-document.getElementById('customerId').innerHTML = num;
-document.getElementById('requestRequest').innerHTML = rq;
-document.getElementByID('url').innerHTML = "https://calabaryellowpages.herokuapp.com/newapp?q=" + rq;
+document.getElementById('customerId').value = num;
+document.getElementById('requestRequest').value = rq;
+document.getElementByID('url').value = "https://calabaryellowpages.herokuapp.com/newapp?q=" + rq;
 
 QTCheckout.paymentItems = QTCheckout.paymentItems || [];
 QTCheckout.paymentItems.push({

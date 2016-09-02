@@ -126,6 +126,7 @@ func main() {
 
 	router.Get("/advert", commonHandlers.ThenFunc(FalseA))
 	router.Get("/Upload", commonHandlers.ThenFunc(CsvHandler))
+	router.Get("/fix", commonHandlers.ThenFunc(Fix))
 	//forpayment
 	router.Get("/newapp", commonHandlers.ThenFunc(PaymentAfter))
 	router.Post("/newapp", commonHandlers.ThenFunc(Post_Params))
