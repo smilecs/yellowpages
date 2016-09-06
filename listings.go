@@ -134,6 +134,9 @@ func Addlisting(r Form) error {
 	}
 
 	r.Slug = strings.Replace(r.CompanyName, " ", "-", -1) + str
+	r.Slug = strings.Replace(r.Slug, "&", "-", -1) + str
+	r.Slug = strings.Replace(r.Slug, "/", "-", -1) + str
+	r.Slug = strings.Replace(r.Slug, ",", "-", -1) + str
 	r.Date = time.Now()
 	index := mgo.Index{
 		Key:        []string{"$text:specialisation", "$text:companyname"},
@@ -158,6 +161,7 @@ func Addcat(r Category) error {
 	p := rand.New(rand.NewSource(time.Now().UnixNano()))
 	str := strconv.Itoa(p.Intn(10))
 	r.Slug = strings.Replace(r.Category, " ", "-", -1) + str
+	r.Slug = strings.Replace(r.Slug, "&", "-", -1) + str
 	r.Show = "true"
 	s.DB(config.xy).C("Category").Insert(r)
 	return err
@@ -167,18 +171,20 @@ func Addcat(r Category) error {
 func UpdateListing(id string) error {
 	session, err := mgo.Dial(config.xx)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
 	defer session.Close()
 
 	collection := session.DB(config.xy).C("Listings")
-	query := bson.M{"slug": id}
+	query := bson.M{"_id": bson.ObjectIdHex(id)}
 	change := bson.M{"$set": bson.M{"approved": true}}
 
 	err = collection.Update(query, change)
 
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
@@ -223,6 +229,24 @@ func Getunapproved() ([]Form, error) {
 		return result, err
 	}
 	return result, nil
+}
+
+func GetTr() error {
+	session, err := mgo.Dial(config.xx)
+
+	if err != nil {
+		return err
+	}
+	defer session.Close()
+
+	collection := session.DB(config.xy).C("Listings")
+	change := bson.M{"category": "TRANSPORT-TRAVELS8"}
+	err = collection.Update(bson.M{"category": bson.RegEx{"TRANSP*", ""}}, change)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	return nil
 }
 
 //Getunapproved function for Getunapproved handler
@@ -389,10 +413,6 @@ func addCatHandler(w http.ResponseWriter, r *http.Request) {
 func Approvehandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("q")
 	UpdateListing(id)
-	data, _ := Getunapproved()
-	result, _ := json.Marshal(data)
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(result)
 }
 
 func TimeUpdatehandler(w http.ResponseWriter, r *http.Request) {
@@ -492,4 +512,8 @@ func AdminLogin(w http.ResponseWriter, r *http.Request) {
 	}
 	data, _ := json.Marshal(result)
 	w.Write(data)
+}
+
+func Fix(w http.ResponseWriter, r *http.Request) {
+	GetTr()
 }

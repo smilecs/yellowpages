@@ -26,6 +26,13 @@ type View struct {
 	Dhr            string
 }
 
+type QuickTeller struct {
+	PaymentReference string
+	Amount           string
+	TransactionDate  string
+	ResponseCode     string
+}
+
 type User struct {
 	ID       bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
 	Username string        `bson:"username"`
@@ -234,13 +241,24 @@ func Get_Params(w http.ResponseWriter, r *http.Request) {
 
 func Post_Params(w http.ResponseWriter, r *http.Request) {
 	log.Println(r.FormValue("resp_code"))
+	/*http.Header().Set("requestReference", r.URL.Query().Get("q"))
+	http.Header().Set("clientid", "calabaryellowpages.com")
+	http.Header().Set("Hash", "value string")
+
+	req, err := http.Get("https://stageserv.interswitchng.com/quicktellercheckout/api/v2/transaction/" + r.URL.Query().Get("q") + "? isRequestRef=true")
+	if err != nil {
+		fmt.Printf("%s", err)
+		return err
+	}
+	defer req.Body.Close()
+	contents, err := ioutil.ReadAll(req.Body)
 	if r.FormValue("resp_code") != "" {
 		log.Println("mjjjjjjj")
 		//http.Redirect(w, r, "/newapp", http.StatusFound)
 		http.ServeFile(w, r, "cust/newapp.html")
 	} else {
 
-	}
+	}*/
 }
 
 func FalseH(w http.ResponseWriter, r *http.Request) {

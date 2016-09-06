@@ -1,4 +1,5 @@
 <div class="row">
+   <md-progress-circular md-mode="{{indeterminate}}" ng-show="show == 'show'"></md-progress-circular>
            <div class="col-md-6" ng-repeat="data in result">
              <div class="box box-solid">
                <div class="box-header with-border">
@@ -11,7 +12,7 @@
                    <dd>{{data.Hotline}}</dd>
                    <dd>{{data.Specialisation}}</dd>
                  </dl>
-                 <button class="btn primary" ng-click="approve(data.Slug)">Approve</button>
+                 <button class="btn primary" ng-click="approve($index, data.id)" ng-hide="but">Approve</button>
                </div><!-- /.box-body -->
              </div><!-- /.box -->
            </div><!-- ./col -->
