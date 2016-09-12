@@ -28,12 +28,14 @@
                    style='display:table; background-image:url(assets/yellow-pages.jpg); background-size:cover'>
             <div style='display:table-cell; vertical-align: middle'>
               <h1 class="hero-h1">Looking for Businesses in Cross River State?</h1>
+              <form>
               <div class=" hero-search">
                 <input class=""
                        type="text" ng-model="datas.query"/>
-                <button class="" ng-click="send(datas.query)">Search</button>
+                <button type="submit" class="" ng-click="send(datas.query)">Search</button>
 
               </div>
+              </form>
             </div>
 
             <div style='display:table-row-group; vertical-align: bottom; text-align:center;'>

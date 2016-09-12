@@ -116,13 +116,15 @@
               <input type="text" name="emailAddress" placeholder="Email Address" class="form-control b--black-70 br0"/>
             </div>
             <div class="col-sm-3" style="display:inline-block;float:none;">
-              <select id="amt">
+              <select id="amt" onchange="modify()">
+                <option value=""></option>
                 <option value="3000">1 Year (3000)</option>
                 <option value="6000">2 Years (6000)</option>
               </select>
             </div>
             <div class="clearfix"></div>
           <br/>
+
           <div class="buttons ">
               <div class="right">
                   <input type="submit" value="Continue" class="btn btn-lg  dim bg-black white br0" />
@@ -156,6 +158,7 @@
 
   </div>
 </section>
+
 <section class="gray" style="background-color:#101010">
   <div class="tc pa3">
     <span>Follow Us</span>
@@ -187,13 +190,16 @@
 <script src="../assets/bootstrap/js/bootstrap.min.js">
 </script> -->
 <script type="text/javascript">
-  function modify(data){
-      document.getElementById('amount').value = data;
+  function modify(){
+    console.log("change");
+    var temp = document.getElementById('amt').value;
+    document.getElementById('amount').value = temp;
+    document.getElementById('url').value = "http://localhost:8080/newapp?q=" + temp;
   };
 var num = "";
 var QTCheckout = QTCheckout || {};
-var rq = "6026";
-var testMode = false;
+var rq = "99401";
+var testMode = true;
 
 var baseUrl = "";
 for(var i = 0; i < 7; i++){
@@ -204,7 +210,7 @@ rq = num + rq;
 //rq = '12345676026'
 document.getElementById('customerId').value = num;
 document.getElementById('requestRequest').value = rq;
-document.getElementByID('url').value = "https://calabaryellowpages.herokuapp.com/newapp?q=" + rq;
+document.getElementByID('url').value = "http://localhost:8080/newapp?q=" + rq;
 
 QTCheckout.paymentItems = QTCheckout.paymentItems || [];
 QTCheckout.paymentItems.push({
