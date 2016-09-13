@@ -103,7 +103,7 @@
       </p>
         <form action="https://stageserv.interswitchng.com/quicktellercheckout" method="post" >
           <input type="hidden" name="paymentCode" value="99401" />
-          <input type="hidden" name="amount" id="amount" value="99500" />
+          <!--<input type="hidden" name="amount" id="amount" value="99500" />-->
           <input type="hidden" name="customerId" value="90680596759" />
           <input type="hidden" name="redirecturl" id="url" value="https://calabaryellowpages.herokuapp.com" />
           <input type="hidden" name="requestRequest" value="10030000002345" class="form-control"/>
@@ -116,7 +116,7 @@
               <input type="text" name="emailAddress" placeholder="Email Address" class="form-control b--black-70 br0"/>
             </div>
             <div class="col-sm-3" style="display:inline-block;float:none;">
-              <select id="amt">
+              <select id="amt" name="amount" >
                 <option value="3000">1 Year (3000)</option>
                 <option value="6000">2 Years (6000)</option>
               </select>
@@ -192,73 +192,73 @@
 <script src="../assets/bootstrap/js/bootstrap.min.js">
 </script> -->
 <script type="text/javascript">
-  function modify(data){
+  /*function modify(data){
       document.getElementById('amount').value = data;
-  };
-var num = "";
-var QTCheckout = QTCheckout || {};
-var rq = "6026";
-var testMode = false;
+  };*/
+    var num = "";
+    var QTCheckout = QTCheckout || {};
+    var rq = "6026";
+    var testMode = false;
 
-var baseUrl = "";
-for(var i = 0; i < 7; i++){
-  num += Math.floor((Math.random() * 10) + 1);
-  console.log(num);
-}
-rq = num + rq;
-//rq = '12345676026'
-document.getElementById('customerId').value = num;
-document.getElementById('requestRequest').value = rq;
-document.getElementByID('url').value = "https://calabaryellowpages.herokuapp.com/newapp?q=" + rq;
+    var baseUrl = "";
+    for(var i = 0; i < 7; i++){
+      num += Math.floor((Math.random() * 10) + 1);
+      console.log(num);
+    }
+    rq = num + rq;
+    //rq = '12345676026'
+    document.getElementById('customerId').value = num;
+    document.getElementById('requestRequest').value = rq;
+    document.getElementByID('url').value = "https://calabaryellowpages.herokuapp.com/newapp?q=" + rq;
 
-QTCheckout.paymentItems = QTCheckout.paymentItems || [];
-QTCheckout.paymentItems.push({
+    QTCheckout.paymentItems = QTCheckout.paymentItems || [];
+    QTCheckout.paymentItems.push({
 
-paymentCode: '99401',
+        paymentCode: '99401',
 
-extraData: {
+        extraData: {
 
-amount: "200000",
+        amount: "200000",
 
-buttonSize: 'small',
+        buttonSize: 'small',
 
-customerId: num,
+        customerId: num,
 
-mobileNumber: 'default',
+        mobileNumber: 'default',
 
-emailAddress: 'default',
+        emailAddress: 'default',
 
-redirectUrl: 'https://calabaryellowpages.herokuapp.com/newapp',
+        redirectUrl: 'https://calabaryellowpages.herokuapp.com/newapp',
 
 
-requestReference: rq
+        requestReference: rq
 
-}
+        }
 
-});
+    });
 
-if (testMode == true)
-baseUrl ="https://stageserv.interswitchng.com/quicktellercheckout/scripts/quickteller-checkout-min.js?v=";
-else
-baseUrl = "https://paywith.quickteller.com/scripts/quickteller-checkout-min.js?v=";
-if(!QTCheckout.qtScript) {
-var qtScript = document.createElement('script');
+    if (testMode == true)
+        baseUrl ="https://stageserv.interswitchng.com/quicktellercheckout/scripts/quickteller-checkout-min.js?v=";
+    else
+        baseUrl = "https://paywith.quickteller.com/scripts/quickteller-checkout-min.js?v=";
+    if(!QTCheckout.qtScript) {
+        var qtScript = document.createElement('script');
 
-qtScript.type = 'text/javascript'; qtScript.async = true;
+        qtScript.type = 'text/javascript'; qtScript.async = true;
 
-qtScript.src = baseUrl + new Date().getDay();
- var s = document.getElementsByTagName('script')[0];
-s.parentNode.insertBefore(qtScript, s);
+        qtScript.src = baseUrl + new Date().getDay();
+         var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(qtScript, s);
 
-QTCheckout.qtScript = qtScript;
+        QTCheckout.qtScript = qtScript;
 
-}
+    }
 
-else if (QTCheckout.buildPaymentItemsUI) {
+    else if (QTCheckout.buildPaymentItemsUI) {
 
-QTCheckout.buildPaymentItemsUI();
+      QTCheckout.buildPaymentItemsUI();
 
-}
+    }
 
 </script>
 

@@ -133,7 +133,7 @@ func main() {
 	router.Get("/newapp", commonHandlers.ThenFunc(PaymentAfter))
 	router.Post("/newapp", commonHandlers.ThenFunc(Post_Params))
 	router.Get("/error", commonHandlers.ThenFunc(NoPaymentAfter))
-	log.Println(config.xx)
+
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
 		log.Println("No Global port has been defined, using default")
