@@ -52,10 +52,12 @@ type User struct {
 	Username string        `bson:"username"`
 	Password string        `bson:"password"`
 }
+
 type NewView struct {
 	Data []*View
 	Pag  Page
 }
+
 type Result struct {
 	Data  []Form
 	Pag   Page
