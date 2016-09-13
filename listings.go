@@ -45,6 +45,8 @@ type Form struct {
 	Verified       string        `bson:"verified"`
 	Approved       bool          `bson:"approved"`
 	Plus           string        `bson:"plus"`
+	Expiry         time.Time     `bson:"expiry"`
+	Duration       string        `bson:"duration"`
 	Date           time.Time     `bson:"date"`
 	Pg             Page
 }
@@ -88,11 +90,14 @@ func Addlisting(r Form) error {
 
 	p := rand.New(rand.NewSource(time.Now().UnixNano()))
 	str := strconv.Itoa(p.Intn(10))
-
+	r.Date = time.Now()
 	if r.Image != "" {
-		byt, err := base64.StdEncoding.DecodeString(strings.Split(r.Image, "base64,")[1])
-		if err != nil {
-			log.Println(err)
+		tm, _ := strconv.Atoi(r.Duration)
+		t := r.Date.AddDate(tm, 1, 0)
+		r.Expiry = t
+		byt, er := base64.StdEncoding.DecodeString(strings.Split(r.Image, "base64,")[1])
+		if er != nil {
+			log.Println(er)
 		}
 
 		meta := strings.Split(r.Image, "base64,")[0]
@@ -137,7 +142,6 @@ func Addlisting(r Form) error {
 	r.Slug = strings.Replace(r.Slug, "&", "-", -1) + str
 	r.Slug = strings.Replace(r.Slug, "/", "-", -1) + str
 	r.Slug = strings.Replace(r.Slug, ",", "-", -1) + str
-	r.Date = time.Now()
 	index := mgo.Index{
 		Key:        []string{"$text:specialisation", "$text:companyname"},
 		Unique:     true,
@@ -192,17 +196,17 @@ func UpdateListing(id string) error {
 }
 
 //TimeUpdateListing to change time
-func TimeUpdateListing(id string) error {
+func TimeUpdateListing(id string, expiry string) error {
 	session, err := mgo.Dial(config.xx)
 	if err != nil {
 		return err
 	}
 
 	defer session.Close()
-
+	x, _ := strconv.Atoi(expiry)
 	collection := session.DB(config.xy).C("Listings")
 	query := bson.M{"slug": id}
-	change := bson.M{"$set": bson.M{"date": time.Now()}}
+	change := bson.M{"$set": bson.M{"expiry": time.Now().AddDate(x, 1, 0)}}
 
 	err = collection.Update(query, change)
 
@@ -240,7 +244,7 @@ func GetTr() error {
 	defer session.Close()
 
 	collection := session.DB(config.xy).C("Listings")
-	change := bson.M{"category": "TRANSPORT-TRAVELS8"}
+	change := bson.M{"$set": bson.M{"category": "TRANSPORT-TRAVELS8"}}
 	err = collection.Update(bson.M{"category": bson.RegEx{"TRANSP*", ""}}, change)
 	if err != nil {
 		log.Println(err)
@@ -417,7 +421,13 @@ func Approvehandler(w http.ResponseWriter, r *http.Request) {
 
 func TimeUpdatehandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("q")
-	TimeUpdateListing(id)
+	expiry := r.URL.Query().Get("expiry")
+	if expiry == "3000" {
+		expiry = "1"
+	} else {
+		expiry = "2"
+	}
+	TimeUpdateListing(id, expiry)
 	http.ServeFile(w, r, "cust/partials/success.html")
 }
 

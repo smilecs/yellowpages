@@ -1,16 +1,20 @@
 var app = angular.module('yellow', ['ngRoute', 'ngCookies']);
 app.config(['$routeProvider', function($routeProvider){
 	$routeProvider.when('/', {
-		templateUrl: '/cust',
+		templateUrl: '/cust/partials/addList.html',
     controller: 'AddCtrl'
 	});
 }]);
 
-app.controller('AddCtrl', ['$scope', '$http', function($scope, $http){
+app.controller('AddCtrl', ['$location', '$scope', '$http', function($location, $scope, $http){
 $scope.data = {};
 $scope.cats = {};
 $scope.show = [];
 $scope.files = [];
+var tmp = $location.absUrl().split("?");
+tmp = tmp[1].split("=");
+tmp = tmp[1].split("#");
+console.log(tmp);
 $http.get('/api/getcat').success(function(data, status){
   $scope.cats = data;
 });
@@ -18,6 +22,7 @@ $scope.add = function(data){
   data.images = $scope.files;
   data.image = $scope.f;
   console.log(data);
+	data.Duration = tmp;
 
   $http.post('/api/addlisting', data).success(function(data, status){
     $scope.data = {};

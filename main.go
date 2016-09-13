@@ -131,7 +131,7 @@ func main() {
 	router.Get("/fix", commonHandlers.ThenFunc(Fix))
 	//forpayment
 	router.Get("/newapp", commonHandlers.ThenFunc(PaymentAfter))
-	router.Post("/newapp", commonHandlers.ThenFunc(Post_Params))
+	router.Get("/napp", commonHandlers.ThenFunc(Post_Params))
 	router.Get("/error", commonHandlers.ThenFunc(NoPaymentAfter))
 
 	PORT := os.Getenv("PORT")

@@ -21,9 +21,23 @@ type View struct {
 	Specialisation string        `bson:"specialisation"`
 	Category       string        `bson:"category"`
 	Type           string
-	Image          string
-	Slug           string
-	Dhr            string
+	Image          string    `bson:"image"`
+	Images         []string  `bson:"images"`
+	Slug           string    `bson:"slug"`
+	About          string    `bson:"about"`
+	Username       string    `bson:"username"`
+	Password       string    `bson:"password"`
+	RC             string    `bson:"rc"`
+	Branch         string    `bson:"branch"`
+	Product        string    `bson:"product"`
+	Email          string    `bson:"email"`
+	Website        string    `bson:"website"`
+	Dhr            string    `bson:"dhr"`
+	Verified       string    `bson:"verified"`
+	Approved       bool      `bson:"approved"`
+	Plus           string    `bson:"plus"`
+	Expiry         time.Time `bson:"expiry"`
+	Duration       string    `bson:"duration"`
 }
 
 type QuickTeller struct {
@@ -94,7 +108,7 @@ func RenderView(id string, count int, page int, perpage int) (NewView, error) {
 	ik := len(res)
 	for i := 0; i < len(tmp); i++ {
 		rs := tmp[i]
-		if rs.Plus == "false" || time.Now().Sub(rs.Date).Hours() > 740 {
+		if rs.Plus == "false" || rs.Date.Before(rs.Expiry) {
 			if (i+1)%2 > 0 {
 				if k < ik {
 					views := new(View)
@@ -196,6 +210,9 @@ func PlusView(page int, perpage int) (NewView, error) {
 		view.Address = rs.Address
 		view.CompanyName = rs.CompanyName
 		view.Image = rs.Image
+		view.About = rs.About
+		view.Website = rs.Website
+		view.Images = rs.Images
 		view.Specialisation = rs.Specialisation
 		view.Type = rs.Plus
 		result = append(result, view)
@@ -223,7 +240,7 @@ func Search(query1 string, count int, page int, perpage int) (Result, error) {
 		return Results, err
 	}
 
-	q := col.Find(bson.M{"$text": bson.M{"$search": query1}})
+	q := col.Find(bson.M{"$text": bson.M{"$search": query1}}).Sort("-plus")
 	Page := SearchPagination(count, page, perpage)
 	err = q.Limit(perpage).Skip(Page.Skip).All(&Results.Data)
 	Results.Pag = Page
@@ -240,25 +257,14 @@ func Get_Params(w http.ResponseWriter, r *http.Request) {
 }
 
 func Post_Params(w http.ResponseWriter, r *http.Request) {
-	log.Println(r.FormValue("resp_code"))
-	/*http.Header().Set("requestReference", r.URL.Query().Get("q"))
-	http.Header().Set("clientid", "calabaryellowpages.com")
-	http.Header().Set("Hash", "value string")
-
-	req, err := http.Get("https://stageserv.interswitchng.com/quicktellercheckout/api/v2/transaction/" + r.URL.Query().Get("q") + "? isRequestRef=true")
-	if err != nil {
-		fmt.Printf("%s", err)
-		return err
-	}
-	defer req.Body.Close()
-	contents, err := ioutil.ReadAll(req.Body)
-	if r.FormValue("resp_code") != "" {
-		log.Println("mjjjjjjj")
-		//http.Redirect(w, r, "/newapp", http.StatusFound)
-		http.ServeFile(w, r, "cust/newapp.html")
+	var q string
+	if r.URL.Query().Get("q") == "3000" {
+		q = "1"
 	} else {
-
-	}*/
+		q = "2"
+	}
+	http.Redirect(w, r, "/newapp?q="+q, http.StatusSeeOther)
+	//http.ServeFile(w, r, "cust/newapp.html?q=odpos")
 }
 
 func FalseH(w http.ResponseWriter, r *http.Request) {

@@ -18,11 +18,13 @@
         <img src="assets/logo.png" />
       </a>
       <div class="nav-search-and-link">
+        <form>
         <div class="nav-search">
           <input class=""
                  type="text" ng-model="data.query"/>
-          <button class="" ng-click="send(data.query)">Search</button>
+          <button type="submit" class="" ng-click="send(data.query)">Search</button>
         </div>
+        </form>
         <div class="nav-links">
           <a href="#/">Home</a>
           <a href="#/plus/PlusListings">PlusListings</a>
