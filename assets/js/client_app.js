@@ -1,4 +1,4 @@
-var app = angular.module('yellowclient', ['ngRoute', 'ngMaterial']);
+var app = angular.module('yellowclient', ['ngRoute', 'ngMaterial', 'ui.bootstrap']);
 app.config(['$routeProvider', function($routeProvider){
 	$routeProvider.when('/', {
 		templateUrl: '/home',
@@ -32,11 +32,21 @@ app.config(['$routeProvider', function($routeProvider){
 app.controller('HomeCtrl', ['$scope', '$http','$location', '$anchorScroll', function($scope, $http, $location, $anchorScroll){
 $scope.result = {};
 $scope.show = "show";
+$scope.slides = [];
 $http.get('/api/getcat').success(function(data, status){
-  console.log(data);
 	$scope.show = "hide";
   $scope.result = data;
 });
+
+$http.get('/slider?page=1').success(function(data,status){
+	$scope.category = data.Data;
+	$scope.pages = data;
+	$scope.slides = data.Data;
+	$scope.myInterval = 3000;
+
+});
+
+
 $scope.send = function(data){
 	$location.path('/result/'+data);
 };
@@ -60,7 +70,6 @@ $http.get('/api/newview?page=1&q='+$routeParams.id).success(function(data,status
 	$scope.category = data.Data;
 	$scope.pages = data;
 	$scope.show = "hide";
-	console.log(data)
 	$scope.newScope = data.Pag.Pages;
 	for(var i =0; i < $scope.newScope.length; i++){
 		var tmp = {"data": i+1};
@@ -82,7 +91,6 @@ $scope.newerScope = [];
 	$http.get('/api/newview?page='+data+"&q="+$routeParams.id).success(function(data, status){
 		$scope.category = data.Data;
 		$scope.pages = data;
-		console.log(data)
 		$scope.newScope = data.Pag.Pages;
 		for(var i =0; i < $scope.newScope.length; i++){
 			var tmp = {"data": i+1};
@@ -108,7 +116,6 @@ $http.get('/api/falseview?page=1').success(function(data,status){
 	$scope.category = data.Data;
 	$scope.pages = data;
 	$scope.show = "hide";
-	console.log(data)
 	$scope.newScope = data.Pag.Pages;
 	for(var i =0; i < $scope.newScope.length; i++){
 		var tmp = {"data": i+1};
@@ -130,7 +137,6 @@ $scope.newerScope = [];
 	$http.get('/api/falseview?page='+data).success(function(data, status){
 		$scope.category = data.Data;
 		$scope.pages = data;
-		console.log(data)
 		$scope.newScope = data.Pag.Pages;
 		for(var i =0; i < $scope.newScope.length; i++){
 			var tmp = {"data": i+1};
@@ -153,7 +159,6 @@ $http.get('/api/getsingle?q='+$routeParams.id).success(function(data, status){
 $http.get('/advert?page=1').success(function(data,status){
 	$scope.category = data.Data;
 	$scope.pages = data;
-	console.log(data)
 	$scope.newScope = data.Pag.Pages;
 	for(var i =0; i < $scope.newScope.length; i++){
 		var tmp = {"data": i+1};
@@ -172,10 +177,8 @@ $scope.pages = {};
 $scope.newScope = {};
 $scope.newerScope = [];
 	$http.get('/api/falseview?page='+data).success(function(data, status){
-	console.log(data);
 	$scope.category = data.Data;
 	$scope.pages = data;
-	console.log(data)
 	$scope.newScope = data.Pag.Pages;
 	for(var i =0; i < $scope.newScope.length; i++){
 		var tmp = {"data": i+1};
@@ -196,7 +199,6 @@ $http.get('/api/getsinglelist?q='+$routeParams.id).success(function(data, status
   $scope.result = data;
 });
 $http.get('/api/getsingle?q='+$routeParams.cat).success(function(data,status){
-	console.log(data);
 	$scope.category = data;
 });
 $scope.send = function(data){
@@ -219,7 +221,6 @@ $location.path('/result/'+data);
 		$scope.category = data.Data;
 		$scope.show = "hide";
 		$scope.pages = data;
-		console.log(data)
 		$scope.newScope = data.Pag.Pages;
 		for(var i =0; i < $scope.newScope.length; i++){
 			var tmp = {"data": i+1};
@@ -238,7 +239,6 @@ app.controller('Searchbtn', function($scope){
 
 app.controller('PageCtrl', function($scope, $http, $routeParams){
 	$http.post('/api/result?page='+$routeParams.index+'&q='+$routeParams.query).success(function(data, status){
-		console.log(data);
 		$scope.category = data.Data;
 		$scope.pages = data;
 	});

@@ -125,6 +125,7 @@ func main() {
 	router.Get("/api/plus", commonHandlers.ThenFunc(GetPlusPayHandler))
 	router.Get("/api/adminList", commonHandlers.ThenFunc(GetAdminsHandler))
 	router.Get("/false", commonHandlers.ThenFunc(Fictionalcat))
+	router.Get("/slider", commonHandlers.ThenFunc(SliderHandler))
 
 	router.Get("/advert", commonHandlers.ThenFunc(FalseA))
 	router.Get("/Upload", commonHandlers.ThenFunc(CsvHandler))

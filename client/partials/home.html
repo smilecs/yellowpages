@@ -37,17 +37,19 @@
               </div>
               </form>
               <br/>
-              <div style="text-align:center;">
-                <div style="width:80%; text-align:center">
+              <div id="slides_control">
+                <div>
+      <carousel interval="myInterval">
+        <slide ng-repeat="slide in slides" active="slide.active">
+          <img ng-src="{{slide.Image}}">
+          <div class="carousel-caption">
+            
+          </div>
+        </slide>
+      </carousel>
+    </div>
+  </div>
 
-                  <div style="width:49%; display:inline-block">
-                    <img src="//placehold.it/700x200" style="width:100%; height:250px;" class="dib"/>
-                  </div>
-                  <div style="width:49%; display:inline-block">
-                    <img src="//placehold.it/700x200" style="width:100%; height:250px " class="dib"/>
-                  </div>
-                </div>
-              </div>
             </div>
 
             <div style='display:table-row-group; vertical-align: bottom; text-align:center;'>
