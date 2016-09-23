@@ -17,3 +17,32 @@
 <div class="form-group">
 <button type="button" class="btn btn-info" ng-click="add(data)">Create Advert</button>
 </div>
+
+<div class="row">
+   <md-progress-circular md-mode="{{indeterminate}}" ng-show="show == 'show'"></md-progress-circular>
+           <div class="col-md-6" ng-repeat="data in category">
+             <div class="box box-solid">
+               <div class="box-header with-border">
+                 <i class="fa fa-text-width"></i>
+
+               </div><!-- /.box-header -->
+               <div class="box-body">
+                 <img class="img img-thumbnail pull-left item-img"
+                      src="{{data.Image}}" />
+               </div><!-- /.box-body -->
+             </div><!-- /.box -->
+           </div><!-- ./col -->
+         </div>
+
+         <ul class="pagination">
+           <li>
+             <a href="#" aria-label="Previous">
+               <span aria-hidden="true">&laquo;</span>
+             </a>
+           </li>
+           <li ng-repeat="num in newerScope"><a href="#" ng-click="$event.preventDefault();sends($index + 1)">{{$index +1}}</a></li>
+             <a href="#" aria-label="Next">
+               <span aria-hidden="true">&raquo;</span>
+             </a>
+           </li>
+         </ul>

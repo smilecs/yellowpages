@@ -18,6 +18,7 @@ $scope.add = function(data){
     Notification({message: 'Success', title: 'Listing Management'});
     $scope.show = "hide";
     $scope.files = [];
+    $scope.f = {};
     $scope.image = '';
     //$location.path('/');
 

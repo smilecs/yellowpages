@@ -207,14 +207,14 @@
     var baseUrl = "";
     for(var i = 0; i < 7; i++){
       num += Math.floor((Math.random() * 10) + 1);
-      console.log(num);
+    //  console.log(num);
     }
     rq = num + rq;
     //rq = '12345676026'
     document.getElementById('customerId').innerHTML = num;
     document.getElementById('requestRequest').value = rq;
     document.getElementById('url').value = "https://calabaryellowpages.herokuapp.com/newapp?q=" + rq;
-
+    console.log(rq);
     QTCheckout.paymentItems = QTCheckout.paymentItems || [];
     QTCheckout.paymentItems.push({
 
