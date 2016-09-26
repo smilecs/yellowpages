@@ -21,7 +21,7 @@
         rel="stylesheet" />
         <link rel="stylesheet" href="../assets/dist/css/angular-material.min.css">
 </head>
-<body ng-app="yellowclient" style="margin-bottom:-100px;">
+<body ng-app="yellowclient" style="margin-bottom:-100px;" >
 <!-- ng-view for angular routed content -->
 <div ng-view=""></div>
 
@@ -101,10 +101,12 @@
       <p class="f3 pa3 measure dib" >
         Fill the form below to Pay for, and add Pluslisting to yellowpages. After payment, you will be redirected to a page to insert your details.
       </p>
+      <em><small><a class="quickteller-checkout-anchor" id="99401" style="text-align:left;">payment button
+will appear here shortly...</a></small></em>
         <form action="https://stageserv.interswitchng.com/quicktellercheckout" method="post" >
           <input type="hidden" name="paymentCode" value="99401" />
           <!--<input type="hidden" name="amount" id="amount" value="99500" />-->
-          <input type="hidden" name="customerId" id="customerId" value="90680596759" />
+          <!--<input type="hidden" name="customerId" id="customerId" value="90680596759" />
           <input type="hidden" name="redirecturl" id="url" value="https://calabaryellowpages.herokuapp.com" />
           <input type="hidden" name="requestRequest" id="requestRequest" value="10030000002345" class="form-control"/>
 
@@ -114,10 +116,11 @@
             </div>
             <div class="col-sm-3" style="display:inline-block;float:none;">
               <input type="text" name="emailAddress" placeholder="Email Address" class="form-control b--black-70 br0"/>
-            </div>
+            </div>-->
             <div class="col-sm-3" style="display:inline-block;float:none;">
 
-              <select id="amt" name="amount" >
+              <select id="amt" name="amount" onchange="modify()" >
+                <option value=""> </option>
                 <option value="3000">1 Year (3000)</option>
                 <option value="6000">2 Years (6000)</option>
               </select>
@@ -146,6 +149,7 @@
   <div class="container p3 dt ">
     <div class="tc dtc v-mid pa1 pa3-ns white-90 ">
       <h3 class=" f2 ">For more information about how to enlist</h3>
+
       <div class="pt3">
           <a class="btn btn-lg  ba b--white-90 black-80 mr2 br0 fa fa-user"  href="/assets/info.pdf" target="_blank"> <img src="/assets/d.png"/>&nbsp;&nbsp;Download</small></a>
       </div>
@@ -195,12 +199,16 @@
 <script src="../assets/bootstrap/js/bootstrap.min.js">
 </script> -->
 <script type="text/javascript">
+  function modify(){
+      document.getElementById('amt').value = document.getElementById('amt').value;
+      var mlk = document.getElementById('amt').value;
+      console.log(document.getElementById('amt').value);
 
-  /*function modify(data){
-      document.getElementById('amount').value = data;
-  };*/
+  };
+  var QTCheckout = QTCheckout || {};
+  QTCheckout.paymentItems = QTCheckout.paymentItems || [];
     var num = "";
-    var QTCheckout = QTCheckout || {};
+
     var rq = "6026";
     var testMode = false;
 
@@ -211,28 +219,32 @@
     }
     rq = num + rq;
     //rq = '12345676026'
-    document.getElementById('customerId').innerHTML = num;
+    /*document.getElementById('customerId').value = num;
     document.getElementById('requestRequest').value = rq;
-    document.getElementById('url').value = "https://calabaryellowpages.herokuapp.com/newapp?q=" + rq;
-    console.log(rq);
-    QTCheckout.paymentItems = QTCheckout.paymentItems || [];
+    document.getElementById('url').value = "https://calabaryellowpages.herokuapp.com/napp?q=" + rq;*/
+  //  var am = document.getElementById('amt').value;
+    var url = "https://calabaryellowpages.herokuapp.com/napp?q=" + rq;
+    var rr = rq;
+    var ii = num;
+
+
     QTCheckout.paymentItems.push({
 
         paymentCode: '99401',
 
         extraData: {
 
-        amount: "200000",
+        amount: '3000',
 
         buttonSize: 'small',
 
-        customerId: num,
+        customerId: ii,
 
         mobileNumber: 'default',
 
         emailAddress: 'default',
 
-        redirectUrl: 'https://calabaryellowpages.herokuapp.com/newapp',
+        redirectUrl: url,
 
 
         requestReference: rq
