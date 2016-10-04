@@ -206,13 +206,14 @@ will appear here shortly...</a></small></em>
 
   };
   var QTCheckout = QTCheckout || {};
+  var num = "";
+
+  var rq = "6026";
+  var testMode = true;
+
+  var baseUrl = "";
   QTCheckout.paymentItems = QTCheckout.paymentItems || [];
-    var num = "";
 
-    var rq = "6026";
-    var testMode = false;
-
-    var baseUrl = "";
     for(var i = 0; i < 7; i++){
       num += Math.floor((Math.random() * 10) + 1);
     //  console.log(num);
@@ -223,7 +224,7 @@ will appear here shortly...</a></small></em>
     document.getElementById('requestRequest').value = rq;
     document.getElementById('url').value = "https://calabaryellowpages.herokuapp.com/napp?q=" + rq;*/
   //  var am = document.getElementById('amt').value;
-    var url = "https://calabaryellowpages.herokuapp.com/napp?q=" + rq;
+    var url = "http://calabaryellowpages.com/napp?q=" + rq;
     var rr = rq;
     var ii = num;
 
@@ -254,7 +255,7 @@ will appear here shortly...</a></small></em>
     });
 
     if (testMode == true)
-        baseUrl ="https://stageserv.interswitchng.com/quicktellercheckout/scripts/quickteller-checkout-min.js?v=";
+        baseUrl ="https://pwq.sandbox.interswitchng.com/scripts/quickteller-checkout-min.js?v=";
     else
         baseUrl = "https://paywith.quickteller.com/scripts/quickteller-checkout-min.js?v=";
     if(!QTCheckout.qtScript) {
