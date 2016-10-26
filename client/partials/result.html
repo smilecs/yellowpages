@@ -1,107 +1,101 @@
-  <div class='text-center'>
-  <style>
-    .logo{
+<div class='text-center'>
+   <style>
+      .logo{
       display:inline-block;
       height:40px;
       float:left;
-
-
-    }
-    .logo img{
-
+      }
+      .logo img{
       height:100%;
       display:inline-block;
-    }
-  </style>
-  <section class="nav-">
-    <a class="logo dib mt3" href="#/">
+      }
+   </style>
+   <section class="nav-">
+      <a class="logo dib mt3" href="#/">
       <img src="assets/logo.png"  class="dib"/>
-    </a>
-    <div class="nav-search-and-link">
-      <form>
-      <div class="nav-search">
-        <input class=""
-               type="text" ng-model="data.query"/>
-        <button type="submit" class="" ng-click="send(data.query)">Search</button>
-      </div>
-      </form>
-      <div class="nav-links">
-        <a href="#/">Home</a>
-        <a href="#/plus/PlusListings">PlusListings</a>
-        <a href="#/advert/Sponsored">Adverts</a>
-      </div>
-    </div>
-  </section>
-  <section class="hero-xs"
-           style='display:table; background-image:url(assets/yellow-pages.jpg); background-size:cover'>
-    <div style='display:table-cell; vertical-align: middle; font-weight:100'>
-      <h1 class="hero-h1">
-      <strong>Query:</strong><span class="dib">{{pages.Query}}</span></h1>
-    </div>
-  </section>
-  <br />
-  <br />
-  <br />
-  <section class="item-listing-parent">
-
-      <md-progress-circular md-mode="indeterminate" ng-show="show == 'show'"></md-progress-circular>
-
-    <section class="item-listings">
-      <div class="item"
-           ng-repeat="data in category">
-        <div ng-if="data.Plus =='true'">
-          <span class="pull-right verified-mark">
-            <strong>&#10004; verified</strong>
-          </span>
-          <h1>
-            <img class="img img-thumbnail pull-left item-img"
-                 src="{{data.Image}}" />
-            <a class="item-title"
-               href="#/listing/{{data.Category}}/{{data.Slug}}">{{data.CompanyName}}</a>
-          </h1>
-          <address class="">{{data.Address}}</address>
-          <span><strong>{{data.Specialisation}}</strong></span><br />
-          <span><strong>{{data.Category}}</strong></span><br />
-          <span>{{data.Dhr}}</span><br />
-          <a href="tel:{{data.Hotline}}">Call {{data.Hotline}}</a>
+      </a>
+      <div class="nav-search-and-link">
+         <form class="dib">
+            <div class="nav-search">
+               <input class=""
+                  type="text" ng-model="data.query"/>
+               <button type="submit" class="" ng-click="send(data.query)">Search</button>
+            </div>
+         </form>
+         <div class="nav-links">
+            <a href="#/">Home</a>
+            <a href="#/plus/PlusListings">PlusListings</a>
+            <a href="#/advert/Sponsored">Adverts</a>
          </div>
-        <div ng-if="data.Plus == 'false'">
-          <h1>{{data.CompanyName}}</h1>
-          <address class="">{{data.Address}}</address>
-          <span><strong>{{data.Specialisation}}</strong></span><br />
-          <span>{{data.Dhr}}</span><br />
-          <span><strong>{{data.Category}}</strong></span><br />
-          <a href="tel:{{data.Hotline}}">Call {{data.Hotline}}</a>
-        </div>
-
       </div>
+   </section>
+   <section class="hero-xs"
+      style='display:table; background-image:url(assets/yellow-pages.jpg); background-size:cover'>
+      <div style='display:table-cell; vertical-align: middle; font-weight:100'>
+         <h1 class="hero-h1 black dib f1 f-6-ns pv2">
+            <span class="dib">{{pages.Query}}</span>
+         </h1>
+      </div>
+   </section>
+   <br />
+   <br />
+   <br />
+   <section class="item-listing-parent">
+     <div class="tc" ng-show="show == 'show'">
+       <img src="/assets/ripple.gif" class="dib"/>
+     </div>
+      <section class="item-listings">
+         <div class="item"
+            ng-repeat="data in category">
+            <div ng-if="data.Plus =='true'">
+               <span class="pull-right verified-mark">
+               <strong>✔ verified</strong>
+               </span>
+               <h1>
+                  <img class="img img-thumbnail pull-left item-img"
+                     src="{{data.Image}}" />
+                  <a class="item-title"
+                     href="#/listing/{{data.Category}}/{{data.Slug}}">{{data.CompanyName}}</a>
+               </h1>
+               <address class="">{{data.Address}}</address>
+               <span><strong>{{data.Specialisation}}</strong></span><br />
+               <span><strong>{{data.Category}}</strong></span><br />
+               <span>{{data.Dhr}}</span><br />
+               <a href="tel:{{data.Hotline}}">Call {{data.Hotline}}</a>
+            </div>
+            <div ng-if="data.Plus == 'false'">
+               <h1>{{data.CompanyName}}</h1>
+               <address class="">{{data.Address}}</address>
+               <span><strong>{{data.Specialisation}}</strong></span><br />
+               <span>{{data.Dhr}}</span><br />
+               <span><strong>{{data.Category}}</strong></span><br />
+               <a href="tel:{{data.Hotline}}">Call {{data.Hotline}}</a>
+            </div>
+         </div>
+         <div style="clear:both"></div>
+      </section>
       <div style="clear:both"></div>
-    </section>
-
-    <div style="clear:both"></div>
-
-  </section>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <nav>
+   </section>
+   <br />
+   <br />
+   <br />
+   <br />
+   <br />
+   <nav>
       <ul class="pagination">
-        <li>
-          <a href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li ng-repeat="num in pages.Pag.Pages"><a href="#/result/{{pages.Query}}/{{$index + 1}}">{{$index + 1}}</a></li>
-        <li>
-          <a href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
+         <li>
+            <a href="#" aria-label="Previous">
+            <span aria-hidden="true">«</span>
+            </a>
+         </li>
+         <li ng-repeat="num in pages.Pag.Pages"><a href="#/result/{{pages.Query}}/{{$index + 1}}">{{$index + 1}}</a></li>
+         <li>
+            <a href="#" aria-label="Next">
+            <span aria-hidden="true">»</span>
+            </a>
+         </li>
       </ul>
-    </nav>
-
+   </nav>
+   <div style="clear:both"></div>
+</div>
 <div style="clear:both"></div>
-  </div>
-  <div style="clear:both"></div>

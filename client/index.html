@@ -1,279 +1,236 @@
 <!DOCTYPE html>
 <html >
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content=
-"width=device-width, initial-scale=1">
-<meta property="og:title" content="Calabar YellowPages">
-<meta property="og:description" content="Looking for Businesses in Cross River State? or Looking to add yours?">
-<meta property="og:site_name" content="Calabar YellowPages"/>
-<meta property="og:image" content="http://calabarpages.com/assets/yellow-pages.jpg">
-<meta property="og:image:secure_url" content="https://calabaryellowpages.herokuapp.com/assets/yellow-pages.jpg">
-<meta property="og:image:type" content="image/jpg">
-<meta property="og:image:width" content="1500">
-<meta property="og:image:height" content="1500">
-<title>Yellow Pages</title>
-<!-- Bootstrap 3.3.5 -->
-<link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="/assets/tachyons.min.css">
-  <link href="/assets/main.css"
-        rel="stylesheet" />
-        <link rel="stylesheet" href="../assets/dist/css/angular-material.min.css">
-</head>
-<body ng-app="yellowclient" style="margin-bottom:-100px;">
-<!-- ng-view for angular routed content -->
-<div ng-view=""></div>
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content=
+         "width=device-width, initial-scale=1">
+      <meta property="og:title" content="Calabar YellowPages">
+      <meta property="og:description" content="Looking for Businesses in Cross River State? or Looking to add yours?">
+      <meta property="og:site_name" content="Calabar YellowPages"/>
+      <meta property="og:image" content="http://calabarpages.com/assets/yellow-pages.jpg">
 
-<style >
-  .join-us{
-    width:100%;
-    min-height: 300px;
-  }
-
-  /* -----
-  SVG Icons - svgicons.sparkk.fr
-  ----- */
-
-  .svg-icon {
-    width: 1em;
-    height: 1em;
-  }
-
-  .svg-icon path,
-  .svg-icon polygon,
-  .svg-icon rect {
-    fill: #4691f6;
-  }
-
-  .svg-icon circle {
-    stroke: #4691f6;
-    stroke-width: 1;
-  }
-
-  a.md-default-theme:not(.md-button), a:not(.md-button) {
-      color: inherit;
-  }
-
-  a.md-default-theme:not(.md-button):hover, a:not(.md-button):hover {
-      color: inherit;
-  }
+      <meta property="og:image:type" content="image/jpg">
+      <meta property="og:image:width" content="1500">
+      <meta property="og:image:height" content="1500">
+      <title>Yellow Pages</title>
+        <link rel="stylesheet" href="/assets/tachyons.min.css">
+      <!-- Bootstrap 3.3.5 -->
+      <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/assets/tachyons.min.css">
+      <link href="/assets/main.css"
+         rel="stylesheet" />
 
 
+   </head>
+   <body ng-app="yellowclient" style="margin-bottom:-100px;">
+      <!-- ng-view for angular routed content -->
+      <div ng-view=""></div>
+      <style >
+         .join-us{
+         width:100%;
+         min-height: 300px;
+         }
+         /* -----
+         SVG Icons - svgicons.sparkk.fr
+         ----- */
+         .svg-icon {
+         width: 1em;
+         height: 1em;
+         }
+         .svg-icon path,
+         .svg-icon polygon,
+         .svg-icon rect {
+         fill: #4691f6;
+         }
+         .svg-icon circle {
+         stroke: #4691f6;
+         stroke-width: 1;
+         }
+         a.md-default-theme:not(.md-button), a:not(.md-button) {
+         color: inherit;
+         }
+         a.md-default-theme:not(.md-button):hover, a:not(.md-button):hover {
+         color: inherit;
+         }
+      </style>
+      <style type="text/css">
+         #share-buttons a {
+         text-decoration:none;
+         cursor: pointer;
+         cursor: hand;
+         }
+         #share-buttons img {
+         width: 70px;
+         padding: 5px;
+         border: 0;
+         box-shadow: 0;
+         display: inline;
+         }
+      </style>
 
-</style>
-
-
-<style type="text/css">
-
-#share-buttons a {
-  text-decoration:none;
-  cursor: pointer;
-  cursor: hand;
-}
-
-#share-buttons img {
-  width: 70px;
-  padding: 5px;
-  border: 0;
-  box-shadow: 0;
-  display: inline;
-}
-
-</style>
-<meta property="og:title" content="Calabar YellowPages">
-<meta property="og:description" content="Looking for Businesses in Cross River State? or Looking to add yours?">
-<meta property="og:site_name" content="Calabar YellowPages"/>
-<meta property="og:image" content="http://calabarpages.com/assets/yellow-pages.jpg">
-<meta property="og:image:secure_url" content="https://calabaryellowpages.herokuapp.com/assets/yellow-pages.jpg">
-<meta property="og:image:type" content="image/jpg">
-<meta property="og:image:width" content="1500">
-<meta property="og:image:height" content="1500">
-<section class="join-us dt" style="background-image:url(assets/join.jpg); background-size:cover">
-  <div class="tc dtc v-mid pa1 pa3-ns measure">
-    <h2 class="tc f1 ">Register your business on Calabar Yellowpages</h2>
-    <div class="pt3">
-        <a class="btn btn-lg  mr2 br0" href="/newlisting" style="background-color:rgba(255, 212, 0, 0.7); ">Regular Listing<br/><small>(free)</small></a>
-        <a ng-click="showDiv = !showDiv" class="btn btn-lg  dim bg-black white br0 ph5" style="color:white">Plus Listing<br/><small>(₦250/month)</small></a>
-    </div>
-
-    <div ng-show="showDiv" class="tc pt4" >
-      <p class="f3 pa3 measure dib" >
-        Fill the form below to Pay for, and add Pluslisting to yellowpages. After payment, you will be redirected to a page to insert your details.
-      </p>
-        <form action="https://stageserv.interswitchng.com/quicktellercheckout" method="post" >
-          <input type="hidden" name="paymentCode" value="99401" />
-          <!--<input type="hidden" name="amount" id="amount" value="99500" />-->
-          <input type="hidden" name="customerId" id="customerId" value="90680596759" />
-          <input type="hidden" name="redirecturl" id="url" value="https://calabaryellowpages.herokuapp.com" />
-          <input type="hidden" name="requestRequest" id="requestRequest" value="10030000002345" class="form-control"/>
-
-          <div class="" style="text-align:center; display:block; width:100%;">
-            <div class="col-sm-3" style="display:inline-block;float:none;">
-              <input type="text" name="mobileNumber" placeholder="Your Mobile Number" class="form-control b--black-70 br0"/>
+      <section class="join-us dt" style="background-image:url(assets/join.jpg); background-size:cover">
+         <div class="tc dtc v-mid pa1 pa3-ns measure">
+         <h2 class="tc f1 ">Register your business on Calabar Yellowpages</h2>
+         <div class="pt3">
+            <a class="btn btn-lg  mr2 br0" href="/newlisting" style="background-color:rgba(255, 212, 0, 0.7); ">Regular Listing<br/><small>(free)</small></a>
+            <a ng-click="showDiv = !showDiv" class="btn btn-lg  dim bg-black white br0 ph5" style="color:white">Plus Listing<br/><small>(₦250/month)</small></a>
+         </div>
+         <div ng-show="showDiv" class="tc pt4" >
+            <p class="f3 pa3 measure dib" >
+               Fill the form below to Pay for, and add Pluslisting to yellowpages. After payment, you will be redirected to a page to insert your details.
+            </p>
+            <form action="https://stageserv.interswitchng.com/quicktellercheckout" method="post" >
+               <input type="hidden" name="paymentCode" value="99401" />
+               <!--<input type="hidden" name="amount" id="amount" value="99500" />-->
+               <input type="hidden" name="customerId" id="customerId" value="90680596759" />
+               <input type="hidden" name="redirecturl" id="url" value="https://calabaryellowpages.herokuapp.com" />
+               <input type="hidden" name="requestRequest" id="requestRequest" value="10030000002345" class="form-control"/>
+               <div class="" style="text-align:center; display:block; width:100%;">
+                  <div class="col-sm-3" style="display:inline-block;float:none;">
+                     <input type="text" name="mobileNumber" placeholder="Your Mobile Number" class="form-control b--black-70 br0"/>
+                  </div>
+                  <div class="col-sm-3" style="display:inline-block;float:none;">
+                     <input type="text" name="emailAddress" placeholder="Email Address" class="form-control b--black-70 br0"/>
+                  </div>
+                  <div class="col-sm-3" style="display:inline-block;float:none;">
+                     <select id="amt" name="amount" >
+                        <option value="3000">1 Year (3000)</option>
+                        <option value="6000">2 Years (6000)</option>
+                     </select>
+                  </div>
+                  <div class="clearfix"></div>
+                  <br/>
+                  <div class="buttons ">
+                     <div class="right">
+                        <input type="submit" value="Continue" class="btn btn-lg  dim bg-black white br0" />
+                     </div>
+                  </div>
+            </form>
             </div>
-            <div class="col-sm-3" style="display:inline-block;float:none;">
-              <input type="text" name="emailAddress" placeholder="Email Address" class="form-control b--black-70 br0"/>
+         </div>
+      </section>
+      <section class="bg-black-90 text-center pv3">
+         <br/>
+         <div class="container p3 dt ">
+            <div class="tc dtc v-mid pa1 pa3-ns white-90 ">
+               <h3 class=" f2 ">For more information about how to enlist</h3>
+               <div class="pt3">
+                  <a class="btn btn-lg  ba b--white-90 black-80 mr2 br0 fa fa-user"  href="/assets/info.pdf" target="_blank"> <img src="/assets/d.png"/>  Download</small></a>
+               </div>
             </div>
-            <div class="col-sm-3" style="display:inline-block;float:none;">
-
-              <select id="amt" name="amount" >
-                <option value="3000">1 Year (3000)</option>
-                <option value="6000">2 Years (6000)</option>
-              </select>
+            <div style="clear:both"></div>
+            <br/><br/>
+         </div>
+      </section>
+      <section class="gray" style="background-color:#101010">
+         <div class="tc pa3">
+            <span>Follow Us</span>
+            <div id="share-buttons" class=" db pv2">
+               <!-- Facebook -->
+               <a href="https://www.facebook.com/Calabar-Yellow-Pages-211417710464/?fref=ts" target="_blank">
+               <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
+               </a>
+               <!-- Twitter -->
+               <a href="https://twitter.com/calabarpages" target="_blank">
+               <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
+               </a>
+               <!-- Email -->
+               <a href="mailto:contact@calabarpages.com" target="_blank">
+               <img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" />
+               </a>
             </div>
-            <div class="clearfix"></div>
-          <br/>
+         </div>
+      </section>
+      <section class=" bg-black gray " >
+         <div class="tc ">
+            <span style="color: yellow;" class="f5">Copyright calabaryellowpages.com.ng 2016</span><br/>
+            <span class="f6">  made with
+            <span class="heart">❤</span>  by
+            <a href="http://past3.com.ng">Past 3 Software and Design Studio</a>
+            </span>
+         </div>
+         <div style="clear:both"></div>
+      </section>
+      <!-- Bootstrap 3.3.5
+         <script src="../assets/bootstrap/js/bootstrap.min.js">
+         </script> -->
+      <script type="text/javascript">
+         /*function modify(data){
+             document.getElementById('amount').value = data;
+         };*/
+           var num = "";
+           var QTCheckout = QTCheckout || {};
+           var rq = "6026";
+           var testMode = false;
 
-          <div class="buttons ">
-              <div class="right">
-                  <input type="submit" value="Continue" class="btn btn-lg  dim bg-black white br0" />
-              </div>
-          </div>
-        </form>
-    </div>
-  </div>
-</section>
+           var baseUrl = "";
+           for(var i = 0; i < 7; i++){
+             num += Math.floor((Math.random() * 10) + 1);
+             console.log(num);
+           }
+           rq = num + rq;
+           //rq = '12345676026'
+           document.getElementById('customerId').innerHTML = num;
+           document.getElementById('requestRequest').value = rq;
+           document.getElementById('url').value = "https://calabaryellowpages.herokuapp.com/newapp?q=" + rq;
 
+           QTCheckout.paymentItems = QTCheckout.paymentItems || [];
+           QTCheckout.paymentItems.push({
 
+               paymentCode: '99401',
 
+               extraData: {
 
-<section class="bg-black-90 text-center pv3">
+               amount: "200000",
 
+               buttonSize: 'small',
 
+               customerId: num,
 
-<br/>
-  <div class="container p3 dt ">
-    <div class="tc dtc v-mid pa1 pa3-ns white-90 ">
-      <h3 class=" f2 ">For more information about how to enlist</h3>
-      <div class="pt3">
-          <a class="btn btn-lg  ba b--white-90 black-80 mr2 br0 fa fa-user"  href="/assets/info.pdf" target="_blank"> <img src="/assets/d.png"/>&nbsp;&nbsp;Download</small></a>
-      </div>
-    </div>
+               mobileNumber: 'default',
 
+               emailAddress: 'default',
 
-    <div style="clear:both"></div>
-    <br/><br/>
-
-
-  </div>
-</section>
-
-<section class="gray" style="background-color:#101010">
-  <div class="tc pa3">
-    <span>Follow Us</span>
-    <div id="share-buttons" class=" db pv2">
-        <!-- Facebook -->
-        <a href="https://www.facebook.com/Calabar-Yellow-Pages-211417710464/?fref=ts" target="_blank">
-            <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
-        </a>
-
-        <!-- Twitter -->
-        <a href="https://twitter.com/calabarpages" target="_blank">
-            <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
-        </a>
-
-        <!-- Email -->
-        <a href="mailto:contact@calabarpages.com" target="_blank">
-            <img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" />
-        </a>
-
-    </div>
-  </div>
-</section>
-<section class=" bg-black gray " >
-<div class="tc ">
-    <span style="color: yellow;" class="f5">Copyright calabaryellowpages.com.ng 2016</span><br/>
-    <span class="f6">  made with&nbsp;&nbsp;
-      <span class="heart">❤</span>&nbsp;&nbsp;by
-      <a href="http://past3.com.ng">Past 3 Software and Design Studio</a>
-    </span>
-</div>
-<div style="clear:both"></div>
-</section>
-<!-- Bootstrap 3.3.5
-<script src="../assets/bootstrap/js/bootstrap.min.js">
-</script> -->
-<script type="text/javascript">
-
-  /*function modify(data){
-      document.getElementById('amount').value = data;
-  };*/
-    var num = "";
-    var QTCheckout = QTCheckout || {};
-    var rq = "6026";
-    var testMode = false;
-
-    var baseUrl = "";
-    for(var i = 0; i < 7; i++){
-      num += Math.floor((Math.random() * 10) + 1);
-      console.log(num);
-    }
-    rq = num + rq;
-    //rq = '12345676026'
-    document.getElementById('customerId').innerHTML = num;
-    document.getElementById('requestRequest').value = rq;
-    document.getElementById('url').value = "https://calabaryellowpages.herokuapp.com/newapp?q=" + rq;
-
-    QTCheckout.paymentItems = QTCheckout.paymentItems || [];
-    QTCheckout.paymentItems.push({
-
-        paymentCode: '99401',
-
-        extraData: {
-
-        amount: "200000",
-
-        buttonSize: 'small',
-
-        customerId: num,
-
-        mobileNumber: 'default',
-
-        emailAddress: 'default',
-
-        redirectUrl: 'https://calabaryellowpages.herokuapp.com/newapp',
+               redirectUrl: 'https://calabaryellowpages.herokuapp.com/newapp',
 
 
-        requestReference: rq
+               requestReference: rq
 
-        }
+               }
 
-    });
+           });
 
-    if (testMode == true)
-        baseUrl ="https://stageserv.interswitchng.com/quicktellercheckout/scripts/quickteller-checkout-min.js?v=";
-    else
-        baseUrl = "https://paywith.quickteller.com/scripts/quickteller-checkout-min.js?v=";
-    if(!QTCheckout.qtScript) {
-        var qtScript = document.createElement('script');
+           if (testMode == true)
+               baseUrl ="https://stageserv.interswitchng.com/quicktellercheckout/scripts/quickteller-checkout-min.js?v=";
+           else
+               baseUrl = "https://paywith.quickteller.com/scripts/quickteller-checkout-min.js?v=";
+           if(!QTCheckout.qtScript) {
+               var qtScript = document.createElement('script');
 
-        qtScript.type = 'text/javascript'; qtScript.async = true;
+               qtScript.type = 'text/javascript'; qtScript.async = true;
 
-        qtScript.src = baseUrl + new Date().getDay();
-         var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(qtScript, s);
+               qtScript.src = baseUrl + new Date().getDay();
+                var s = document.getElementsByTagName('script')[0];
+               s.parentNode.insertBefore(qtScript, s);
 
-        QTCheckout.qtScript = qtScript;
+               QTCheckout.qtScript = qtScript;
 
-    }
+           }
 
-    else if (QTCheckout.buildPaymentItemsUI) {
+           else if (QTCheckout.buildPaymentItemsUI) {
 
-      QTCheckout.buildPaymentItemsUI();
+             QTCheckout.buildPaymentItemsUI();
 
-    }
+           }
 
-</script>
-
-<script src="../assets/js/angular.min.js">
-</script>
-<script src="../assets/js/angular-animate.min.js"></script>
-<script src="../assets/js/angular-aria.min.js"></script>
-<script src="../assets/js/angular-route.min.js">
-</script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
-<script src="../assets/js/angular-material.min.js"></script>
-<script src="../assets/js/client_app.js"></script>
-</body>
+      </script>
+      <script src="../assets/js/angular.min.js"></script>
+      <script src="../assets/js/angular-animate.min.js"></script>
+      <script src="../assets/js/angular-aria.min.js"></script>
+      <script src="../assets/js/angular-route.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+      <script src="../assets/js/angular-material.min.js"></script>
+      <script src="../assets/js/client_app.js"></script>
+   </body>
 </html>
