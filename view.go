@@ -294,12 +294,16 @@ func Get_Params(w http.ResponseWriter, r *http.Request) {
 
 func Post_Params(w http.ResponseWriter, r *http.Request) {
 	var q string
-	if r.URL.Query().Get("q") == "3000" {
-		q = "1"
-	} else {
-		q = "2"
+	tmp := r.URL.Query().Get("q")
+	if tmp != "" {
+		if r.URL.Query().Get("q") == "3000" {
+			q = "1"
+		} else {
+			q = "2"
+		}
+		http.Redirect(w, r, "/newapp?q="+q, http.StatusSeeOther)
 	}
-	http.Redirect(w, r, "/newapp?q="+q, http.StatusSeeOther)
+
 	//http.ServeFile(w, r, "cust/newapp.html?q=odpos")
 }
 
