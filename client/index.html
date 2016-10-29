@@ -166,7 +166,7 @@ will appear here shortly...</a></small></em>
            var num = "";
            var QTCheckout = QTCheckout || {};
            var rq = "6026";
-           var testMode = true;
+           var testMode = false;
 
            var baseUrl = "";
            for(var i = 0; i < 7; i++){
@@ -212,7 +212,7 @@ will appear here shortly...</a></small></em>
             });
 
             if (testMode == true)
-                baseUrl ="https://stageserv.interswitchng.com/quicktellercheckout/scripts/quickteller-checkout-min.js?v=";
+                baseUrl ="https://quicktellercheckout/scripts/quickteller-checkout-min.js?v=";
             else
                 baseUrl = "https://paywith.quickteller.com/scripts/quickteller-checkout-min.js?v=";
             if(!QTCheckout.qtScript) {
