@@ -1,5 +1,5 @@
 var app = angular.module('yellowclient', ['ngRoute', 'ngMaterial']);
-app.config(['$routeProvider', function($routeProvider){
+app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
 	$routeProvider.when('/', {
 		templateUrl: '/home',
     controller: 'HomeCtrl'
@@ -27,6 +27,7 @@ app.config(['$routeProvider', function($routeProvider){
 		templateUrl:'/category',
 		controller:'AdvCtrl'
 	});
+	$locationProvider.html5Mode(true);
 }]);
 
 app.controller('HomeCtrl', ['$scope', '$http','$location', '$anchorScroll', function($scope, $http, $location, $anchorScroll){

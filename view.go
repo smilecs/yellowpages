@@ -95,7 +95,7 @@ func RenderView(id string, count int, page int, perpage int) (NewView, error) {
 	defer session.Close()
 	res, _ := GetAds()
 	collection := session.DB(config.xy).C("Listings")
-	q := collection.Find(bson.M{"category": id})
+	q := collection.Find(bson.M{"category": id}).Sort("companyname")
 	n, _ := q.Count()
 	fmt.Println(n)
 	Page := SearchPagination(n, page, perpage)
