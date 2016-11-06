@@ -1,4 +1,4 @@
-var app = angular.module('yellowclient', ['ngRoute', 'ngMaterial']);
+var app = angular.module('yellowclient', ['ngRoute']);
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
 	$routeProvider.when('/', {
 		templateUrl: '/home',
