@@ -132,7 +132,11 @@ func RenderView(id string, count int, page int, perpage int) (NewView, error) {
 			view.CompanyName = rs.CompanyName
 			view.Image = rs.Image
 			view.Specialisation = rs.Specialisation
-			view.Type = rs.Plus
+			if rs.Plus == "" {
+				view.Type = "false"
+			} else {
+				view.Type = rs.Plus
+			}
 			result = append(result, view)
 		}
 	}

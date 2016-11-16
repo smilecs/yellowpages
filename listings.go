@@ -517,7 +517,7 @@ func GetTr() error {
 	defer session.Close()
 
 	collection := session.DB(config.xy).C("Listings")
-	change := bson.M{"$set": bson.M{"category": "TRANSPORT"}}
+	change := bson.M{"$set": bson.M{"category": "TRANSPORT-TRAVELS8"}}
 	query := bson.M{"category": bson.RegEx{"TRAN.*", ""}}
 	_, err = collection.UpdateAll(query, change)
 	if err != nil {
