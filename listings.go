@@ -136,6 +136,8 @@ func Addlisting(r Form) error {
 
 		r.Images = images
 
+	} else {
+		r.Plus = "false"
 	}
 
 	r.Slug = strings.Replace(r.CompanyName, " ", "-", -1) + str
@@ -515,7 +517,7 @@ func GetTr() error {
 	defer session.Close()
 
 	collection := session.DB(config.xy).C("Listings")
-	change := bson.M{"$set": bson.M{"category": "TRANSPORT-TRAVELS8"}}
+	change := bson.M{"$set": bson.M{"category": "TRANSPORT"}}
 	query := bson.M{"category": bson.RegEx{"TRAN.*", ""}}
 	_, err = collection.UpdateAll(query, change)
 	if err != nil {

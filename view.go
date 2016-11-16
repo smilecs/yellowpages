@@ -108,7 +108,7 @@ func RenderView(id string, count int, page int, perpage int) (NewView, error) {
 	ik := len(res)
 	for i := 0; i < len(tmp); i++ {
 		rs := tmp[i]
-		if rs.Plus == "false" || rs.Date.Before(rs.Expiry) {
+		if rs.Plus == "false" || rs.Date.Before(rs.Expiry) || rs.Plus == "" {
 			if (i+1)%2 > 0 {
 				if k < ik {
 					views := new(View)
