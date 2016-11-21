@@ -187,28 +187,14 @@ will appear here shortly...</a></small></em>
             QTCheckout.paymentItems.push({
 
                 paymentCode: '04152001',
-
                 extraData: {
-
-
-                amount: document.getElementById('amt').value +"0",
-
+                amount: document.getElementById('amt').value +"00",
                 buttonSize: 'small',
-
-
                 customerId: num,
-
                 mobileNumber: 'default',
-
-
                 emailAddress: 'default',
-
-
-
-
-
+                redirectUrl: "http://calabaryellowpages.com/napp?q=" + document.getElementById('amt').value,
                 requestReference: rq
-
                 }
 
             });
