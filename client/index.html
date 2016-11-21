@@ -89,10 +89,10 @@
                <input type="hidden" name="requestRequest" id="requestRequest" value="10030000002345" class="form-control"/>
                <div class="" style="text-align:center; display:block; width:100%;">
                   <div class="col-sm-3" style="display:inline-block;float:none;">
-                     <input type="text" name="mobileNumber" placeholder="Your Mobile Number" class="form-control b--black-70 br0"/>
+                     <input type="text" name="mobileNumber" id="mobile" placeholder="Your Mobile Number" class="form-control b--black-70 br0"/>
                   </div>
                   <div class="col-sm-3" style="display:inline-block;float:none;">
-                     <input type="text" name="emailAddress" placeholder="Email Address" class="form-control b--black-70 br0"/>
+                     <input type="text" name="emailAddress" id="email" placeholder="Email Address" class="form-control b--black-70 br0"/>
                   </div>
                   <div class="col-sm-3" style="display:inline-block;float:none;">
                      <select id="amt" name="amount" onchange="trial()">
@@ -106,7 +106,6 @@
                   <br/>
                   <div class="buttons ">
                      <div class="right">
-                        <input type="submit" value="Continue" class="btn btn-lg  dim bg-black white br0" />
                         <em><small><a class="quickteller-checkout-anchor" id="04152001" style="text-align:left;">payment button
 will appear here shortly...</a></small></em>
                      </div>
@@ -172,10 +171,10 @@ will appear here shortly...</a></small></em>
            var baseUrl = "";
            for(var i = 0; i < 7; i++){
              num += Math.floor((Math.random() * 10) + 1);
-             console.log(num);
+             //console.log(num);
            }
            rq = rq + num;
-           console.log("request reference   " + " " + rq);
+          // console.log("request reference   " + " " + rq);
            //rq = '12345676026'
 
            document.getElementById('customerId').innerHTML = num;
@@ -191,8 +190,8 @@ will appear here shortly...</a></small></em>
                 amount: document.getElementById('amt').value +"00",
                 buttonSize: 'small',
                 customerId: num,
-                mobileNumber: 'default',
-                emailAddress: 'default',
+                mobileNumber: document.getElementById('mobile'),
+                emailAddress: document.getElementById('email'),
                 redirectUrl: "http://calabaryellowpages.com/napp?q=" + document.getElementById('amt').value,
                 requestReference: rq
                 }
