@@ -174,7 +174,8 @@ will appear here shortly...</a></small></em>
              num += Math.floor((Math.random() * 10) + 1);
              console.log(num);
            }
-           rq = num + rq;
+           rq = rq + num;
+           console.log("request reference   " + " " + rq);
            //rq = '12345676026'
 
            document.getElementById('customerId').innerHTML = num;
@@ -203,7 +204,7 @@ will appear here shortly...</a></small></em>
                 emailAddress: 'default',
 
 
-              
+
 
 
                 requestReference: rq
