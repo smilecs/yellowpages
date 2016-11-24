@@ -95,7 +95,7 @@ func RenderView(id string, count int, page int, perpage int) (NewView, error) {
 	defer session.Close()
 	res, _ := GetAds()
 	collection := session.DB(config.xy).C("Listings")
-	q := collection.Find(bson.M{"category": id})
+	q := collection.Find(bson.M{"category": id}).Sort("companyname")
 	n, _ := q.Count()
 	fmt.Println(n)
 	Page := SearchPagination(n, page, perpage)
@@ -108,7 +108,7 @@ func RenderView(id string, count int, page int, perpage int) (NewView, error) {
 	ik := len(res)
 	for i := 0; i < len(tmp); i++ {
 		rs := tmp[i]
-		if rs.Plus == "false" || rs.Date.Before(rs.Expiry) {
+		if rs.Plus == "false" || rs.Date.Before(rs.Expiry) || rs.Plus == "" {
 			if (i+1)%2 > 0 {
 				if k < ik {
 					views := new(View)
@@ -132,7 +132,11 @@ func RenderView(id string, count int, page int, perpage int) (NewView, error) {
 			view.CompanyName = rs.CompanyName
 			view.Image = rs.Image
 			view.Specialisation = rs.Specialisation
-			view.Type = rs.Plus
+			if rs.Plus == "" {
+				view.Type = "false"
+			} else {
+				view.Type = rs.Plus
+			}
 			result = append(result, view)
 		}
 	}

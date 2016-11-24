@@ -136,6 +136,8 @@ func Addlisting(r Form) error {
 
 		r.Images = images
 
+	} else {
+		r.Plus = "false"
 	}
 
 	r.Slug = strings.Replace(r.CompanyName, " ", "-", -1) + str
@@ -233,24 +235,6 @@ func Getunapproved() ([]Form, error) {
 		return result, err
 	}
 	return result, nil
-}
-
-func GetTr() error {
-	session, err := mgo.Dial(config.xx)
-
-	if err != nil {
-		return err
-	}
-	defer session.Close()
-
-	collection := session.DB(config.xy).C("Listings")
-	change := bson.M{"$set": bson.M{"category": "TRANSPORT-TRAVELS8"}}
-	err = collection.Update(bson.M{"category": bson.RegEx{"TRANSP*", ""}}, change)
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-	return nil
 }
 
 //Getunapproved function for Getunapproved handler
@@ -522,6 +506,25 @@ func AdminLogin(w http.ResponseWriter, r *http.Request) {
 	}
 	data, _ := json.Marshal(result)
 	w.Write(data)
+}
+
+func GetTr() error {
+	session, err := mgo.Dial(config.xx)
+
+	if err != nil {
+		return err
+	}
+	defer session.Close()
+
+	collection := session.DB(config.xy).C("Listings")
+	change := bson.M{"$set": bson.M{"category": "TRANSPORT-TRAVELS8"}}
+	query := bson.M{"category": bson.RegEx{"TRAN.*", ""}}
+	_, err = collection.UpdateAll(query, change)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	return nil
 }
 
 func Fix(w http.ResponseWriter, r *http.Request) {
