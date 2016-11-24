@@ -84,9 +84,10 @@ func main() {
 
 	router.ServeFiles("/zohoverify/*filepath", http.Dir("assets"))
 
-	router.HandlerFunc("GET", "/google28373290a86b6ef4.html ", func(w http.ResponseWriter, r *http.Request) {
+	router.Get("/google28373290a86b6ef4.html", commonHandlers.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Println("SDsd")
 		http.ServeFile(w, r, "./assets/google28373290a86b6ef4.html")
-	})
+	}))
 
 	router.Get("/admin", commonHandlers.ThenFunc(FrontAdminHandler))
 	router.Get("/login", commonHandlers.ThenFunc(LoginAdmin))
