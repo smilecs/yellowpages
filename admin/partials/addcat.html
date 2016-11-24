@@ -1,31 +1,34 @@
 <form class="form-horizontal">
-                  <div class="row">
+    <div class="row">
 
-                    <div class="box-body">
-                    <div class="form-group">
-                      <label for="inputEmail3" class="col-sm-2 control-label">Category</label>
-                      <div class="col-sm-6">
-                        <input type="text" class="form-control"  ng-model="datas.Category">
-
-                      </div>
-                      <button type="button" class="btn btn-info" ng-click="add(datas)">Add Category</button>
-
-                    </div>
-                    <!-- /.box-footer -->
-                  </div><!-- /.box-body -->
+        <div class="box-body">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">Category</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" ng-model="datas.Category">
 
                 </div>
-                </form>
-                                    <div class="box">
-                       <div class="box-body" id="table_entry">
+                <button type="button" class="btn btn-info bg-black dim" ng-click="add(datas)">Add Category</button>
+
+            </div>
+            <!-- /.box-footer -->
+        </div>
+        <!-- /.box-body -->
+
+    </div>
+</form>
+<div class="box">
+    <div class="box-body" id="table_entry">
 
 
-                                    <table class="table table-hover">
-                                      <tbody>
-                                        <tr ng-repeat="val in result">
-                                          <td><h4>{{val.Category}}</h4></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-</div>
+        <table class="table table-hover">
+            <tbody>
+                <tr ng-repeat="val in result">
+                    <td>
+                        <h4>{{val.Category}}</h4>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

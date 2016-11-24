@@ -1,48 +1,60 @@
-<div class="form-group">
-  <label for="exampleInputFile">Name</label>
-  <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Name">
-  </div>
+<section class="tc">
+  <section class="pa4-ns w-75-m w-60-l dib tl">
+    <h2 class="tc">Create a New Listing</h2><br/>
+      <div class="form-group">
+          <label for="exampleInputFile">Name</label>
+          <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Name">
+      </div>
 
 
-<div class="form-group">
-<label for="exampleInputFile">Advert Banner</label>
-<input type="file" ng-model="file" class="input-lg" onchange="angular.element(this).scope().newfile1(this.files[0])" />
-  <div >
-    <a class=" col-sm-2">
-      <img src="{{f}}" class="img img-thumbnail" />
-    </a>
-    <div style="clear:both"></div>
-  </div>
-</div>
-<div class="form-group">
-<button type="button" class="btn btn-info" ng-click="add(data)">Create Advert</button>
-</div>
+      <div class="form-group">
+          <label for="exampleInputFile">Advert Banner</label>
+          <input type="file" ng-model="file" class="input-lg" onchange="angular.element(this).scope().newfile1(this.files[0])" />
+          <div>
+              <a class=" col-sm-2">
+                  <img src="{{f}}" class="img img-thumbnail" />
+              </a>
+              <div style="clear:both"></div>
+          </div>
+      </div>
+      <div class="form-group">
+          <button type="button" class="btn btn-info bg-black dim" ng-click="add(data)">Create Advert</button>
+      </div>
 
+  </section>
+</section>
 <div class="row">
-   <md-progress-circular md-mode="{{indeterminate}}" ng-show="show == 'show'"></md-progress-circular>
-           <div class="col-md-6" ng-repeat="data in category">
-             <div class="box box-solid">
-               <div class="box-header with-border">
-                 <i class="fa fa-text-width"></i>
+  <div class="tc" ng-show="show == 'show'">
+    <img src="/assets/ripple.gif" class="dib"/>
+  </div>
+    <div class="col-md-6" ng-repeat="data in category">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-text-width"></i>
+                {{data.CompanyName}}
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <img class="img img-thumbnail pull-left item-img" src="{{data.Image}}" />
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- ./col -->
+</div>
 
-               </div><!-- /.box-header -->
-               <div class="box-body">
-                 <img class="img img-thumbnail pull-left item-img"
-                      src="{{data.Image}}" />
-               </div><!-- /.box-body -->
-             </div><!-- /.box -->
-           </div><!-- ./col -->
-         </div>
-
-         <ul class="pagination">
-           <li>
-             <a href="#" aria-label="Previous">
-               <span aria-hidden="true">&laquo;</span>
-             </a>
-           </li>
-           <li ng-repeat="num in newerScope"><a href="#" ng-click="$event.preventDefault();sends($index + 1)">{{$index +1}}</a></li>
-             <a href="#" aria-label="Next">
-               <span aria-hidden="true">&raquo;</span>
-             </a>
-           </li>
-         </ul>
+<ul class="pagination">
+    <li>
+        <a href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    </li>
+    <li ng-repeat="num in newerScope"><a href="#" ng-click="$event.preventDefault();sends($index + 1)">{{$index +1}}</a>
+    </li>
+    <li>
+    <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+    </a>
+    </li>
+</ul>

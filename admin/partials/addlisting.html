@@ -1,87 +1,93 @@
-
-
-<div class="form-group">
-  <label for="exampleInputPassword1">COMPANY NAME</label>
-  <input type="text" class="form-control" ng-model="data.CompanyName">
-</div>
-<div class="form-group">
-  <label for="exampleInputPassword1">PHYSICAL ADDRESS</label>
-  <input type="text" class="form-control"  ng-model="data.Address">
-</div>
-<div class="form-group">
-  <label for="exampleInputFile">HOTLINE</label>
-  <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Hotline">
-  </div>
-<div class="form-group">
-  <label for="exampleInputFile">SPECIALIZATION</label>
-  <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Specialisation">
-  </div>
-
-  <div class="form-group">
-    <label for="exampleInputFile">WORKING DAYS</label>
-    <input type="text" class="form-control" id="exampleInputFile" ng-model="data.DHr">
+<section class="tc">
+  <h2>Create a New Listing</h2>
+  <section class="pa4-ns w-75-m w-60-l dib tl">
+    <div class="form-group">
+        <label for="exampleInputPassword1">COMPANY NAME</label>
+        <input type="text" class="form-control" ng-model="data.CompanyName">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">PHYSICAL ADDRESS</label>
+        <input type="text" class="form-control" ng-model="data.Address">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputFile">HOTLINE</label>
+        <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Hotline">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputFile">SPECIALIZATION</label>
+        <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Specialisation">
     </div>
 
-<div class="form-group">
-  <label for="exampleInputFile">CATEGORY</label>
-  <select class="form-control" id="exampleInputFile" ng-model="data.Category">
-  <option ng-repeat="datas in cats" value="{{datas.Slug}}">
-    {{datas.Category}}
-  </option>
-</select>
-  </div>
-<div class="form-group">
-  <label for="exampleInputFile">ADVERT</label>
-  <select class="form-control" id="exampleInputFile" ng-model="data.Advert">
-    <option value="yes">YES</option>
-    <option value="no">NO</option>
-  </select>
-  </div>
-  <div class="form-group">
-  <label for="exampleInputFile">ADVERT SIZE</label>
-  <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Size">
-  </div>
-
-  <div class="form-group">
-  <label for="exampleInputFile">Type</label>
-  <select class="input-sm" ng-model="data.Plus" ng-change="change(data)">
-    <option value=true>PlusListing</option>
-    <option value=false>Listing</option>
-  </select>
-  </div>
-
-  <div class="form-group" ng-show="data.Plus == 'true'">
-  <label for="exampleInputFile">Description</label>
-  <textarea ng-model="data.About" class="form-control"></textarea>
-  </div>
-
-  <div class="form-group" ng-show="data.Plus == 'true'">
-  <label for="exampleInputFile">Website Link</label>
-  <input type="text" ng-model="data.Website" class="form-control" />
-  </div>
-
-  <div class="form-group" ng-show="data.Plus == 'true'">
-  <label for="exampleInputFile">Logo Image</label>
-  <input type="file" ng-model="file" class="input-lg" onchange="angular.element(this).scope().newfile1(this.files[0])" />
-    <div >
-      <a class=" col-sm-2">
-        <img src="{{f}}" class="img img-thumbnail" />
-      </a>
-      <div style="clear:both"></div>
+    <div class="form-group">
+        <label for="exampleInputFile">WORKING DAYS</label>
+        <input type="text" class="form-control" id="exampleInputFile" ng-model="data.DHr">
     </div>
-  </div>
 
-
-  <div class="form-group" ng-show="data.Plus == 'true'">
-  <label for="exampleInputFile">Images</label>
-  <input type="file" ng-model="file" class="input-lg" onchange="angular.element(this).scope().newfile(this.files[0])" />
-    <div >
-      <a ng-repeat="f in files" class=" col-sm-2">
-        <img src="{{f}}" class="img img-thumbnail" />
-      </a>
-      <div style="clear:both"></div>
+    <div class="form-group">
+        <label for="exampleInputFile">CATEGORY</label>
+        <select class="form-control" id="exampleInputFile" ng-model="data.Category">
+            <option ng-repeat="datas in cats" value="{{datas.Slug}}">
+                {{datas.Category}}
+            </option>
+        </select>
     </div>
-  </div>
-<button type="button" class="btn btn-lg btn-default" ng-click="add(data)">Submit</button> <div id="pay">
-  <md-progress-circular md-mode="{{indeterminate}}" ng-show="show == 'show'"></md-progress-circular>
-</div>
+    <div class="form-group">
+        <label for="exampleInputFile">ADVERT</label>
+        <select class="form-control" id="exampleInputFile" ng-model="data.Advert">
+            <option value="yes">YES</option>
+            <option value="no">NO</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputFile">ADVERT SIZE</label>
+        <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Size">
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputFile">Type</label>
+        <select class="input-sm" ng-model="data.Plus" ng-change="change(data)">
+            <option value=true>PlusListing</option>
+            <option value=false>Listing</option>
+        </select>
+    </div>
+
+    <div class="form-group" ng-show="data.Plus == 'true'">
+        <label for="exampleInputFile">Description</label>
+        <textarea ng-model="data.About" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group" ng-show="data.Plus == 'true'">
+        <label for="exampleInputFile">Website Link</label>
+        <input type="text" ng-model="data.Website" class="form-control" />
+    </div>
+
+    <div class="form-group" ng-show="data.Plus == 'true'">
+        <label for="exampleInputFile">Logo Image</label>
+        <input type="file" ng-model="file" class="input-lg" onchange="angular.element(this).scope().newfile1(this.files[0])" />
+        <div>
+            <a class=" col-sm-2">
+                <img src="{{f}}" class="img img-thumbnail" />
+            </a>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+
+
+    <div class="form-group" ng-show="data.Plus == 'true'">
+        <label for="exampleInputFile">Images</label>
+        <input type="file" ng-model="file" class="input-lg" onchange="angular.element(this).scope().newfile(this.files[0])" />
+        <div>
+            <a ng-repeat="f in files" class=" col-sm-2">
+                <img src="{{f}}" class="img img-thumbnail" />
+            </a>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-lg btn-default bg-black dim pa3 fr" ng-click="add(data)">Submit</button>
+    <div id="pay">
+      <div class="tc" ng-show="show == 'show'">
+        <img src="/assets/ripple.gif" class="dib"/>
+      </div>
+    </div>
+  </section>
+</section>

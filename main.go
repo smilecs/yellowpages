@@ -83,6 +83,11 @@ func main() {
 	router := NewRouter()
 
 	router.ServeFiles("/zohoverify/*filepath", http.Dir("assets"))
+
+	router.HandlerFunc("GET", "/google28373290a86b6ef4.html ", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./assets/google28373290a86b6ef4.html")
+	})
+
 	router.Get("/admin", commonHandlers.ThenFunc(FrontAdminHandler))
 	router.Get("/login", commonHandlers.ThenFunc(LoginAdmin))
 	router.Get("/", commonHandlers.ThenFunc(ClientViewHandler))
