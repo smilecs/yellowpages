@@ -1,4 +1,4 @@
-package main
+package models
 
 //Page carries pagination info to aid in knowing whether any given page has a
 //next or previous page, and to know its page number
@@ -8,6 +8,8 @@ type Page struct {
 
 	Next    bool
 	NextVal int
+
+	NextURL string
 
 	pages int
 	Pages []string

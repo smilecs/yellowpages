@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:8080/ -->
+<html class="gr__localhost">
+  {{ template "head"}}
+   <body style="margin-bottom:-100px;" >
+      <!-- ng-view for angular routed content -->
+      <!-- ngView:  -->
+      <div ng-view="" class="ng-scope">
+         <div class="text-center ng-scope">
+            <style>
+               .logo{
+               display:inline-block;
+               height:40px;
+               float:left;
+               }
+               .logo img{
+               height:100%;
+               display:inline-block;
+               }
+            </style>
+            {{ template "nav_menu" "hide" }}
+            <section class="">
+               <section class="white w-100 tc cover flex justify-center flex-column bg-yellow" style="background-image:url(assets/yellow-pages.jpg); height:85vh;">
+                  <div class="dib ">
+                     <h1 class="black dib  fw4 f2 f1-ns avenir">Find Businesses <br>in Cross River State</h1>
+                     <form class="" method="GET" action="/search">
+                        <div class=" ">
+                           <input class="pl3 pa3 f6 w-50-ns" type="text" name="q" >
+                           <button type="submit" class="bg-black pa3 ph4 f6 ba b--black white" >Search</button>
+                        </div>
+                     </form>
+                     <br>
+                  </div>
+               </section>
+               <div class="db tc" style="margin-top:-50px;">
+                  <a href="#categories" class="link bg-black pa3 f6 dib white" >View Categories</a>
+               </div>
+               <style>
+                  .card-1 {
+                  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                  transition: all 1s cubic-bezier(.25,.8,.25,1);
+                  }
+                  .card-1:hover,.card-1:focus  {
+                  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+                  }
+               </style>
+               <section class="pa5-ns" id="categories">
+                  <h1 class="tc">
+                     <strong>CATEGORIES</strong>
+                  </h1>
+                  <section class="pa2 f3 fw1 tc cf">
+                     {{range .Categories}}
+                     <div class="w-100 w-50-ns pv2 pv3-ns pa3 dib fl ">
+                        <a href="/categories/{{.Slug}}" class="card-1 br2 black db ph3 pv3 link" >
+                        {{.Category}}
+                        </a>
+                     </div>
+                     {{end}}
+                  </section>
+               </section>
+               <div class="tc dn" ng-show="show == &#39;show&#39;">
+                  <img src="/assets/ripple.gif" class="dib">
+               </div>
+            </section>
+         </div>
+      </div>
+      {{ template "foot" }}
+   </body>
+</html>

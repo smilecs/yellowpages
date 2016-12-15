@@ -3,7 +3,8 @@ $scope.result = {};
 $scope.show = "hide";
 $scope.but = false;
   $http.get('/api/unapproved').success(function(data, status){
-    $scope.result = data;
+    console.info(data)
+    $scope.result = data.Data;
   });
   $scope.approve = function(pos, data){
     $scope.but = true;

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:8080/ -->
+<html class="gr__localhost">
+  {{template "head"}}
+   <body style="margin-bottom:-100px;" >
+      <!-- ng-view for angular routed content -->
+      <!-- ngView:  --><div ng-view="" class="ng-scope"><div class="text-center ng-scope">
+   <style>
+      .logo{
+      display:inline-block;
+      height:40px;
+      float:left;
+      }
+      .logo img{
+      height:100%;
+      display:inline-block;
+      }
+   </style>
+   {{template "nav_menu" "show"}}
+   <section class="">
+      <section class="black avenir w-100 cover flex justify-center items-center flex-column bg-yellow" style="background-image:url(/assets/yellow-pages.jpg); height:43vh;">
+         <div class="dib pt5 pa3 w-100 w-80-ns tc tl-ns " style="max-width: 800px;">
+
+           <img class="fl-ns w4 ma1 mr2 ml0 bg-white pa2 ba br2" src="{{.Listing.Image}}">
+           <div class="dib w-70-ns">
+            <h1 class="db  fw4 f3 f2-ns ma0 lh-title">{{.Listing.CompanyName}}</h1>
+            <h1 class="db  fw6 f3 f3-ns ma0">{{.Listing.Specialisation}}</h1>
+          </div>
+            <br>
+         </div>
+
+
+      </section>
+      <style>
+      .item{
+        -webkit-shadow: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3xpx rgba(0,0,0,0.23);
+        -moz-shadow: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
+        box-shadow: 0px 5px 13px -3px rgba(0,0,0,0.75);
+      }
+      </style>
+
+      <section class="tc avenir" >
+        <section class="pa2 pv4 dib w-100 w-80-ns tl" style="max-width: 800px;">
+          <div>
+            <h2>About</h2>
+            <p>{{.Listing.About}}</p>
+          </div>
+          <div>
+            <h2>Working days</h2>
+            <p>{{.Listing.DHr}}</p>
+          </div>
+          <div>
+            <h2>Address</h2>
+            <address>{{.Listing.Address}}</address>
+          </div>
+          <div>
+            <h2>Phone</h2>
+            <a href="tel:{{.Listing.Hotline}}" class="link">{{.Listing.Hotline}}</a>
+          </div>
+          <div>
+            <h2>Email</h2>
+            <a href="tel:{{.Listing.Hotline}}" class="link">{{.Listing.Email}}</a>
+          </div>
+          <div>
+            <h2>Website</h2>
+            <a href="{{.Listing.Website}}" class="link">{{.Listing.Website}}</a>
+          </div>
+          <div>
+            <h2>Images</h2>
+            <div class="cf ">
+              {{ range .Listing.Images}}
+              <div class="w-100 w-50-ns dib pa1 fl">
+                <img src="{{.}}" class="w-100"/>
+              </div>
+              <div class="w-100 w-50-ns dib pa1 fl">
+                <img src="{{.}}" class="w-100"/>
+              </div>
+              <div class="w-100 w-50-ns dib pa1 fl">
+                <img src="{{.}}" class="w-100"/>
+              </div>
+              {{end}}
+            </div>
+          </div>
+        </section>
+      </section>
+      <style>
+         .card-1 {
+         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+         transition: all 1s cubic-bezier(.25,.8,.25,1);
+         }
+         .card-1:hover,.card-1:focus  {
+         box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+         }
+      </style>
+</div>
+{{template "foot"}}
+</body></html>

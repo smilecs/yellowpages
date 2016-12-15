@@ -1,17 +1,14 @@
-package main
+package models
 
 import (
 	"encoding/base64"
-	"encoding/json"
+	"log"
 	"strings"
 
 	"github.com/mitchellh/goamz/aws"
 	"github.com/mitchellh/goamz/s3"
-	//"github.com/gorilla/context"
-	"log"
-	"net/http"
-
-	"gopkg.in/mgo.v2"
+	"github.com/satori/go.uuid"
+	"github.com/tonyalaribe/yellowpages/config"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -24,13 +21,7 @@ type Advert struct {
 }
 
 //NewAd function for adding new adverts
-func NewAd(r Advert) error {
-	s, err := mgo.Dial(config.xx)
-
-	defer s.Close()
-	if err != nil {
-		panic(err)
-	}
+func (r Advert) New(config *config.Conf) error {
 
 	r.Type = "advert"
 
@@ -51,7 +42,7 @@ func NewAd(r Advert) error {
 
 	meta := strings.Split(r.Image, "base64,")[0]
 	newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
-	imagename := randSeq(10)
+	imagename := uuid.NewV1().String()
 
 	err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite)
 	if err != nil {
@@ -61,35 +52,22 @@ func NewAd(r Advert) error {
 	log.Println(bucket.URL(imagename))
 
 	r.Image = bucket.URL(imagename)
-
-	s.DB(config.xy).C("Adverts").Insert(r)
-	return err
+	collection := config.Database.C("Adverts").With(config.Database.Session.Copy())
+	err = collection.Insert(r)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	return nil
 }
 
-//GetAds function for getting all adverts in db
-func GetAds() ([]Advert, error) {
+//Get function for getting all adverts in db
+func (Advert) GetAll(config *config.Conf) ([]Advert, error) {
 	result := []Advert{}
-	session, err := mgo.Dial(config.xx)
-
-	if err != nil {
-		return result, err
-	}
-	defer session.Close()
-
-	collection := session.DB(config.xy).C("Adverts")
-	err = collection.Find(bson.M{}).All(&result)
+	collection := config.Database.C("Adverts").With(config.Database.Session.Copy())
+	err := collection.Find(bson.M{}).All(&result)
 	if err != nil {
 		return result, err
 	}
 	return result, nil
-}
-
-//NewAdHandler handler for adding new Adverts
-func NewAdHandler(w http.ResponseWriter, r *http.Request) {
-	var formdata Advert
-	err := json.NewDecoder(r.Body).Decode(&formdata)
-	if err != nil {
-		log.Println(err)
-	}
-	NewAd(formdata)
 }

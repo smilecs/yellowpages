@@ -1,4 +1,4 @@
-package main
+package web
 
 import (
 	"encoding/json"
@@ -8,16 +8,17 @@ import (
 	"time"
 
 	"github.com/gorilla/context"
+	"github.com/tonyalaribe/yellowpages/messages"
 )
 
 // Middlewares
 
-func recoverHandler(next http.Handler) http.Handler {
+func RecoverHandler(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if err := recover(); err != nil {
 				log.Printf("panic: %+v", err)
-				WriteError(w, ErrInternalServer)
+				messages.WriteError(w, messages.ErrInternalServer)
 			}
 		}()
 
@@ -27,7 +28,7 @@ func recoverHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(fn)
 }
 
-func loggingHandler(next http.Handler) http.Handler {
+func LoggingHandler(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		t1 := time.Now()
 		next.ServeHTTP(w, r)
@@ -38,10 +39,10 @@ func loggingHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(fn)
 }
 
-func acceptHandler(next http.Handler) http.Handler {
+func AcceptHandler(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		if r.Header.Get("Accept") != "application/json" {
-			WriteError(w, ErrNotAcceptable)
+			messages.WriteError(w, messages.ErrNotAcceptable)
 			return
 		}
 
@@ -51,10 +52,10 @@ func acceptHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(fn)
 }
 
-func contentTypeHandler(next http.Handler) http.Handler {
+func ContentTypeHandler(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		if r.Header.Get("Content-Type") != "application/json" {
-			WriteError(w, ErrUnsupportedMediaType)
+			messages.WriteError(w, messages.ErrUnsupportedMediaType)
 			return
 		}
 
@@ -64,7 +65,7 @@ func contentTypeHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(fn)
 }
 
-func bodyHandler(v interface{}) func(http.Handler) http.Handler {
+func BodyHandler(v interface{}) func(http.Handler) http.Handler {
 	t := reflect.TypeOf(v)
 
 	m := func(next http.Handler) http.Handler {
@@ -74,7 +75,7 @@ func bodyHandler(v interface{}) func(http.Handler) http.Handler {
 
 			if err != nil {
 				log.Println(err)
-				WriteError(w, ErrBadRequest)
+				messages.WriteError(w, messages.ErrBadRequest)
 				return
 			}
 

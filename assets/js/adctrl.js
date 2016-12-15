@@ -9,17 +9,11 @@ $scope.show = "show";
 */
 
 
-$http.get('/advert?page=1').success(function(data,status){
-	$scope.category = data.Data;
+$http.get('/api/adverts?p=1').success(function(data,status){
+	console.log(data)
+	$scope.adverts= data.Posts;
   $scope.show = "hide";
-  $scope.pages = data;
-	$scope.newScope = data.Pag.Pages;
-	for(var i =0; i < $scope.newScope.length; i++){
-		var tmp = {"data": i+1};
-		$scope.newerScope.push(tmp);
-	}
-
-
+  
 });
 
 $scope.send = function(data){

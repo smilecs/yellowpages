@@ -1,0 +1,295 @@
+{{ define "foot" }}
+<style>
+   .join-us{
+   width:100%;
+   //min-height: 300px;
+   }
+   /* -----
+   SVG Icons - svgicons.sparkk.fr
+   ----- */
+   .svg-icon {
+   width: 1em;
+   height: 1em;
+   }
+   .svg-icon path,
+   .svg-icon polygon,
+   .svg-icon rect {
+   fill: #4691f6;
+   }
+   .svg-icon circle {
+   stroke: #4691f6;
+   stroke-width: 1;
+   }
+</style>
+<style type="text/css">
+   #share-buttons a {
+   text-decoration:none;
+   cursor: pointer;
+   cursor: hand;
+   }
+   #share-buttons img {
+   width: 70px;
+   padding: 5px;
+   border: 0;
+   box-shadow: 0;
+   display: inline;
+   }
+</style>
+
+<section class="join-us flex justify-center flex-collumn pv5 avenir" style="background-image:url(/assets/join.jpg); background-size:cover">
+   <div class="tc pv3">
+   <h2 class=" f3 ma0 fw6" style="font-size:1.7rem;">List your business on Calabar Yellow Pages</h2>
+   <div class="pt3">
+      <a class="pa3 dib link mr2 br0 black" href="/register_business" style="background-color:rgba(255, 212, 0, 0.7); ">Regular Listing<br><small>(free)</small></a>
+      <a class="pa3 dib link dim bg-black white br0 ph4" >Plus Listing<br><small>(₦250/month)</small></a>
+   </div>
+   <div  class="tc pt4 dn ">
+      <p class="f3 pa3 measure dib">
+         Fill the form below to Pay for, and add Pluslisting to yellowpages. After payment, you will be redirected to a page to insert your details.
+      </p>
+      <form action="https://stageserv.interswitchng.com/quicktellercheckout" method="post">
+         <input type="hidden" name="paymentCode" value="99401">
+         <!--<input type="hidden" name="amount" id="amount" value="99500" />-->
+         <input type="hidden" name="customerId" id="customerId" value="90680596759" />
+         <input type="hidden" name="redirecturl" id="url" value="https://calabaryellowpages.herokuapp.com/newapp?q=602610997289">
+         <input type="hidden" name="requestRequest" id="requestRequest" value="602610997289" class="form-control">
+         <div class="" >
+            <div class=" w-33 dib pa2">
+               <input type="text" name="mobileNumber" id="mobile" placeholder="Your Mobile Number" class="b--black-70 br0 w-100 pa3">
+            </div><div class="w-33 dib pa2">
+               <input type="text" name="emailAddress" id="email" placeholder="Email Address" class="b--black-70 br0 w-100 pa3">
+            </div><div class="w-33 dib pa2">
+               <select id="amt" name="amount" onchange="trial()" class="b--black-70 br0 w-100 pa3 input-reset">
+                  <option value="">-- Click to Select a Plan --</option>
+                  <option value="3000">1 Year (3000)</option>
+                  <option value="6000">2 Years (6000)</option>
+               </select>
+            </div>
+
+            <div class="clearfix"></div>
+            <br>
+            <div class="">
+               <div class="right">
+                    <small><a class="quickteller-checkout-anchor" id="04152001" style="text-align:left;">
+                      payment button
+                    will appear here shortly...
+                    </a></small>
+               </div>
+            </div>
+        </div>
+      </form>
+   </div>
+</div>
+</section>
+<section class="bg-black-90 text-center pv3">
+      <div class="tc pa1 pa3-ns white-90 ">
+         <h3 class=" f3 fw6  " style="font-size:1.3rem;">Get the App</h3>
+         <div class="pt3">
+           <a href="#" class="dib   white">
+             <img src="/assets/img/google-play-badge.png" style="height:40px"/>
+           </a>
+           <a href="#" class="dib  white">
+             <img src="/assets/img/appstore-badge.svg" style="height:40px"/>
+           </a>
+         </div>
+      </div>
+      <br/>
+</section>
+<section class="gray" style="background-color:rgba(0,0,0,.95)">
+   <div class="tc pa3">
+      <span>Follow Us</span>
+      <div id="share-buttons" class=" db pv2">
+         <!-- Facebook -->
+         <a href="https://www.facebook.com/Calabar-Yellow-Pages-211417710464/?fref=ts" target="_blank">
+         <img src="/assets/img/facebook.png" alt="Facebook">
+         </a>
+         <!-- Twitter -->
+         <a href="https://twitter.com/calabarpages" target="_blank">
+         <img src="/assets/img/twitter.png" alt="Twitter">
+         </a>
+         <!-- Twitter -->
+         <a href="https://instagram.com/calabarpages" target="_blank" class="dib">
+         <img src="/assets/img/instagram.png" alt="Twitter" class="">
+         </a>
+         <!-- Email -->
+         <a href="mailto:contact@calabarpages.com" target="_blank">
+         <img src="/assets/img/email.png" alt="Email">
+         </a>
+      </div>
+   </div>
+</section>
+<section class=" bg-black gray ">
+   <div class="tc pa4">
+      <span style=" font-size:0.7rem;" class="f6 fw1 tracked fl light-gray">© calabaryellowpages.com 2016</span>
+      <span class="f6 fr" style="font-size:0.6rem;" >  made with
+      <span class="red" font-size:0.7rem;>❤</span>  by
+      <a href="http://past3.com.ng/" class="link light-gray fw1 tracked">Past 3 Software and Design Studio</a>
+      </span>
+   </div>
+   <div style="clear:both"></div>
+</section>
+<section class="flex flex-row items-center w-100 vh-100 fixed top-0 left-0 bg-black-50 justify-center" style="display:none;" id="loginOverlay">
+  <div class="w-50 h-50 dib bg-white pa3 avenir flex flex-row items-center justify-center" >
+    <section>
+      <div class="tc ">
+        <img src="/assets/logo.png" class="w4" />
+      </div>
+      <h1 class="fw1 dn">Please Login to Continue</h1>
+      <section class="dn">
+        <div >
+          <label class="dn">Username</label>
+          <input type="text" class="pa3" placeholder="Username"/>
+        </div>
+        <div>
+          <label class="dn">Password</label>
+          <input type="password"  placeholder="Password"/>
+        </div>
+
+        <div>
+          <button class="pa3 ba black">Login</button>
+          <span>Dont have an account? signup</span>
+
+        </div>
+      </section>
+      <br/><br/><br/><br/>
+      <button class="pa3 white dim" style="background-color:#3b5998; border-color:#3b5998;" onclick="fblogin()"><img src=""/>login with facebook to continue</button>
+    </section>
+
+  </div>
+</section>
+   <script src="/assets/js/vendor/jquery-3.1.1.min.js">
+   </script>
+
+<script type="text/javascript">
+   /*function modify(data){
+       document.getElementById('amount').value = data;
+   };*/
+     var num = "";
+     var QTCheckout = QTCheckout || {};
+     var rq = "6026";
+     var testMode = false;
+
+     var baseUrl = "";
+     for(var i = 0; i < 7; i++){
+       num += Math.floor((Math.random() * 10) + 1);
+       //console.log(num);
+     }
+     rq = rq + num;
+    // console.log("request reference   " + " " + rq);
+     //rq = '12345676026'
+
+     document.getElementById('customerId').innerHTML = num;
+     document.getElementById('requestRequest').value = rq;
+     document.getElementById('url').value = "https://calabaryellowpages.herokuapp.com/newapp?q=" + rq;
+
+    function trial(){
+      QTCheckout.paymentItems = QTCheckout.paymentItems || [];
+      QTCheckout.paymentItems.push({
+
+          paymentCode: '04152001',
+          extraData: {
+          amount: document.getElementById('amt').value +"00",
+          buttonSize: 'small',
+          customerId: num,
+          mobileNumber: document.getElementById('mobile'),
+          emailAddress: document.getElementById('email'),
+          redirectUrl: "http://calabaryellowpages.com/napp?q=" + document.getElementById('amt').value,
+          requestReference: rq
+          }
+      });
+
+      if (testMode == true)
+          baseUrl ="https://quicktellercheckout/scripts/quickteller-checkout-min.js?v=";
+      else
+          baseUrl = "https://paywith.quickteller.com/scripts/quickteller-checkout-min.js?v=";
+      if(!QTCheckout.qtScript) {
+          var qtScript = document.createElement('script');
+
+          qtScript.type = 'text/javascript'; qtScript.async = true;
+
+          qtScript.src = baseUrl + new Date().getDay();
+           var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(qtScript, s);
+
+          QTCheckout.qtScript = qtScript;
+
+      }
+
+      else if (QTCheckout.buildPaymentItemsUI) {
+
+        QTCheckout.buildPaymentItemsUI();
+
+      }
+
+    };
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1035586836549797',
+        xfbml      : true,
+        version    : 'v2.5'
+      });
+      FB.AppEvents.logPageView();
+    };
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    function fblogin(){
+      FB.login(function(response) {
+        console.log(response)
+        if (response.status === 'connected') {
+          // Logged into your app and Facebook.
+          FB.api('/me?fields=id,name,email,link,gender', function(response) {
+            console.log(response)
+            var data = {
+              Name: response.name,
+              Email: response.email,
+              Link: response.link,
+              Gender: response.gender,
+            }
+            console.log(data)
+            $.ajax({
+              method: "POST",
+              data: JSON.stringify(data),
+              url: "/api/login/facebook",
+              dataType: "json"
+            })
+            .done(function( resp ) {
+                console.log(resp);
+                localStorage.setItem("auth",true);
+                $('#loginOverlay').hide();
+            });
+
+          });
+        } else if (response.status === 'not_authorized') {
+          // The person is logged into Facebook, but not your app.
+        } else {
+          // The person is not logged into Facebook, so we're not sure if
+          // they are logged into this app or not.
+        }
+         // handle the response
+       }, {scope: 'public_profile,email'});
+
+    }
+
+    $( document ).ready(function(){
+      if (!localStorage.getItem("auth")){
+        console.log("Auth is false");
+        $('#loginOverlay').show()
+      }
+    })
+
+
+    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+    function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+    e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+    e.src='//www.google-analytics.com/analytics.js';
+    r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+    ga('create','UA-89030749-1','auto');ga('send','pageview');
+</script>
+{{end}}

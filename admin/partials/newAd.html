@@ -1,6 +1,6 @@
 <section class="tc">
   <section class="pa4-ns w-75-m w-60-l dib tl">
-    <h2 class="tc">Create a New Listing</h2><br/>
+    <h2 class="tc">Create a New Advert</h2><br/>
       <div class="form-group">
           <label for="exampleInputFile">Name</label>
           <input type="text" class="form-control" id="exampleInputFile" ng-model="data.Name">
@@ -20,22 +20,21 @@
       <div class="form-group">
           <button type="button" class="btn btn-info bg-black dim" ng-click="add(data)">Create Advert</button>
       </div>
-
   </section>
 </section>
 <div class="row">
   <div class="tc" ng-show="show == 'show'">
     <img src="/assets/ripple.gif" class="dib"/>
   </div>
-    <div class="col-md-6" ng-repeat="data in category">
+    <div class="col-md-6" ng-repeat="data in adverts">
         <div class="box box-solid">
             <div class="box-header with-border">
                 <i class="fa fa-text-width"></i>
-                {{data.CompanyName}}
+                {{data.Advert.Name}}
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                <img class="img img-thumbnail pull-left item-img" src="{{data.Image}}" />
+                <img class="img img-thumbnail pull-left item-img" src="{{data.Advert.Image}}" />
             </div>
             <!-- /.box-body -->
         </div>
@@ -43,18 +42,3 @@
     </div>
     <!-- ./col -->
 </div>
-
-<ul class="pagination">
-    <li>
-        <a href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-        </a>
-    </li>
-    <li ng-repeat="num in newerScope"><a href="#" ng-click="$event.preventDefault();sends($index + 1)">{{$index +1}}</a>
-    </li>
-    <li>
-    <a href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-    </a>
-    </li>
-</ul>

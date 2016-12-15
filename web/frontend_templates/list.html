@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:8080/ -->
+<html class="gr__localhost">
+	{{template "head"}}
+	<body style="margin-bottom:-100px;" >
+		<!-- ng-view for angular routed content -->
+		<!-- ngView:  -->
+		<div ng-view="" class="ng-scope">
+		<div class="text-center ng-scope">
+			<style>
+				.logo{
+				display:inline-block;
+				height:40px;
+				float:left;
+				}
+				.logo img{
+				height:100%;
+				display:inline-block;
+				}
+			</style>
+			{{ template "nav_menu" "show"}}
+			<section class="">
+			<section class="white w-100 tc cover flex justify-center flex-column bg-yellow" style="background-image:url(/assets/yellow-pages.jpg); height:40vh;">
+				<div class="dib pt5">
+					<h1 class="black db  fw4 f2 f1-ns avenir ma0">{{.PageHeading}}</h1>
+					<h1 class="black db  fw6 f2 f1-ns avenir ma0">{{.PageSubheading}}</h1>
+					<br>
+				</div>
+			</section>
+			<style>
+				.item{
+				-webkit-shadow: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3xpx rgba(0,0,0,0.23);
+				-moz-shadow: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
+				box-shadow: 0px 5px 13px -3px rgba(0,0,0,0.75);
+				}
+			</style>
+			<section class="tc avenir" >
+				<section class="pa2 pv5 dib w-100 w-80-ns tl" style="max-width: 800px;" id="posts">
+					{{range .Posts}}
+            {{if eq .Type "listing"}}
+    					{{if eq .Listing.Plus "false"}}
+    					<div class="item mb4">
+    						<div >
+    							<h1 class="ma0 fw4">{{.Listing.CompanyName}}</h1>
+    							<address class="lh-copy db">{{.Listing.Address}}</address>
+    							<br/>
+    							<strong class="lh-copy db">{{.Listing.Specialisation}}</strong>
+    							<span class="lh-copy db">{{.Listing.DHr}}</span>
+    							<a href="tel:{{.Listing.Hotline}}" class="link db lh-copy">Call {{.Listing.Hotline}} </a>
+    						</div>
+    					</div>
+    					{{end}}
+    					{{ if eq .Listing.Plus "true"}}
+    					<div class="item mb4" >
+    						<div >
+    							<span class="fr verified-mark">
+    							<strong>✔ verified</strong>
+    							</span>
+    							<img class="fl w4 ma1 mr2 ml0" src="{{.Listing.Image}}">
+    							<h1>
+    								<a class="fw4 link black lh-title  f4"  href="/listings/{{.Listing.Slug}}">{{.Listing.CompanyName}}</a>
+    							</h1>
+    							<address class="lh-copy db">{{.Listing.Address}}</address>
+    							<strong class="lh-copy db">Art Work</strong>
+    							<span class="lh-copy db">{{.Listing.DHr}}</span>
+    							<a href="tel:{{.Listing.Hotline}}" class="link db lh-copy">Call {{.Listing.Hotline}}</a>
+    						</div>
+    					</div>
+    					{{end}}
+            {{else}}
+            <div class="item mb4 pa0 bg-yellow" >
+              <img src="{{.Advert.Image}}" class="w-100">
+            </div>
+            {{end}}
+					{{end}}
+				</section>
+				<div class="mb5">
+					<a href="{{.Page.NextURL}}" class="pv3 ph4 ba ba-silver link black dim dib shadow-4" id="loadMore">Load More </a>
+				</div>
+			</section>
+			<style>
+				.card-1 {
+				box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+				transition: all 1s cubic-bezier(.25,.8,.25,1);
+				}
+				.card-1:hover,.card-1:focus  {
+				box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+				}
+			</style>
+		</div>
+		{{template "foot"}}
+		<script>
+		var updateQueryStringParam = function (key, value) {
+
+		  var baseUrl = [location.protocol, '//', location.host, location.pathname].join(''),
+		        urlQueryString = document.location.search,
+		        newParam = key + '=' + value,
+		        params = '?' + newParam;
+
+		    if (urlQueryString) {
+		        updateRegex = new RegExp('([\?&])' + key + '[^&]*');
+		        removeRegex = new RegExp('([\?&])' + key + '=[^&;]+[&;]?');
+		        if( typeof value == 'undefined' || value == null || value == '' ) { // Remove param if value is empty
+		            params = urlQueryString.replace(removeRegex, "$1");
+		            params = params.replace( /[&;]$/, "" );
+		        } else if (urlQueryString.match(updateRegex) !== null) { // If param exists already, update it
+		            params = urlQueryString.replace(updateRegex, "$1" + newParam);
+		        } else { // Otherwise, add it to end of query string
+
+		            params = urlQueryString + '&' + newParam;
+		        }
+		    }
+		    //window.history.replaceState({}, "", baseUrl + params);
+				return location.pathname+params;
+		};
+
+			function loadMoreFunction(){
+				var a_href =  $('#loadMore').attr('href');
+				console.log(a_href);
+				console.log( "load more" );
+				$.ajax({
+					method: "GET",
+					url: "/api"+a_href,
+				})
+				.done(function( resp ) {
+					var obj = JSON.parse(resp)
+					var posts = obj.Posts;
+
+					var postsArray = posts.map(function(post){
+						var doc;
+						if (post.Type = "listing"){
+							if(post.Listing.Plus == "false"){
+								var doc1 = '<div class="item mb4"> \
+									<div >	\
+										<h1 class="ma0 fw4"> '+post.Listing.CompanyName+'</h1> \
+										<address class="lh-copy db">'+post.Listing.Address+'</address> \
+										<br/> \
+										<strong class="lh-copy db">'+post.Listing.Specialisation+'</strong> \
+										<span class="lh-copy db">'+post.Listing.DHr+'</span> \
+										<a href="tel:'+post.Listing.Hotline+'" class="link db lh-copy">Call '+post.Listing.Hotline+' </a> \
+									</div> \
+								</div>';
+							doc = doc1;
+							} else if (post.Listing.Plus == "true"){
+								var doc2 = '<div class="item mb4" > \
+								 <div > \
+									 <span class="fr verified-mark"> \
+									 <strong>✔ verified</strong> \
+									 </span> \
+									 <img class="fl w4 ma1 mr2 ml0" src="'+post.Listing.Image+'"> \
+									 <h1> \
+										 <a class="fw4 link black lh-title  f4"  href="/listings/'+post.Listing.Slug+'">'+post.Listing.CompanyName+'</a> \
+									 </h1> \
+									 <address class="lh-copy db">'+post.Listing.Address+'</address> \
+									 <strong class="lh-copy db">Art Work</strong> \
+									 <span class="lh-copy db">'+post.Listing.DHr+'</span> \
+									 <a href="tel:'+post.Listing.Hotline+'" class="link db lh-copy">Call '+post.Listing.Hotline+'</a> \
+								 </div> \
+							 </div> ';
+							 doc = doc2
+							}
+						}else{
+							var doc3 = '<div class="item mb4" > \
+								<img src="'+post.Advert.Image+'" class="w-100"> \
+							</div>';
+							doc = doc3;
+						}
+						return doc;
+					})
+					var postsHTML = postsArray.join("");
+
+					$("#posts").append(postsHTML);
+					var urlcurr = updateQueryStringParam("p",obj.Page.NextVal-1)
+					console.log(urlcurr)
+					var url = [location.protocol, '//', location.host,urlcurr].join('')
+					window.history.replaceState({}, "", url);
+					var urlnext = updateQueryStringParam("p", obj.Page.NextVal)
+					console.log(urlnext)
+
+					$('#loadMore').attr('href', urlnext);
+
+					console.log(obj.Page.Next)
+					if (!obj.Page.Next){
+						$('#loadMore').hide();
+					}
+				});
+
+
+
+			}
+
+			$( document ).ready(function(){
+
+
+				$( "#loadMore" ).on( "click", function(e) {
+						e.preventDefault();
+
+						loadMoreFunction()
+			    });
+
+			})
+		</script>
+	</body>
+</html>

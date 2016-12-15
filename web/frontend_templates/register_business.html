@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:8080/ -->
+<html class="gr__localhost">
+	{{template "head"}}
+	<body style="margin-bottom:-100px;" >
+		<!-- ng-view for angular routed content -->
+		<!-- ngView:  -->
+		<div ng-view="" class="ng-scope">
+		<div class="text-center ng-scope">
+			<style>
+				.logo{
+				display:inline-block;
+				height:40px;
+				float:left;
+				}
+				.logo img{
+				height:100%;
+				display:inline-block;
+				}
+			</style>
+			{{ template "nav_menu" "show"}}
+			<section class="">
+			<section class="white w-100 tc cover flex justify-center flex-column bg-yellow" style="background-image:url(/assets/yellow-pages.jpg); height:40vh;">
+				<div class="dib pt5">
+					<h1 class="black db  fw4 f2 f1-ns avenir ma0">Register Your Business</h1>
+					<h1 class="black db  fw6 f2 f1-ns avenir ma0"></h1>
+					<br>
+				</div>
+				<div class="tc pa1 pa3-ns black ">
+	         <div class="">
+	            <a class="pa3 ba black mr2 br0 link" href="/assets/info.pdf" target="_blank"> <img src="/assets/img/download_btn_black.svg" style="width:24px;" class="v-mid">Download Guide for more info</a>
+	         </div>
+	      </div>
+			</section>
+			<style>
+				.item{
+				-webkit-shadow: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3xpx rgba(0,0,0,0.23);
+				-moz-shadow: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
+				box-shadow: 0px 5px 13px -3px rgba(0,0,0,0.75);
+				}
+			</style>
+			<section class="tc avenir" >
+				<section class="pa2 pv5 dib w-100 w-80-ns tl" style="max-width: 800px;" id="posts">
+						<div class="pv2">
+					    <label for="a" class="w5 db pv2">COMPANY NAME</label>
+					    <input type="text" class="pa2 w-100" id="CompanyName" >
+					  </div>
+					  <div class="pv2">
+					    <label for="Address" class="w5 db pv2">PHYSICAL ADDRESS</label>
+					    <input type="text" class="pa2 w-100" id="Address" >
+					  </div>
+					  <div class="pv2">
+					    <label for="Hotline" class="w5 db pv2">HOTLINE</label>
+					    <input type="text" class="pa2 w-100" id="Hotline" >
+					    </div>
+					  <div class="pv2">
+					    <label for="Specialisation" class="w5 db pv2">SPECIALIZATION</label>
+					    <input type="text" class="pa2 w-100" id="Specialisation" >
+					  </div>
+
+				    <div class="pv2">
+				      <label for="WorkingDays">WORKING DAYS</label>
+				      <input type="text" class="pa2 w-100" id="WorkingDays">
+				    </div>
+
+					  <div class="pv2">
+					    <label for="Category" class="w5 pv2 dib">CATEGORY</label>
+					    <select class="pa2 w-100" id="Category" placeholder="--Choose A Category--" >
+						    <option>
+						      --Choose a Category--
+						    </option>
+						  </select>
+					  </div>
+						{{ if .Plus }}
+
+					    <div class="pv2" ng-show="data.Plus == 'true'">
+					    <label for="Description" class="pv2">Description</label>
+					    <textarea  class="pa2 w-100" id="Description"></textarea>
+					    </div>
+
+					    <div class="pv2" >
+					    <label for="Website" class="pv2">Website Link</label>
+					    <input type="text"  class="pa2 w-100" id="Website"/>
+					    </div>
+
+					    <div class="pv2" >
+						    <label for="Logo" class="pv2">Logo Image</label>
+						    <input type="file" class="pa2 w-100"  id="Logo"/>
+					      <div id="LogosDiv" class="cf">
+
+					      </div>
+					    </div>
+
+					    <div class="pv2">
+						    <label for="Images" class="pv2">Images</label>
+						    <input type="file" class="pa2 w-100" id="Images" multiple onchange="previewFiles()"/>
+					      <div id="ImagesDiv" class="cf">
+
+					      </div>
+					    </div>
+						{{end}}
+				</section>
+				<div class="mb5">
+					{{ if .Plus }}
+						<button class="pv3 ph4 ba ba-silver link black dim dib shadow-4 bg-black white" id="loadMore" onclick="SubmitPlusRegistrationForm()">Submit</button>
+					{{else}}
+						<button class="pv3 ph4 ba ba-silver link black dim dib shadow-4 bg-black white" id="loadMore" onclick="SubmitRegistrationForm()">Submit</button>
+					{{end}}
+				</div>
+			</section>
+			<style>
+				.card-1 {
+				box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+				transition: all 1s cubic-bezier(.25,.8,.25,1);
+				}
+				.card-1:hover,.card-1:focus  {
+				box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+				}
+			</style>
+		</div>
+		{{template "foot"}}
+		<script>
+
+		var Logo;
+		var Images = [];
+			$( document ).ready(function(){
+
+				var request = $.ajax({
+				  url: "/api/getcat",
+				  method: "GET",
+				  dataType: "json"
+				});
+
+				request.done(function( categories) {
+				  var cats = categories.map(function(cat){
+						return '<option value="'+cat.Slug+'"> \
+							'+cat.Category+' \
+						</option>';
+					})
+
+					var categoriesHTML = cats.join('');
+					$('#Category').html(categoriesHTML)
+				});
+
+				request.fail(function( err, textStatus ) {
+				  console.log( err );
+				});
+{{ if .Plus }}
+
+				document.getElementById('Logo').onchange = function(e) {
+				    // fire the upload here
+						console.log(e);
+						console.log(this);
+						var logo = this.files[0];
+						console.log(logo)
+						var reader = new FileReader();
+					   reader.readAsDataURL(logo);
+					   reader.onload = function () {
+					     //console.log(reader.result);
+							 Logo = reader.result;
+							 $('#LogosDiv').html('<a class="w5 dib pa1 ba"> \
+								 <img src="'+reader.result+'" class="img " />\
+							 </a>')
+					   };
+					   reader.onerror = function (error) {
+					     console.log('Error: ', error);
+					   };
+				};
+
+{{end}}
+
+			})
+
+			function SubmitRegistrationForm(){
+				console.log(Logo);
+				console.log(Images);
+
+				var form = {};
+				form.CompanyName = $('#CompanyName').val();
+				form.Address  = $('#Address').val();
+				form.Hotline = $('#Hotline').val();
+				form.Specialisation = $('#Specialisation').val();
+				form.DHr = $('#WorkingDays').val();
+				form.Slug = $('#Category').val();
+				form.Plus = "false";
+
+				console.log(JSON.stringify(form));
+
+
+				var request = $.ajax({
+					url: "/api/addlisting",
+					method: "POST",
+					data: JSON.stringify(form),
+					dataType: "json"
+				});
+
+				request.done(function(categories) {
+					console.log("success");
+
+					$('#CompanyName').val("");
+					$('#Address').val("");
+					$('#Hotline').val("");
+					$('#Specialisation').val("");
+					$('#WorkingDays').val("");
+					$('#Category').val("");
+				});
+
+				request.fail(function( err, textStatus ) {
+				  console.log(err);
+				});
+
+			}
+{{ if .Plus }}
+			function SubmitPlusRegistrationForm(){
+				console.log(Logo);
+				console.log(Images);
+
+				var form = {};
+				form.CompanyName = $('#CompanyName').val();
+				form.Address  = $('#Address').val();
+				form.Hotline = $('#Hotline').val();
+				form.Specialisation = $('#Specialisation').val();
+				form.DHr = $('#WorkingDays').val();
+				form.Slug = $('#Category').val();
+				form.Plus = "true";
+				form.About = $('Description').val();
+				form.Website = $('#Website').val();
+				form.Image = Logo;
+				form.Images = Images;
+				console.log(form);
+
+				var request = $.ajax({
+					url: "/api/addlisting",
+					method: "POST",
+					data: JSON.parse(form),
+					dataType: "json"
+				});
+
+				request.done(function( categories) {
+					console.log("success");
+				});
+
+				request.fail(function( err, textStatus ) {
+					console.log(err);
+				});
+			}
+
+			function previewFiles() {
+
+				var preview = document.querySelector('#ImagesDiv');
+				var files   = document.querySelector('#Images').files;
+
+			function readAndPreview(file) {
+
+				// Make sure `file.name` matches our extensions criteria
+				if ( /\.(jpe?g|png|gif)$/i.test(file.name) ) {
+					var reader = new FileReader();
+
+					reader.addEventListener("load", function () {
+						var image = new Image();
+						//image.height = 100;
+						image.title = file.name;
+						image.className = 'w4 pa1 dib ba v-top'
+						image.src = this.result;
+						preview.appendChild( image );
+						Images.push(reader.result);
+
+					}, false);
+
+					reader.readAsDataURL(file);
+				}
+
+			}
+
+			if (files) {
+				[].forEach.call(files, readAndPreview);
+			}
+
+			}
+			{{end}}
+		</script>
+	</body>
+</html>

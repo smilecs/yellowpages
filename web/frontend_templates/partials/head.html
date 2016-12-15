@@ -1,0 +1,43 @@
+{{define "head" }}
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="Calabar YellowPages">
+  <meta property="og:description" content="Looking for Businesses in Cross River State? or Looking to add yours?">
+  <meta property="og:site_name" content="Calabar Yellow Pages">
+  <meta property="og:image" content="http://calabarpages.com/assets/yellow-pages.jpg">
+
+  <meta property="og:image:type" content="image/jpg">
+  <meta property="og:image:width" content="1500">
+  <meta property="og:image:height" content="1500">
+  <!--<base href="/">-->
+  <title>Yellow Pages</title>
+
+  <link href="/assets/main.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/tachyons.min.css">
+
+</head>
+{{end}}
+
+{{define "nav_menu"}}
+<section class="db w-100 bg-yellow shadow-3 fixed" style="padding:10px">
+   <a class="" href="/">
+   <img src="/assets/logo.png" class="h2 dn dib-ns">
+   <img src="/assets/logo_mobile.png" class="h2 dib dn-ns">
+   </a>
+   <div class="fr">
+      <div class=" ">
+        {{if eq "show" .  }}
+        <form class="dn dib-ns ph3" method="GET" action="/search">
+          <input type="text" class="pa2 f6" name="q"/>
+          <button type="submit" class="bg-black pa2 ph3 f6 ba b--black white" >Search</button>
+        </form>
+        {{end}}
+         <a href="/" class="link black dim dib pa2 pointer">Home</a>
+         <a href="/plusListings" class="link  black dim dib pa2 pointer">PlusListings</a>
+         <a href="/adverts" class="link black dim  dib pa2 pointer">Adverts</a>
+      </div>
+   </div>
+</section>
+{{end}}

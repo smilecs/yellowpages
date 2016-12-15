@@ -1,8 +1,5 @@
 <div class="row">
   <h2 class="tc pa3">Unapproved Listings</h2>
-  <div class="tc" ng-show="show == 'show'">
-    <img src="/assets/ripple.gif" class="dib"/>
-  </div>
    <div class="col-md-6" ng-repeat="data in result">
      <div class="box box-solid">
        <div class="box-header with-border">
@@ -15,6 +12,10 @@
            <dd>{{data.Specialisation}}</dd>
          </dl>
          <button class="btn primary" ng-click="approve($index, data.id)" ng-hide="but">Approve</button>
+         <br/>
+         <div class="tc" ng-show="show == 'show'">
+           <img src="/assets/ripple.gif" class="dib"/>
+         </div>
        </div><!-- /.box-body -->
      </div><!-- /.box -->
    </div><!-- ./col -->
