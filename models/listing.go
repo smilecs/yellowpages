@@ -77,7 +77,7 @@ func (r Listing) Add(config *config.Conf) error {
 
 		meta := strings.Split(r.Image, "base64,")[0]
 		newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
-		imagename := uuid.NewV1().String()
+		imagename := "listings/" + uuid.NewV1().String()
 
 		err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite, s3.Options{})
 		if err != nil {
@@ -100,7 +100,7 @@ func (r Listing) Add(config *config.Conf) error {
 
 			newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
 
-			imagename = uuid.NewV1().String()
+			imagename = "listings/" + uuid.NewV1().String()
 
 			err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite, s3.Options{})
 			if err != nil {
