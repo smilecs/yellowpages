@@ -66,14 +66,12 @@ func main() {
 	commonHandlers := alice.New(web.LoggingHandler)
 	//web.RecoverHandler, context.ClearHandler,
 	router := NewRouter()
-	/*
-		router.ServeFiles("/zohoverify/*filepath", http.Dir("assets"))
 
-		router.Get("/google28373290a86b6ef4.html", commonHandlers.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
-			http.ServeFile(w, r, "./assets/google28373290a86b6ef4.html")
-		}))
+	router.ServeFiles("/zohoverify/*filepath", http.Dir("assets"))
 
-	*/
+	router.Get("/google28373290a86b6ef4.html", commonHandlers.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./assets/google28373290a86b6ef4.html")
+	}))
 
 	router.ServeFiles("/assets/*filepath", http.Dir("assets"))
 
