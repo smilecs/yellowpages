@@ -61,7 +61,7 @@
     								<a class="fw4 link black lh-title  f4"  href="/listings/{{.Listing.Slug}}">{{.Listing.CompanyName}}</a>
     							</h1>
     							<address class="lh-copy db">{{.Listing.Address}}</address>
-    							<strong class="lh-copy db">Art Work</strong>
+    							<strong class="lh-copy db">{{.Listing.Specialisation}}</strong>
     							<span class="lh-copy db">{{.Listing.DHr}}</span>
     							<a href="tel:{{.Listing.Hotline}}" class="link db lh-copy">Call {{.Listing.Hotline}}</a>
     						</div>
@@ -74,9 +74,11 @@
             {{end}}
 					{{end}}
 				</section>
+				{{if .Page.Next}}
 				<div class="mb5">
 					<a href="{{.Page.NextURL}}" class="pv3 ph4 ba ba-silver link black dim dib shadow-4" id="loadMore">Load More </a>
 				</div>
+				{{end}}
 			</section>
 			<style>
 				.card-1 {
