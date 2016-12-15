@@ -49,13 +49,11 @@
                      <strong>CATEGORIES</strong>
                   </h1>
                   <section class="pa2 f3 fw1 tc cf">
-                     {{range .Categories}}
-                     <div class="w-100 w-50-ns pv2 pv3-ns pa3 dib fl ">
+                     {{range .Categories}}<div class="w-100 w-50-ns pv2 pv3-ns pa3 dib ">
                         <a href="/categories/{{.Slug}}" class="card-1 br2 black db ph3 pv3 link" >
                         {{.Category}}
                         </a>
-                     </div>
-                     {{end}}
+                     </div>{{end}}
                   </section>
                </section>
                <div class="tc dn" ng-show="show == &#39;show&#39;">
