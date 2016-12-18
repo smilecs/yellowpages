@@ -126,6 +126,58 @@ func GetPlusListingsHandler(w http.ResponseWriter, r *http.Request) {
 	tmp.Execute(w, data)
 }
 
+//ResultHandler for result view
+func GetPlusListingsJSON(w http.ResponseWriter, r *http.Request) {
+
+	listings, err := models.Listing{}.GetAllPlusListings(config.Get())
+	if err != nil {
+		log.Println(err)
+	}
+
+	ads, err := models.Advert{}.GetAll(config.Get())
+	if err != nil {
+		log.Println(err)
+	}
+
+	posts := []Post{}
+	k := 0
+	for i := 0; i < len(listings.Data); i++ {
+		if (i+1)%3 == 0 && k > len(ads) {
+			post := Post{}
+			post.Advert = ads[k]
+			post.Type = config.ADVERT
+			k++
+			posts = append(posts, post)
+		}
+		post := Post{}
+		post.Type = config.LISTING
+		post.Listing = listings.Data[i]
+		posts = append(posts, post)
+
+	}
+
+	newURL := r.URL.Query()
+	newURL.Set("p", strconv.Itoa(listings.Page.NextVal))
+	log.Println(newURL)
+	listings.Page.NextURL = r.URL.Path + "?" + newURL.Encode()
+
+	data := struct {
+		Posts          []Post
+		Page           models.Page
+		PageHeading    string
+		PageSubheading string
+	}{
+		Posts:       posts,
+		Page:        listings.Page,
+		PageHeading: "Pluslistings",
+	}
+
+	err = json.NewEncoder(w).Encode(data)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
 //Approvehandler to approve lsitings for view
 func Approvehandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("q")

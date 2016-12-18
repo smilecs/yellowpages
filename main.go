@@ -98,6 +98,7 @@ func main() {
 
 	router.Get("/api/categories/:category", commonHandlers.ThenFunc(web.CategoryListingsJSON))
 	router.Get("/api/search", commonHandlers.ThenFunc(web.SearchResultJSON))
+	router.Get("/api/pluslistings", commonHandlers.ThenFunc(web.GetPlusListingsJSON))
 
 	router.Get("/api/unapproved", commonHandlers.ThenFunc(web.Getunapproved))
 	router.Post("/api/addcat", commonHandlers.ThenFunc(web.AddCategory))
