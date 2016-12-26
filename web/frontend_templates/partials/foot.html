@@ -251,12 +251,13 @@
               Email: response.email,
               Link: response.link,
               Gender: response.gender,
+              Type: "facebook",
             }
             console.log(data)
             $.ajax({
               method: "POST",
               data: JSON.stringify(data),
-              url: "/api/login/facebook",
+              url: "/api/social_login",
               dataType: "json"
             })
             .done(function( resp ) {

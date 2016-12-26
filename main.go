@@ -109,7 +109,7 @@ func main() {
 	router.Post("/api/addlisting", commonHandlers.ThenFunc(web.AddListing))
 	router.Post("/api/approve", commonHandlers.ThenFunc(web.Approvehandler))
 
-	router.Post("/api/login/facebook", commonHandlers.ThenFunc(web.FBLogin))
+	router.Post("/api/social_login", commonHandlers.ThenFunc(web.SocialLogin))
 
 	router.Get("/newad", commonHandlers.ThenFunc(web.NewAdvertHandler))
 

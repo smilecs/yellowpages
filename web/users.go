@@ -9,14 +9,12 @@ import (
 	"github.com/tonyalaribe/yellowpages/models"
 )
 
-func FBLogin(w http.ResponseWriter, r *http.Request) {
+func SocialLogin(w http.ResponseWriter, r *http.Request) {
 	var user models.User
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		log.Println(err)
 	}
-
-	user.Type = config.FACEBOOK
 
 	err = user.Add(config.Get())
 	if err != nil {

@@ -23,6 +23,7 @@ const (
 	LISTING = "listing"
 
 	FACEBOOK = "facebook"
+	GOOGLE   = "google"
 
 	USERSCOLLECTION = "Users"
 )
