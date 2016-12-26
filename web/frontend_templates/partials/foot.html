@@ -247,6 +247,7 @@
           FB.api('/me?fields=id,name,email,link,gender', function(response) {
             console.log(response)
             var data = {
+              ID: response.id,
               Name: response.name,
               Email: response.email,
               Link: response.link,
