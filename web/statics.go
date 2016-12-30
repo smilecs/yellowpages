@@ -109,6 +109,11 @@ func RegisterListing(w http.ResponseWriter, r *http.Request) {
 	tmp.Execute(w, data)
 }
 
+func PrivacyPolicy(w http.ResponseWriter, r *http.Request) {
+	tmp := GetTemplates().Lookup("privacy_policy.html")
+	tmp.Execute(w, "")
+}
+
 //HomeHandler for listing view
 func RegisterPlusListing(w http.ResponseWriter, r *http.Request) {
 	data := struct {

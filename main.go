@@ -83,6 +83,7 @@ func main() {
 	router.Get("/listings/:listing", commonHandlers.ThenFunc(web.SingleListingHandler))
 
 	router.Get("/register_business", commonHandlers.ThenFunc(web.RegisterListing))
+	router.Get("/privacy_policy", commonHandlers.ThenFunc(web.PrivacyPolicy))
 
 	router.Get("/register_plus_business", commonHandlers.ThenFunc(web.RegisterPlusListing))
 
