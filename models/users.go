@@ -20,7 +20,7 @@ type User struct {
 //Addlisting function adding listings data to db
 func (r User) Add(conf *config.Conf) error {
 	log.Println(r)
-	mgoSession := config.Database.Session.Copy()
+	mgoSession := conf.Database.Session.Copy()
 	defer mgoSession.Close()
 
 	collection := conf.Database.C(config.USERSCOLLECTION).With(mgoSession)
