@@ -20,7 +20,10 @@ type User struct {
 //Addlisting function adding listings data to db
 func (r User) Add(conf *config.Conf) error {
 	log.Println(r)
-	collection := conf.Database.C(config.USERSCOLLECTION).With(conf.Database.Session.Copy())
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+
+	collection := conf.Database.C(config.USERSCOLLECTION).With(mgoSession)
 	_, err := collection.Upsert(bson.M{"id": r.ID}, r)
 	if err != nil {
 		log.Println(err)

@@ -125,7 +125,10 @@ func (r Listing) Add(config *config.Conf) error {
 		DropDups:   true,
 		Background: true,
 	}
-	collection := config.Database.C("Listings").With(config.Database.Session.Copy())
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+
+	collection := config.Database.C("Listings").With(mgoSession)
 	collection.EnsureIndex(index)
 	collection.Insert(r)
 	return err
@@ -133,7 +136,9 @@ func (r Listing) Add(config *config.Conf) error {
 
 func (r Listing) GetOne(config *config.Conf, id string) (Listing, error) {
 	result := Listing{}
-	collection := config.Database.C("Listings").With(config.Database.Session.Copy())
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+	collection := config.Database.C("Listings").With(mgoSession)
 
 	err := collection.Find(bson.M{"slug": id}).One(&result)
 	if err != nil {
@@ -147,8 +152,10 @@ func (r Listing) GetOne(config *config.Conf, id string) (Listing, error) {
 func (r Listing) GetAllApproved(config *config.Conf) (Listings, error) {
 	result := []Listing{}
 	listings := Listings{}
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
 
-	collection := config.Database.C("Listings").With(config.Database.Session.Copy())
+	collection := config.Database.C("Listings").With(mgoSession)
 
 	err := collection.Find(bson.M{"approved": true}).All(&result)
 	if err != nil {
@@ -162,7 +169,9 @@ func (r Listing) GetAllApproved(config *config.Conf) (Listings, error) {
 func (r Listing) GetAllUnapproved(config *config.Conf) (Listings, error) {
 	result := []Listing{}
 	listings := Listings{}
-	collection := config.Database.C("Listings").With(config.Database.Session.Copy())
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+	collection := config.Database.C("Listings").With(mgoSession)
 
 	err := collection.Find(bson.M{"approved": false}).All(&result)
 	if err != nil {
@@ -177,7 +186,10 @@ func (r Listing) GetAllInCategory(config *config.Conf, id string, page int) (Lis
 	perPage := 10
 	//result := []Listing{}
 	listings := Listings{}
-	collection := config.Database.C("Listings").With(config.Database.Session.Copy())
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+
+	collection := config.Database.C("Listings").With(mgoSession)
 
 	q := collection.Find(bson.M{"category": id}).Sort("-plus")
 
@@ -201,7 +213,11 @@ func (r Listing) GetAllInCategory(config *config.Conf, id string, page int) (Lis
 func (r Listing) GetAllPlusListings(config *config.Conf) (Listings, error) {
 	result := []Listing{}
 	listings := Listings{}
-	collection := config.Database.C("Listings").With(config.Database.Session.Copy())
+
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+
+	collection := config.Database.C("Listings").With(mgoSession)
 
 	err := collection.Find(bson.M{"plus": "true"}).All(&result)
 	if err != nil {
@@ -213,8 +229,9 @@ func (r Listing) GetAllPlusListings(config *config.Conf) (Listings, error) {
 
 //Update to approve of a listing to show in the client side
 func (r Listing) Approve(config *config.Conf, id string) error {
-
-	collection := config.Database.C("Listings").With(config.Database.Session.Copy())
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+	collection := config.Database.C("Listings").With(mgoSession)
 
 	query := bson.M{"_id": bson.ObjectIdHex(id)}
 	change := bson.M{"$set": bson.M{"approved": true}}
@@ -233,7 +250,11 @@ func (r Listing) Approve(config *config.Conf, id string) error {
 func (r Listing) TimeUpdate(config *config.Conf, id string, expiry string) error {
 
 	x, _ := strconv.Atoi(expiry)
-	collection := config.Database.C("Listings").With(config.Database.Session.Copy())
+
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+
+	collection := config.Database.C("Listings").With(mgoSession)
 
 	query := bson.M{"slug": id}
 	change := bson.M{"$set": bson.M{"expiry": time.Now().AddDate(x, 1, 0)}}
@@ -255,7 +276,11 @@ func (r Listing) Search(config *config.Conf, query string, page int) (Listings, 
 	index := mgo.Index{
 		Key: []string{"$text:specialisation", "$text:companyname"},
 	}
-	collection := config.Database.C("Listings").With(config.Database.Session.Copy())
+
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+
+	collection := config.Database.C("Listings").With(mgoSession)
 
 	err := collection.EnsureIndex(index)
 	if err != nil {

@@ -27,7 +27,10 @@ func (r Category) Add(config *config.Conf) error {
 	r.Slug = strings.Replace(r.Category, " ", "-", -1) + str
 	r.Slug = strings.Replace(r.Slug, "&", "-", -1) + str
 	r.Show = "true"
-	collection := config.Database.C("Category").With(config.Database.Session.Copy())
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+
+	collection := config.Database.C("Category").With(mgoSession)
 	err := collection.Insert(r)
 	if err != nil {
 		log.Println(err)
@@ -37,7 +40,10 @@ func (r Category) Add(config *config.Conf) error {
 
 func (r Category) GetOne(config *config.Conf, id string) (Category, error) {
 	result := Category{}
-	collection := config.Database.C("Category").With(config.Database.Session.Copy())
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+
+	collection := config.Database.C("Category").With(mgoSession)
 	err := collection.Find(bson.M{"slug": id}).One(&result)
 	if err != nil {
 		log.Println(err)
@@ -51,8 +57,10 @@ func (r Category) GetAll(config *config.Conf) ([]Category, error) {
 
 	result := []Category{}
 	//collection := config.Database.C("Category")
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
 
-	collection := config.Database.C("Category").With(config.Database.Session.Copy())
+	collection := config.Database.C("Category").With(mgoSession)
 	err := collection.Find(bson.M{"show": "true"}).All(&result)
 	if err != nil {
 		return result, err

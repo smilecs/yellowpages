@@ -52,7 +52,10 @@ func (r Advert) New(config *config.Conf) error {
 	log.Println(bucket.URL(imagename))
 
 	r.Image = bucket.URL(imagename)
-	collection := config.Database.C("Adverts").With(config.Database.Session.Copy())
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+
+	collection := config.Database.C("Adverts").With(mgoSession)
 	err = collection.Insert(r)
 	if err != nil {
 		log.Println(err)
@@ -64,7 +67,10 @@ func (r Advert) New(config *config.Conf) error {
 //Get function for getting all adverts in db
 func (Advert) GetAll(config *config.Conf) ([]Advert, error) {
 	result := []Advert{}
-	collection := config.Database.C("Adverts").With(config.Database.Session.Copy())
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+
+	collection := config.Database.C("Adverts").With(mgoSession)
 	err := collection.Find(bson.M{}).All(&result)
 	if err != nil {
 		return result, err
