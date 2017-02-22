@@ -111,6 +111,8 @@ func main() {
 	router.Post("/api/approve", commonHandlers.ThenFunc(web.Approvehandler))
 
 	router.Post("/api/social_login", commonHandlers.ThenFunc(web.SocialLogin))
+	router.Post("/api/add_review", commonHandlers.ThenFunc(web.AddReviews))
+	router.Get("/api/get_reviews", commonHandlers.ThenFunc(web.reviewJSON))
 
 	router.Get("/newad", commonHandlers.ThenFunc(web.NewAdvertHandler))
 
