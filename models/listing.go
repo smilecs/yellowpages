@@ -22,28 +22,29 @@ type Listing struct {
 	CompanyName    string        `bson:"companyname"`
 	Address        string        `bson:"address"`
 	Hotline        string        `bson:"hotline"`
-	Specialisation string        `bson:"specialisation"`
-	Category       string        `bson:"category"`
-	Advert         string        `bson:"advert"`
-	Size           string        `bson:"size"`
-	Image          string        `bson:"image"`
-	Images         []string      `bson:"images"`
-	Slug           string        `bson:"slug"`
-	About          string        `bson:"about"`
-	Username       string        `bson:"username"`
-	Password       string        `bson:"password"`
-	RC             string        `bson:"rc"`
-	Branch         string        `bson:"branch"`
-	Product        string        `bson:"product"`
-	Email          string        `bson:"email"`
-	Website        string        `bson:"website"`
-	DHr            string        `bson:"dhr"`
-	Verified       string        `bson:"verified"`
-	Approved       bool          `bson:"approved"`
-	Plus           string        `bson:"plus"`
-	Expiry         time.Time     `bson:"expiry"`
-	Duration       string        `bson:"duration"`
-	Date           time.Time     `bson:"date"`
+	HotlinesList   []string
+	Specialisation string    `bson:"specialisation"`
+	Category       string    `bson:"category"`
+	Advert         string    `bson:"advert"`
+	Size           string    `bson:"size"`
+	Image          string    `bson:"image"`
+	Images         []string  `bson:"images"`
+	Slug           string    `bson:"slug"`
+	About          string    `bson:"about"`
+	Username       string    `bson:"username"`
+	Password       string    `bson:"password"`
+	RC             string    `bson:"rc"`
+	Branch         string    `bson:"branch"`
+	Product        string    `bson:"product"`
+	Email          string    `bson:"email"`
+	Website        string    `bson:"website"`
+	DHr            string    `bson:"dhr"`
+	Verified       string    `bson:"verified"`
+	Approved       bool      `bson:"approved"`
+	Plus           string    `bson:"plus"`
+	Expiry         time.Time `bson:"expiry"`
+	Duration       string    `bson:"duration"`
+	Date           time.Time `bson:"date"`
 	Pg             Page
 }
 
@@ -148,6 +149,20 @@ func (r Listing) GetOne(config *config.Conf, id string) (Listing, error) {
 	return result, nil
 }
 
+func StringToPhoneNumbers(s string) []string {
+	var response []string
+	noCommaList := strings.Split(s, ",")
+	for _, j := range noCommaList {
+		noSpaceList := strings.Split(j, " ")
+		for _, jj := range noSpaceList {
+			if jj != " " && jj != "," && jj != "" {
+				response = append(response, strings.TrimSpace(jj))
+			}
+		}
+	}
+	return response
+}
+
 //GetListings return listings
 func (r Listing) GetAllApproved(config *config.Conf) (Listings, error) {
 	result := []Listing{}
@@ -160,6 +175,9 @@ func (r Listing) GetAllApproved(config *config.Conf) (Listings, error) {
 	err := collection.Find(bson.M{"approved": true}).All(&result)
 	if err != nil {
 		return listings, err
+	}
+	for i := range result {
+		result[i].HotlinesList = StringToPhoneNumbers(result[i].Hotline)
 	}
 	listings.Data = result
 	return listings, nil
@@ -176,6 +194,9 @@ func (r Listing) GetAllUnapproved(config *config.Conf) (Listings, error) {
 	err := collection.Find(bson.M{"approved": false}).All(&result)
 	if err != nil {
 		return listings, err
+	}
+	for i := range result {
+		result[i].HotlinesList = StringToPhoneNumbers(result[i].Hotline)
 	}
 	listings.Data = result
 	return listings, nil
@@ -201,6 +222,10 @@ func (r Listing) GetAllInCategory(config *config.Conf, id string, page int) (Lis
 	pg := SearchPagination(count, page, perPage)
 	err = q.Limit(perPage).Skip(pg.Skip).All(&listings.Data)
 
+	for i := range listings.Data {
+		listings.Data[i].HotlinesList = StringToPhoneNumbers(listings.Data[i].Hotline)
+	}
+
 	listings.Page = pg
 
 	if err != nil {
@@ -223,6 +248,10 @@ func (r Listing) GetAllPlusListings(config *config.Conf) (Listings, error) {
 	if err != nil {
 		return listings, err
 	}
+	for i := range result {
+		result[i].HotlinesList = StringToPhoneNumbers(result[i].Hotline)
+	}
+
 	listings.Data = result
 	return listings, nil
 }

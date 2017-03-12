@@ -27,26 +27,25 @@
 					<br>
 				</div>
 			</section>
-			<style>
-				.item{
-				-webkit-shadow: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3xpx rgba(0,0,0,0.23);
-				-moz-shadow: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
-				box-shadow: 0px 5px 13px -3px rgba(0,0,0,0.75);
-				}
-			</style>
+
 			<section class="tc avenir" >
 				<section class="pa2 pv5 dib w-100 w-80-ns tl" style="max-width: 800px;" id="posts">
 					{{range .Posts}}
             {{if eq .Type "listing"}}
     					{{if eq .Listing.Plus "false"}}
-    					<div class="item mb4">
+    					<div class="item mb4 ph4-ns pv4">
     						<div >
-    							<h1 class="ma0 fw4">{{.Listing.CompanyName}}</h1>
+    							<h1 class="ma0 fw4"><a class="fw6 link black lh-title  f4 underline-hover"  href="/listings/{{.Listing.Slug}}">{{.Listing.CompanyName}}</a></h1>
     							<address class="lh-copy db">{{.Listing.Address}}</address>
     							<br/>
     							<strong class="lh-copy db">{{.Listing.Specialisation}}</strong>
     							<span class="lh-copy db">{{.Listing.DHr}}</span>
-    							<a href="tel:{{.Listing.Hotline}}" class="link db lh-copy">Call {{.Listing.Hotline}} </a>
+									<div class="pv2">
+										Call: &nbsp;&nbsp;
+										{{ range .Listing.HotlinesList}}
+											<a href="tel:{{.}}" class="link dib lh-copy pa2 bg-yellow black shadow-xs ma1"> {{.}} </a>
+										{{end}}
+									</div>
     						</div>
     					</div>
     					{{end}}
@@ -58,12 +57,17 @@
     							</span>
     							<img class="fl w4 ma1 mr2 ml0" src="{{.Listing.Image}}">
     							<h1>
-    								<a class="fw4 link black lh-title  f4"  href="/listings/{{.Listing.Slug}}">{{.Listing.CompanyName}}</a>
+    								<a class="fw4 link black lh-title underline-hover f4"  href="/listings/{{.Listing.Slug}}">{{.Listing.CompanyName}}</a>
     							</h1>
     							<address class="lh-copy db">{{.Listing.Address}}</address>
     							<strong class="lh-copy db">{{.Listing.Specialisation}}</strong>
     							<span class="lh-copy db">{{.Listing.DHr}}</span>
-    							<a href="tel:{{.Listing.Hotline}}" class="link db lh-copy">Call {{.Listing.Hotline}}</a>
+									<div class="pv2">
+										Call &nbsp;&nbsp;&nbsp;
+										{{ range .Listing.HotlinesList}}
+											<a href="tel:{{.}}" class="link dib lh-copy ph2 pv1 bg-yellow black shadow-xs ma1"> {{.}} </a>
+										{{end}}
+									</div>
     						</div>
     					</div>
     					{{end}}
@@ -132,31 +136,37 @@
 						var doc;
 						if (post.Type = "listing"){
 							if(post.Listing.Plus == "false"){
+								var hotlines = post.Listing.HotlinesList.map(function(phone){
+									return '<a href="tel:' + phone + '" class="link dib lh-copy ph2 pv1 bg-yellow black shadow-xs ma1">' + phone + ' </a>'
+								})
 								var doc1 = '<div class="item mb4"> \
 									<div >	\
-										<h1 class="ma0 fw4"> '+post.Listing.CompanyName+'</h1> \
+										<h1 class="ma0 fw4"><a class="fw6 link black lh-title  f4 underline-hover"  href="/listings/'+post.Listing.Slug'"> '+post.Listing.CompanyName+'</a></h1> \
 										<address class="lh-copy db">'+post.Listing.Address+'</address> \
 										<br/> \
 										<strong class="lh-copy db">'+post.Listing.Specialisation+'</strong> \
 										<span class="lh-copy db">'+post.Listing.DHr+'</span> \
-										<a href="tel:'+post.Listing.Hotline+'" class="link db lh-copy">Call '+post.Listing.Hotline+' </a> \
+										<div class="pv2"> Call:&nbsp; '+hotlines+'</div> \
 									</div> \
 								</div>';
 							doc = doc1;
 							} else if (post.Listing.Plus == "true"){
-								var doc2 = '<div class="item mb4" > \
+								var hotlines = post.Listing.HotlinesList.map(function(phone){
+									return '<a href="tel:'+phone+'" class="link dib lh-copy ph2 pv1 bg-yellow black shadow-xs ma1"> '+phone+' </a>'
+								})
+								var doc2 = '<div class="item mb4 ph4-ns pv4" > \
 								 <div > \
 									 <span class="fr verified-mark"> \
 									 <strong>✔ verified</strong> \
 									 </span> \
 									 <img class="fl w4 ma1 mr2 ml0" src="'+post.Listing.Image+'"> \
 									 <h1> \
-										 <a class="fw4 link black lh-title  f4"  href="/listings/'+post.Listing.Slug+'">'+post.Listing.CompanyName+'</a> \
+										 <a class="fw6 link black lh-title  f4 underline-hover"  href="/listings/'+post.Listing.Slug+'">'+post.Listing.CompanyName+'</a> \
 									 </h1> \
 									 <address class="lh-copy db">'+post.Listing.Address+'</address> \
-									 <strong class="lh-copy db">Art Work</strong> \
+									 <strong class="lh-copy db">'+post.Listing.Specialisation+'</strong> \
 									 <span class="lh-copy db">'+post.Listing.DHr+'</span> \
-									 <a href="tel:'+post.Listing.Hotline+'" class="link db lh-copy">Call '+post.Listing.Hotline+'</a> \
+									 <div class="pv2">Call:&nbsp; '+hotlines+'</div> \
 								 </div> \
 							 </div> ';
 							 doc = doc2
