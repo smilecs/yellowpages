@@ -34,8 +34,8 @@ func Init() {
 	if MONGOSERVER == "" {
 		log.Println("No mongo server address set, resulting to default address")
 		MONGOSERVER = "127.0.0.1:27017"
-		MONGODB = "calabarpages"
-		//MONGODB = "yellowListings"
+		//MONGODB = "calabarpages"
+		MONGODB = "yellowListings"
 		//MONGODB = "y"
 		//mongodb://localhost
 	}

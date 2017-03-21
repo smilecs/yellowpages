@@ -21,7 +21,9 @@
       <section class="black avenir w-100 cover flex justify-center items-center flex-column bg-yellow" style="background-image:url(/assets/yellow-pages.jpg); height:43vh;">
          <div class="dib pt5 pa3 w-100 w-80-ns tc tl-ns " style="max-width: 800px;">
 
-           <img class="fl-ns w4 ma1 mr2 ml0 bg-white pa2 ba br2" src="{{.Listing.Image}}">
+           {{if ne .Listing.Image ""}}
+            <img class="fl-ns w4 ma1 mr2 ml0 bg-white pa2 ba br2" src="{{.Listing.Image}}">
+           {{end}}
            <div class="dib w-70-ns">
             <h1 class="db  fw4 f3 f2-ns ma0 lh-title">{{.Listing.CompanyName}}</h1>
             <h1 class="db  fw6 f3 f3-ns ma0">{{.Listing.Specialisation}}</h1>
@@ -31,20 +33,16 @@
 
 
       </section>
-      <style>
-      .item{
-        -webkit-shadow: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3xpx rgba(0,0,0,0.23);
-        -moz-shadow: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
-        box-shadow: 0px 5px 13px -3px rgba(0,0,0,0.75);
-      }
-      </style>
 
       <section class="tc avenir" >
-        <section class="pa2 pv4 dib w-100 w-80-ns tl" style="max-width: 800px;">
+        <section class="w-80 dib">
+        <section class="pa2 pv4 dib w-100 w-50-ns v-mid tl" style="max-width: 800px;">
+          {{if ne .Listing.About ""}}
           <div>
             <h2>About</h2>
             <p>{{.Listing.About}}</p>
           </div>
+          {{end}}
           <div>
             <h2>Working days</h2>
             <p>{{.Listing.DHr}}</p>
@@ -57,14 +55,19 @@
             <h2>Phone</h2>
             <a href="tel:{{.Listing.Hotline}}" class="link">{{.Listing.Hotline}}</a>
           </div>
+          {{if ne .Listing.Email ""}}
           <div>
             <h2>Email</h2>
-            <a href="tel:{{.Listing.Hotline}}" class="link">{{.Listing.Email}}</a>
+            <a href="mailto:{{.Listing.Email}}" class="link">{{.Listing.Email}}</a>
           </div>
+          {{end}}
+          {{if ne .Listing.Website ""}}
           <div>
             <h2>Website</h2>
             <a href="{{.Listing.Website}}" class="link">{{.Listing.Website}}</a>
           </div>
+          {{end}}
+          {{ if ne (len .Listing.Images) 0 }}
           <div>
             <h2>Images</h2>
             <div class="cf ">
@@ -75,17 +78,45 @@
               {{end}}
             </div>
           </div>
+          {{ end }}
+
+        </section><section class="dib w-100 w-50-ns v-mid pa2 pv4">
+          <iframe class="w-100 vh-50" src="//www.google.com/maps/embed/v1/place?q={{.Listing.Address}}&zoom=17&key=AIzaSyAK2UWCHhEqxSYj4Bt7WXTqmhpJk5HJ3a0">
+        </iframe>
         </section>
       </section>
-      <style>
-         .card-1 {
-         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-         transition: all 1s cubic-bezier(.25,.8,.25,1);
-         }
-         .card-1:hover,.card-1:focus  {
-         box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-         }
-      </style>
+      </section>
 </div>
+
+<section class="flex flex-row items-center w-100 vh-100 fixed top-0 left-0 bg-black-50 justify-center" style="display:none;" id="loginOverlay">
+  <div class="w-100 w-50-ns h-50 dib bg-white pa3 avenir flex flex-row items-center justify-center" >
+    <section>
+      <div class="tc ">
+        <img src="/assets/logo.png" class="w4" />
+      </div>
+      <h1 class="fw1 dn">Please Login to Continue</h1>
+      <section class="dn">
+        <div >
+          <label class="dn">Username</label>
+          <input type="text" class="pa3" placeholder="Username"/>
+        </div>
+        <div>
+          <label class="dn">Password</label>
+          <input type="password"  placeholder="Password"/>
+        </div>
+
+        <div>
+          <button class="pa3 ba black">Login</button>
+          <span>Dont have an account? signup</span>
+
+        </div>
+      </section>
+      <br/><br/><br/><br/>
+      <button class="pa3 white dim" style="background-color:#3b5998; border-color:#3b5998;" onclick="fblogin()"><img src=""/>login with facebook to continue</button>
+    </section>
+
+  </div>
+</section>
+
 {{template "foot"}}
 </body></html>
