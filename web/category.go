@@ -7,8 +7,8 @@ import (
 	"strconv"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/tonyalaribe/yellowpages/config"
-	"github.com/tonyalaribe/yellowpages/models"
+	"github.com/smilecs/yellowpages/config"
+	"github.com/smilecs/yellowpages/models"
 )
 
 func GetFromCategory(w http.ResponseWriter, r *http.Request) {

@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/gorilla/context"
-	"github.com/tonyalaribe/yellowpages/messages"
+	"github.com/smilecs/yellowpages/messages"
 )
 
 // Middlewares

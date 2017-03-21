@@ -8,7 +8,7 @@ import (
 	"github.com/mitchellh/goamz/aws"
 	"github.com/mitchellh/goamz/s3"
 	"github.com/satori/go.uuid"
-	"github.com/tonyalaribe/yellowpages/config"
+	"github.com/smilecs/yellowpages/config"
 	"gopkg.in/mgo.v2/bson"
 )
 

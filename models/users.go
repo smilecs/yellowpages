@@ -5,7 +5,7 @@ import (
 
 	"gopkg.in/mgo.v2/bson"
 
-	"github.com/tonyalaribe/yellowpages/config"
+	"github.com/smilecs/yellowpages/config"
 )
 
 //Listing struct holds all submitted form data for listings

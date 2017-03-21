@@ -6,11 +6,12 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/tonyalaribe/yellowpages/config"
-	"github.com/tonyalaribe/yellowpages/models"
+	"github.com/smilecs/yellowpages/config"
+	"github.com/smilecs/yellowpages/models"
 )
 
-func reviewJSON(w http.ResponseWriter, r *http.Request) {
+func ReviewJSON(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query().Get("q")
 	page := r.URL.Query().Get("p")
 	pageInt := 1
 	var err error
@@ -21,7 +22,7 @@ func reviewJSON(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	listings, err := models.Reviews{}.GetAll(config.Get(), pageInt)
+	listings, err := models.Reviews{}.GetAll(config.Get(), pageInt, query)
 	if err != nil {
 		log.Println(err)
 	}
@@ -33,12 +34,12 @@ func reviewJSON(w http.ResponseWriter, r *http.Request) {
 	listings.Page.NextURL = r.URL.Path + "?" + new_url.Encode()
 
 	data := struct {
-		Posts          []Post
+		Posts          models.ReviewList
 		Page           models.Page
 		PageHeading    string
 		PageSubheading string
 	}{
-		Posts:          posts,
+		Posts:          listings,
 		Page:           listings.Page,
 		PageHeading:    "Reviews",
 		PageSubheading: "",
@@ -61,7 +62,7 @@ func AddReviews(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	data, err := models.Reviews{}.GetAll(config.Get())
+	data, err := models.Reviews{}.GetAll(config.Get(), 1, formdat.Slug)
 	if err != nil {
 		log.Println(err)
 	}
