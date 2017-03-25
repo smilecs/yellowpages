@@ -21,19 +21,49 @@
             {{ template "nav_menu" "hide" }}
             <section class="">
                <section class="white w-100 tc cover flex justify-center flex-column bg-yellow" style="background-image:url(assets/yellow-pages.jpg); height:85vh;">
-                  <div class="dib ">
-                     <h1 class="black dib  fw4 f2 f1-ns avenir">Find Businesses <br>in Cross River State</h1>
+                  <div class="dib pa2 ">
+                     <h1 class="black dib  fw6 fw4-ns f3 f1-ns avenir">Find Businesses <br>in Cross River State</h1>
                      <form class="" method="GET" action="/search">
                         <div class=" ">
-                           <input class="pl3 pa3 f6 w-50-ns" type="text" name="q" >
-                           <button type="submit" class="bg-black pa3 ph4 f6 ba b--black white" >Search</button>
+                           <input class="pl3 pa2 db dib-ns pa3-ns f6 w-100 w-50-ns mb2" type="text" name="q" >
+                           <button type="submit" class="bg-black pa2  pa3-ns ph4 f6 ba b--black white" >Search</button>
                         </div>
                      </form>
                      <br>
                   </div>
                </section>
-               <div class="db tc" style="margin-top:-50px;">
-                  <a href="#categories" class="link bg-black pa3 f6 dib white" >View Categories</a>
+               <div class="db tc w-100 bg-black-90 white-90  pt3" style="margin-top:-85px;">
+                  <div class="dib pa1 w-33 w-10-ns v-top">
+                    <a href="/categories/EATERIES" class="link white-90">
+                      <img src="/assets/img/categories/restaurant.svg"  class="dib w2"/>
+                      <small class="db pa2">Eateries</small>
+                    </a>
+                  </div><div class="dib pa1 w-33 w-10-ns v-top">
+                    <a href="/categories/HOTELS" class="link white-90">
+                      <img src="/assets/img/categories/hotel.svg"  class="dib w2"/>
+                      <small class="db pa2">Hotels</small>
+                    </a>
+                  </div><div class="dib pa1 w-33 w-10-ns v-top">
+                    <a href="/categories/BANKS" class="link white-90">
+                      <img src="/assets/img/categories/bank.svg"  class="dib w2"/>
+                      <small class="db pa2">Banks</small>
+                    </a>
+                  </div><div class="dib pa1 w-33 w-10-ns v-top">
+                    <a href="/categories/HEALTH-SERVICES" class="link white-90">
+                      <img src="/assets/img/categories/hospital.svg"  class="dib w2"/>
+                      <small class="db pa2">Health</small>
+                    </a>
+                  </div><div class="dib pa1 w-33 w-10-ns v-top">
+                    <a href="/categories/TOURIST-ATTRACTIONS" class="link white-90">
+                      <img src="/assets/img/categories/tourist.svg"  class="dib w2"/>
+                      <small class="db pa2">Leisure</small>
+                    </a>
+                  </div><div class="dib pa1 w-33 w-10-ns v-top">
+                    <a href="#categories" class="link white-90">
+                      <img src="/assets/img/categories/more.svg"  class="dib w2"/>
+                      <small class="db pa2">more</small>
+                    </a>
+                  </div>
                </div>
                <style>
                   .card-1 {
@@ -45,18 +75,19 @@
                   }
                </style>
                <section class="pa5-ns" id="categories">
-                  <h1 class="tc">
+                  <h3 class="tc ">
                      <strong>CATEGORIES</strong>
-                  </h1>
-                  <section class="pa2 f3 fw1 tc cf">
-                     {{range .Categories}}<div class="w-100 w-50-ns pv2 pv3-ns pa3 dib ">
-                        <a href="/categories/{{.Slug}}" class="card-1 br2 black db ph3 pv3 link" >
+                  </h3>
+                  <section class="pa2 f6 fw1 tl cf">
+                     {{range .Categories}}<div class="w-50 w-25-ns pa2 dib ">
+                        <!--<a href="/categories/{{.Slug}}" class="card-1 br2 black db ph3 pv3 link" >-->
+                        <a  href="/categories/{{.Slug}}" class="link black underline-hover ttl">
                         {{.Category}}
                         </a>
                      </div>{{end}}
                   </section>
                </section>
-               <div class="tc dn" ng-show="show == &#39;show&#39;">
+               <div class="tc dn" >
                   <img src="/assets/ripple.gif" class="dib">
                </div>
             </section>
