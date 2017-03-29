@@ -77,6 +77,13 @@ func Init() {
 	}
 
 	log.Printf("mongoserver %s", MONGOSERVER)
+
+	config = Conf{
+		MongoDB:     MONGODB,
+		MongoServer: MONGOSERVER,
+		Database:    session.DB(MONGODB),
+	}
+
 	err = ioutil.WriteFile("/storage/x.txt", []byte("Dd"), os.ModePerm)
 	if err != nil {
 		log.Println(err)
@@ -92,6 +99,8 @@ func Init() {
 		log.Println("Blevefile not set, resulting to default address")
 		bleveFile = "./yellowpages.bleve"
 	}
+	config.BleveFile = bleveFile
+
 	log.Printf("bleve file: %s", bleveFile)
 	bleveIndex, err := bleve.Open(bleveFile)
 	if err != nil {
@@ -99,14 +108,7 @@ func Init() {
 		log.Println(err)
 		bleveIndex, err = CreateBleveIndex()
 	}
-
-	config = Conf{
-		MongoDB:     MONGODB,
-		MongoServer: MONGOSERVER,
-		Database:    session.DB(MONGODB),
-		BleveFile:   bleveFile,
-		BleveIndex:  bleveIndex,
-	}
+	config.BleveIndex = bleveIndex
 
 }
 
