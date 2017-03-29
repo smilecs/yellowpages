@@ -82,7 +82,7 @@ func Init() {
 		log.Println("Blevefile not set, resulting to default address")
 		bleveFile = "./yellowpages.bleve"
 	}
-
+	log.Printf("bleve file: %s", bleveFile)
 	bleveIndex, err := bleve.Open(bleveFile)
 	if err != nil {
 		log.Println("create bleve index")
