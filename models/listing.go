@@ -316,7 +316,22 @@ func (r Listing) Search(config *config.Conf, query string, page int) (Listings, 
 		return Results, err
 	}
 
-	q := collection.Find(bson.M{"$text": bson.M{"$search": query}}).Sort("-plus")
+	searchResult, err := SearchWithIndex(query)
+	if err != nil {
+		log.Println(err)
+	}
+
+	documentIdArray := []string{}
+	for _, v := range searchResult.Hits {
+		documentIdArray = append(documentIdArray, v.ID)
+	}
+
+	q := collection.Find(
+		bson.M{
+			"slug": bson.M{
+				"$in": documentIdArray,
+			},
+		}).Sort("-plus")
 
 	count, err := q.Count()
 	if err != nil {

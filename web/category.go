@@ -49,6 +49,11 @@ func CategoryListingsHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	categoryInfo, err := models.Category{}.GetOne(config.Get(), category)
+	if err != nil {
+		log.Println(err)
+	}
+
 	listings, err := models.Listing{}.GetAllInCategory(config.Get(), category, pageInt)
 	if err != nil {
 		log.Println(err)
@@ -90,7 +95,7 @@ func CategoryListingsHandler(w http.ResponseWriter, r *http.Request) {
 		Posts:          posts,
 		Page:           listings.Page,
 		PageHeading:    "Category",
-		PageSubheading: category,
+		PageSubheading: categoryInfo.Category,
 	}
 	tmp := GetTemplates().Lookup("list.html")
 	tmp.Execute(w, data)

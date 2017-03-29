@@ -10,6 +10,7 @@ import (
 	"github.com/justinas/alice"
 	"github.com/rs/cors"
 	"github.com/tonyalaribe/yellowpages/config"
+	"github.com/tonyalaribe/yellowpages/models"
 	"github.com/tonyalaribe/yellowpages/web"
 )
 
@@ -63,6 +64,8 @@ func main() {
 	web.TemplateInit()
 	config.Init()
 	defer config.Get().Database.Session.Close()
+	defer config.Get().BleveIndex.Close()
+
 	commonHandlers := alice.New(web.LoggingHandler)
 	//web.RecoverHandler, context.ClearHandler,
 	router := NewRouter()
@@ -124,47 +127,9 @@ func main() {
 
 	router.Get("/api/adverts", commonHandlers.ThenFunc(web.GetAdvertsJSON))
 
-	/*
-		router.Get("/client", commonHandlers.ThenFunc(ClientAdmin))
-		router.Get("/Newlisting", commonHandlers.ThenFunc(ClientIndex))
-
-		router.Get("/client/update", commonHandlers.ThenFunc(TimeUpdatehandler))
-
-		//router.Get("/api/plus", commonHandlers.ThenFunc(web.GetPlusPayHandler))
-
-		router.Get("/category/*routes", commonHandlers.ThenFunc(ClientViewHandler))
-		router.Get("/plus/*routes", commonHandlers.ThenFunc(ClientViewHandler))
-		router.Get("/advert/*routes", commonHandlers.ThenFunc(ClientViewHandler))
-		router.Get("/listing/*routes", commonHandlers.ThenFunc(ClientViewHandler))
-		router.Get("/result/*routes", commonHandlers.ThenFunc(ClientViewHandler))
-
-		router.Get("/cust", commonHandlers.ThenFunc(CustHandler))
-
-		//api requests below
-
-
-		router.Post("/login", commonHandlers.ThenFunc(web.Login))
-
-		router.Post("/api/result", commonHandlers.ThenFunc(web.SearchHandler))
-		router.Get("/api/listings", commonHandlers.ThenFunc(web.GetListHandler))
-		router.Get("/api/getcatList", commonHandlers.ThenFunc(web.GetHandler))
-		router.Get("/api/getsingle", commonHandlers.ThenFunc(web.getCatHandler))
-		router.Get("/api/getsinglelist", commonHandlers.ThenFunc(web.getlistHandler))
-		router.Get("/api/newview", commonHandlers.ThenFunc(web.GetNewView))
-		router.Get("/api/falseview", commonHandlers.ThenFunc(web.FalseH))
-
-
-		router.Get("/false", commonHandlers.ThenFunc(web.Fictionalcat))
-		router.Get("/slider", commonHandlers.ThenFunc(web.SliderHandler))
-
-
-		router.Get("/Upload", commonHandlers.ThenFunc(web.CsvHandler))
-		router.Get("/fix", commonHandlers.ThenFunc(web.Fix))
-		//forpayment
-		router.Get("/newapp", commonHandlers.ThenFunc(web.PaymentAfter))
-		router.Get("/napp", commonHandlers.ThenFunc(web.Post_Params))
-		router.Get("/error", commonHandlers.ThenFunc(web.NoPaymentAfter))
-	*/
+	router.Get("/api/index_data", commonHandlers.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
+		models.IndexMongoDBListingsCollectionWithBleve()
+	}))
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {

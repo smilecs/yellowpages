@@ -5,8 +5,8 @@
 	<body style="margin-bottom:-100px;" >
 		<!-- ng-view for angular routed content -->
 		<!-- ngView:  -->
-		<div ng-view="" class="ng-scope">
-		<div class="text-center ng-scope">
+		<div >
+		<div class="">
 			<style>
 				.logo{
 				display:inline-block;
@@ -18,7 +18,7 @@
 				display:inline-block;
 				}
 			</style>
-			{{ template "nav_menu" "show"}}
+			{{ template "nav_menu" .PageSubheading }}
 			<section class="">
 			<section class="white w-100 tc cover flex justify-center flex-column bg-yellow" style="background-image:url(/assets/yellow-pages.jpg); height:40vh;">
 				<div class="dib pt5">
