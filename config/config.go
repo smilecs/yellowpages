@@ -40,12 +40,14 @@ func CreateBleveIndex() (bleve.Index, error) {
 	nameFieldMapping.Analyzer = "en"
 	listingsMapping.AddFieldMappingsAt("companyname", nameFieldMapping)
 
+	categoryFieldMapping := bleve.NewTextFieldMapping()
+	listingsMapping.AddFieldMappingsAt("category", categoryFieldMapping)
+
 	descriptionFieldMapping := bleve.NewTextFieldMapping()
-	descriptionFieldMapping.Analyzer = "en"
 	listingsMapping.AddFieldMappingsAt("about", descriptionFieldMapping)
 
 	specialisationFieldMapping := bleve.NewTextFieldMapping()
-	listingsMapping.AddFieldMappingsAt("about", specialisationFieldMapping)
+	listingsMapping.AddFieldMappingsAt("specialisation", specialisationFieldMapping)
 
 	mapping.AddDocumentMapping("listing", listingsMapping)
 	log.Println(config.BleveFile)
