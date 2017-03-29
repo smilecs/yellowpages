@@ -1,6 +1,7 @@
 package config
 
 import (
+	"io/ioutil"
 	"log"
 	"os"
 
@@ -76,6 +77,9 @@ func Init() {
 	}
 
 	log.Printf("mongoserver %s", MONGOSERVER)
+	ioutil.WriteFile("/storage/x.txt", []byte("Dd"), os.ModePerm)
+	x, _ := ioutil.ReadDir("/storage")
+	log.Printf("%+v", x)
 
 	bleveFile := os.Getenv("BLEVE_PATH")
 	if bleveFile == "" {
