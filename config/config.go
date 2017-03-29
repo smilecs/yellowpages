@@ -1,7 +1,6 @@
 package config
 
 import (
-	"io/ioutil"
 	"log"
 	"os"
 
@@ -65,10 +64,7 @@ func Init() {
 	if MONGOSERVER == "" {
 		log.Println("No mongo server address set, resulting to default address")
 		MONGOSERVER = "127.0.0.1:27017"
-		//MONGODB = "calabarpages"
 		MONGODB = "yellowListings"
-		//MONGODB = "y"
-		//mongodb://localhost
 	}
 
 	session, err := mgo.Dial(MONGOSERVER)
@@ -82,16 +78,6 @@ func Init() {
 		MongoDB:     MONGODB,
 		MongoServer: MONGOSERVER,
 		Database:    session.DB(MONGODB),
-	}
-
-	err = ioutil.WriteFile("/storage/x.txt", []byte("Dd"), os.ModePerm)
-	if err != nil {
-		log.Println(err)
-	}
-
-	x, _ := ioutil.ReadDir("/storage")
-	for _, v := range x {
-		log.Printf("%+v", v)
 	}
 
 	bleveFile := os.Getenv("BLEVE_PATH")
