@@ -320,12 +320,14 @@ func (r Listing) Search(config *config.Conf, query string, page int) (Listings, 
 	if err != nil {
 		log.Println(err)
 	}
+	log.Printf("%+v", searchResult.Total)
 
 	documentIdArray := []string{}
 	for _, v := range searchResult.Hits {
 		documentIdArray = append(documentIdArray, v.ID)
-	}
 
+	}
+	log.Println(documentIdArray)
 	q := collection.Find(
 		bson.M{
 			"slug": bson.M{
