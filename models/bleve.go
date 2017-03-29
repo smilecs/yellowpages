@@ -3,6 +3,8 @@ package models
 import (
 	"log"
 
+	"gopkg.in/mgo.v2/bson"
+
 	"github.com/blevesearch/bleve"
 	"github.com/tonyalaribe/yellowpages/config"
 )
@@ -29,7 +31,7 @@ func IndexMongoDBListingsCollectionWithBleve() {
 
 	bleveIndex := config.Get().BleveIndex
 
-	q := collection.Find(nil)
+	q := collection.Find(bson.M{"plus": "true"})
 	count, err := q.Count()
 	if err != nil {
 		log.Println(err)
