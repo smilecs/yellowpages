@@ -1,8 +1,172 @@
 {
 	"ImportPath": "github.com/tonyalaribe/yellowpages",
-	"GoVersion": "go1.7",
+	"GoVersion": "go1.8",
 	"GodepVersion": "v75",
 	"Deps": [
+		{
+			"ImportPath": "github.com/blevesearch/bleve",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/analysis",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/analysis/analyzer/standard",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/analysis/datetime/flexible",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/analysis/datetime/optional",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/analysis/lang/en",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/analysis/token/lowercase",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/analysis/token/porter",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/analysis/token/stop",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/analysis/tokenizer/unicode",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/document",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/index",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/index/store",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/index/store/boltdb",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/index/store/gtreap",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/index/upsidedown",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/mapping",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/numeric",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/registry",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/search",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/search/collector",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/search/facet",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/search/highlight",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/search/highlight/format/html",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/search/highlight/fragmenter/simple",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/search/highlight/highlighter/html",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/search/highlight/highlighter/simple",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/search/query",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/search/scorer",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/bleve/search/searcher",
+			"Comment": "v0.5.0-175-gdbdb8b9",
+			"Rev": "dbdb8b984dee7520f56d9889946b634931bf2021"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/go-porterstemmer",
+			"Comment": "v1.0.1-9-g23a2c8e",
+			"Rev": "23a2c8e5cf1f380f27722c6d2ae8896431dc7d0e"
+		},
+		{
+			"ImportPath": "github.com/blevesearch/segment",
+			"Rev": "762005e7a34fd909a84586299f1dd457371d36ee"
+		},
+		{
+			"ImportPath": "github.com/boltdb/bolt",
+			"Comment": "v1.3.0-29-g4b1ebc1",
+			"Rev": "4b1ebc1869ad66568b313d0dc410e2be72670dda"
+		},
 		{
 			"ImportPath": "github.com/goamz/goamz/aws",
 			"Rev": "07a22c9653ddbb84a9c7feed933f1e0b945a07dc"
@@ -10,6 +174,10 @@
 		{
 			"ImportPath": "github.com/goamz/goamz/s3",
 			"Rev": "07a22c9653ddbb84a9c7feed933f1e0b945a07dc"
+		},
+		{
+			"ImportPath": "github.com/golang/protobuf/proto",
+			"Rev": "cde632b2dfc9b2747363b9ad6efa68c902944a27"
 		},
 		{
 			"ImportPath": "github.com/gorilla/context",
@@ -50,12 +218,20 @@
 			"Rev": "0aa62d5ddceb50dbcb909d790b5345affd3669b6"
 		},
 		{
+			"ImportPath": "github.com/steveyen/gtreap",
+			"Rev": "0abe01ef9be25c4aedc174758ec2d917314d6d70"
+		},
+		{
 			"ImportPath": "github.com/vaughan0/go-ini",
 			"Rev": "a98ad7ee00ec53921f08832bc06ecf7fd600e6a1"
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
 			"Rev": "50622863b2b9fd5de2512167e2a07ee695377cab"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/unix",
+			"Rev": "d5645953809d8b4752afb2c3224b1f1ad73dfa70"
 		},
 		{
 			"ImportPath": "gopkg.in/mgo.v2",
