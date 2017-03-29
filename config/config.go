@@ -77,9 +77,15 @@ func Init() {
 	}
 
 	log.Printf("mongoserver %s", MONGOSERVER)
-	ioutil.WriteFile("/storage/x.txt", []byte("Dd"), os.ModePerm)
+	err = ioutil.WriteFile("/storage/x.txt", []byte("Dd"), os.ModePerm)
+	if err != nil {
+		log.Println(err)
+	}
+
 	x, _ := ioutil.ReadDir("/storage")
-	log.Printf("%+v", x)
+	for _, v := range x {
+		log.Printf("%+v", v)
+	}
 
 	bleveFile := os.Getenv("BLEVE_PATH")
 	if bleveFile == "" {
