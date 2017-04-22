@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/tonyalaribe/yellowpages/config"
+	"github.com/smilecs/yellowpages/config"
 
 	"gopkg.in/mgo.v2/bson"
 )

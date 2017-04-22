@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/tonyalaribe/yellowpages/config"
+	"github.com/smilecs/yellowpages/config"
 	"gopkg.in/mgo.v2/bson"
 )
 

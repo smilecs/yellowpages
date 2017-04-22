@@ -11,7 +11,7 @@ import (
 	"github.com/goamz/goamz/aws"
 	"github.com/goamz/goamz/s3"
 	uuid "github.com/satori/go.uuid"
-	"github.com/tonyalaribe/yellowpages/config"
+	"github.com/smilecs/yellowpages/config"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )

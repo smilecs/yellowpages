@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/tonyalaribe/yellowpages/config"
-	"github.com/tonyalaribe/yellowpages/models"
+	"github.com/smilecs/yellowpages/config"
+	"github.com/smilecs/yellowpages/models"
 )
 
 func SocialLogin(w http.ResponseWriter, r *http.Request) {

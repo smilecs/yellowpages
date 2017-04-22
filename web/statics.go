@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/tonyalaribe/yellowpages/config"
-	"github.com/tonyalaribe/yellowpages/models"
+	"github.com/smilecs/yellowpages/config"
+	"github.com/smilecs/yellowpages/models"
 )
 
 //FrontAdminHandler for serving admin page

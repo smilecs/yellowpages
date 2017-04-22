@@ -9,9 +9,14 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/justinas/alice"
 	"github.com/rs/cors"
+<<<<<<< HEAD
 	"github.com/tonyalaribe/yellowpages/config"
 	"github.com/tonyalaribe/yellowpages/models"
 	"github.com/tonyalaribe/yellowpages/web"
+=======
+	"github.com/smilecs/yellowpages/config"
+	"github.com/smilecs/yellowpages/web"
+>>>>>>> 48d8113334091894b410b4ed4222cc4868c19898
 )
 
 // Router struct would carry the httprouter instance, so its methods could be verwritten and replaced with methds with wraphandler
@@ -114,6 +119,8 @@ func main() {
 	router.Post("/api/approve", commonHandlers.ThenFunc(web.Approvehandler))
 
 	router.Post("/api/social_login", commonHandlers.ThenFunc(web.SocialLogin))
+	router.Post("/api/add_review", commonHandlers.ThenFunc(web.AddReviews))
+	router.Get("/api/get_reviews", commonHandlers.ThenFunc(web.ReviewJSON))
 
 	router.Get("/newad", commonHandlers.ThenFunc(web.NewAdvertHandler))
 

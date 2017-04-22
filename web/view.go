@@ -3,7 +3,7 @@ package web
 import (
 	"time"
 
-	"github.com/tonyalaribe/yellowpages/models"
+	"github.com/smilecs/yellowpages/models"
 	"gopkg.in/mgo.v2/bson"
 )
 

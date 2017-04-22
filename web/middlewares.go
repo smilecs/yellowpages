@@ -5,7 +5,12 @@ import (
 	"net/http"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/tonyalaribe/yellowpages/messages"
+=======
+	"github.com/gorilla/context"
+	"github.com/smilecs/yellowpages/messages"
+>>>>>>> 48d8113334091894b410b4ed4222cc4868c19898
 )
 
 // Middlewares
