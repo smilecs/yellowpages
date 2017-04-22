@@ -6,7 +6,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 
 	"github.com/blevesearch/bleve"
-	"github.com/tonyalaribe/yellowpages/config"
+	"github.com/smilecs/yellowpages/config"
 )
 
 func IndexSingleListingWithBleve(listing Listing) error {

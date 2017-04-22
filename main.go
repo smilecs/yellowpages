@@ -9,14 +9,10 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/justinas/alice"
 	"github.com/rs/cors"
-<<<<<<< HEAD
-	"github.com/tonyalaribe/yellowpages/config"
-	"github.com/tonyalaribe/yellowpages/models"
-	"github.com/tonyalaribe/yellowpages/web"
-=======
+
 	"github.com/smilecs/yellowpages/config"
+	"github.com/smilecs/yellowpages/models"
 	"github.com/smilecs/yellowpages/web"
->>>>>>> 48d8113334091894b410b4ed4222cc4868c19898
 )
 
 // Router struct would carry the httprouter instance, so its methods could be verwritten and replaced with methds with wraphandler

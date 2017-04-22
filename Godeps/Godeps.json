@@ -1,7 +1,7 @@
 {
-	"ImportPath": "github.com/tonyalaribe/yellowpages",
+	"ImportPath": "github.com/smilecs/yellowpages",
 	"GoVersion": "go1.8",
-	"GodepVersion": "v75",
+	"GodepVersion": "v79",
 	"Deps": [
 		{
 			"ImportPath": "github.com/blevesearch/bleve",
@@ -180,11 +180,6 @@
 			"Rev": "cde632b2dfc9b2747363b9ad6efa68c902944a27"
 		},
 		{
-			"ImportPath": "github.com/gorilla/context",
-			"Comment": "v1.1",
-			"Rev": "1ea25387ff6f684839d82767c1733ff4d4d15d0a"
-		},
-		{
 			"ImportPath": "github.com/julienschmidt/httprouter",
 			"Comment": "v1.1-31-gfb79d6a",
 			"Rev": "fb79d6a91d3e4a9ecb6d945b218d78fc0d9b1939"
@@ -214,8 +209,8 @@
 		},
 		{
 			"ImportPath": "github.com/satori/go.uuid",
-			"Comment": "v1.1.0-1-g0aa62d5",
-			"Rev": "0aa62d5ddceb50dbcb909d790b5345affd3669b6"
+			"Comment": "v1.1.0-8-g5bf94b6",
+			"Rev": "5bf94b69c6b68ee1b541973bb8e1144db23a194b"
 		},
 		{
 			"ImportPath": "github.com/steveyen/gtreap",
@@ -227,11 +222,11 @@
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
-			"Rev": "50622863b2b9fd5de2512167e2a07ee695377cab"
+			"Rev": "d1e1b351919c6738fdeb9893d5c998b161464f0c"
 		},
 		{
 			"ImportPath": "golang.org/x/sys/unix",
-			"Rev": "d5645953809d8b4752afb2c3224b1f1ad73dfa70"
+			"Rev": "f3918c30c5c2cb527c0b071a27c35120a6c0719a"
 		},
 		{
 			"ImportPath": "gopkg.in/mgo.v2",
