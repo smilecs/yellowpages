@@ -46,6 +46,7 @@ type Listing struct {
 	Duration       string    `bson:"duration"`
 	Date           time.Time `bson:"date"`
 	Pg             Page
+	Reviews        string `bson:"reviews"`
 }
 
 type Listings struct {
