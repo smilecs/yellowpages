@@ -129,6 +129,7 @@ func main() {
 	router.ServeFiles("/cust/js/*filepath", http.Dir("cust/js"))
 
 	router.Get("/api/adverts", commonHandlers.ThenFunc(web.GetAdvertsJSON))
+	//router.Get("/Upload", commonHandlers.ThenFunc(web.CsvHandler))
 
 	router.Get("/api/index_data", commonHandlers.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
 		models.IndexMongoDBListingsCollectionWithBleve()

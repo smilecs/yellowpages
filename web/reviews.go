@@ -31,15 +31,15 @@ func ReviewJSON(w http.ResponseWriter, r *http.Request) {
 	new_url := r.URL.Query()
 	new_url.Set("p", strconv.Itoa(listings.Page.NextVal))
 	log.Println(new_url)
-	listings.Page.NextURL = r.URL.Path + "?" + new_url.Encode()
+	listings.Page.NextURL = r.URL.Path + "?q=" + new_url.Encode()
 
 	data := struct {
-		Posts          models.ReviewList
+		Data           []models.Reviews
 		Page           models.Page
 		PageHeading    string
 		PageSubheading string
 	}{
-		Posts:          listings,
+		Data:           listings.Data,
 		Page:           listings.Page,
 		PageHeading:    "Reviews",
 		PageSubheading: "",
