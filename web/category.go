@@ -198,3 +198,9 @@ func GetCategories(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(result)
 }
+
+/*func CsvHandler(w http.ResponseWriter, r *http.Request) {
+	csvs.MainSeal(config.Get())
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte("done"))
+}*/

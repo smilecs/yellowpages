@@ -1,4 +1,4 @@
-package web
+package csvs
 
 import (
 	"encoding/csv"
@@ -9,8 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	"gopkg.in/mgo.v2"
+	"github.com/smilecs/yellowpages/config"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -51,14 +50,11 @@ type Cat struct {
 	Show     string        `bson:"show"`
 }
 
-func MainSeal() {
-	s, err := mgo.Dial(config.xx)
+func MainSeal(config *config.Conf) {
+	s:= config.Database.Session.Copy()
 	defer s.Close()
-	if err != nil {
-		panic(err)
-	}
-	collection := s.DB(config.xy).C("Listings")
-	col := s.DB(config.xy).C("Category")
+	collection := config.Database.C("Listings").With(s)
+	col := config.Database.C("Category").With(s)
 	files, err := ioutil.ReadDir("csvs/")
 	if err != nil {
 		log.Fatal(err)

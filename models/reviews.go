@@ -14,6 +14,7 @@ type Reviews struct {
 	SocialId string        `bson:"socialid"`
 	ImageUrl string        `bson:"imageurl"`
 	Slug     string        `bson:"slug"`
+	Name     string        `bson:"name"`
 }
 
 type ReviewList struct {
@@ -26,7 +27,7 @@ func (r Reviews) Add(config *config.Conf) error {
 	mgoSession := config.Database.Session.Copy()
 	defer mgoSession.Close()
 	collection := config.Database.C("Reviews").With(mgoSession)
-	err := collection.Insert(r)
+	_, err := collection.Upsert(bson.M{"socialid": r.SocialId}, r)
 	if err != nil {
 		log.Println(err)
 	}
@@ -39,8 +40,9 @@ func (r Reviews) GetAll(config *config.Conf, page int, query string) (ReviewList
 	mgoSession := config.Database.Session.Copy()
 	defer mgoSession.Close()
 	collection := config.Database.C("Reviews").With(mgoSession)
-	q := collection.Find(bson.M{"slug": query}).Sort("+")
+	q := collection.Find(bson.M{"slug": query})
 	count, err := q.Count()
+	log.Println(count)
 	if err != nil {
 		return data, err
 	}
@@ -48,6 +50,7 @@ func (r Reviews) GetAll(config *config.Conf, page int, query string) (ReviewList
 	pg := SearchPagination(count, page, perPage)
 	err = q.Limit(perPage).Skip(pg.Skip).All(&data.Data)
 	data.Page = pg
+
 	if err != nil {
 		return data, err
 	}

@@ -125,6 +125,7 @@ func main() {
 	router.ServeFiles("/cust/js/*filepath", http.Dir("cust/js"))
 
 	router.Get("/api/adverts", commonHandlers.ThenFunc(web.GetAdvertsJSON))
+	//router.Get("/Upload", commonHandlers.ThenFunc(web.CsvHandler))
 
 	/*
 		router.Get("/client", commonHandlers.ThenFunc(ClientAdmin))
