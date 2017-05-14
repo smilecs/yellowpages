@@ -3,6 +3,8 @@ package models
 import (
 	"log"
 
+	"strconv"
+
 	"github.com/smilecs/yellowpages/config"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -27,10 +29,17 @@ func (r Reviews) Add(config *config.Conf) error {
 	mgoSession := config.Database.Session.Copy()
 	defer mgoSession.Close()
 	collection := config.Database.C("Reviews").With(mgoSession)
+	collection2 := config.Database.C("Listings").With(mgoSession)
 	_, err := collection.Upsert(bson.M{"socialid": r.SocialId}, r)
 	if err != nil {
 		log.Println(err)
 	}
+	count, _ := r.GetSize(config, r.Slug)
+	val := strconv.Itoa(count)
+	log.Println("next" + val)
+	updat := bson.M{"reviews": val}
+	query := bson.M{"slug": r.Slug}
+	collection2.Update(query, bson.M{"$set": updat})
 	return err
 }
 
@@ -55,4 +64,17 @@ func (r Reviews) GetAll(config *config.Conf, page int, query string) (ReviewList
 		return data, err
 	}
 	return data, nil
+}
+
+func (r Reviews) GetSize(config *config.Conf, query string) (int, error) {
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+	collection := config.Database.C("Reviews").With(mgoSession)
+	q := collection.Find(bson.M{"slug": query})
+	count, err := q.Count()
+	log.Println(count)
+	if err != nil {
+		return count, err
+	}
+	return count, nil
 }
