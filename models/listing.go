@@ -23,30 +23,30 @@ type Listing struct {
 	Address        string        `bson:"address"`
 	Hotline        string        `bson:"hotline"`
 	HotlinesList   []string
-	Specialisation string    `bson:"specialisation"`
-	Category       string    `bson:"category"`
-	Advert         string    `bson:"advert"`
-	Size           string    `bson:"size"`
-	Image          string    `bson:"image"`
-	Images         []string  `bson:"images"`
-	Slug           string    `bson:"slug"`
-	About          string    `bson:"about"`
-	Username       string    `bson:"username"`
-	Password       string    `bson:"password"`
-	RC             string    `bson:"rc"`
-	Branch         string    `bson:"branch"`
-	Product        string    `bson:"product"`
-	Email          string    `bson:"email"`
-	Website        string    `bson:"website"`
-	DHr            string    `bson:"dhr"`
-	Verified       string    `bson:"verified"`
-	Approved       bool      `bson:"approved"`
-	Plus           string    `bson:"plus"`
-	Expiry         time.Time `bson:"expiry"`
-	Duration       string    `bson:"duration"`
-	Date           time.Time `bson:"date"`
-	Pg             Page
-	Reviews        string `bson:"reviews"`
+	Specialisation string `bson:"specialisation"`
+	Category       string `bson:"category"`
+	// Advert         string    `bson:"advert"`
+	// Size           string    `bson:"size"`
+	Image    string    `bson:"image"`
+	Images   []string  `bson:"images"`
+	Slug     string    `bson:"slug"`
+	About    string    `bson:"about"`
+	Username string    `bson:"username"`
+	Password string    `bson:"password"`
+	RC       string    `bson:"rc"` //
+	Branch   string    `bson:"branch"`
+	Product  string    `bson:"product"`
+	Email    string    `bson:"email"`
+	Website  string    `bson:"website"`
+	DHr      string    `bson:"dhr"` //Working days and hours
+	Verified string    `bson:"verified"`
+	Approved bool      `bson:"approved"`
+	Plus     string    `bson:"plus"`
+	Expiry   time.Time `bson:"expiry"`
+	Duration string    `bson:"duration"`
+	Date     time.Time `bson:"date"`
+	Pg       Page
+	Reviews  string `bson:"reviews"`
 }
 
 type Listings struct {

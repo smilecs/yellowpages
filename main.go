@@ -67,60 +67,75 @@ func main() {
 	defer config.Get().Database.Session.Close()
 	defer config.Get().BleveIndex.Close()
 
-	commonHandlers := alice.New(web.LoggingHandler)
+	middlewares := alice.New(web.LoggingHandler)
 	//web.RecoverHandler, context.ClearHandler,
 	router := NewRouter()
 
 	router.ServeFiles("/zohoverify/*filepath", http.Dir("assets"))
 
-	router.Get("/google28373290a86b6ef4.html", commonHandlers.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
+	router.Get("/google28373290a86b6ef4.html", middlewares.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./assets/google28373290a86b6ef4.html")
 	}))
 
-	router.ServeFiles("/assets/*filepath", http.Dir("assets"))
+	fileServer := http.FileServer(http.Dir("./ui/assets"))
+	router.GET("/assets/*filepath", func(w http.ResponseWriter, r *http.Request, httpParams httprouter.Params) {
+		// w.Header().Set("Vary", "Accept-Encoding")
+		// w.Header().Set("Cache-Control", "public, max-age=7776000")
+		r.URL.Path = httpParams.ByName("filepath")
+		fileServer.ServeHTTP(w, r)
+	})
 
-	router.Get("/", commonHandlers.ThenFunc(web.HomeHandler))
-	router.Get("/search", commonHandlers.ThenFunc(web.SearchResultHandler))
-	router.Get("/pluslistings", commonHandlers.ThenFunc(web.GetPlusListingsHandler))
-	router.Get("/adverts", commonHandlers.ThenFunc(web.GetAdvertsHandler))
-	router.Get("/categories/:category", commonHandlers.ThenFunc(web.CategoryListingsHandler))
-	router.Get("/listings/:listing", commonHandlers.ThenFunc(web.SingleListingHandler))
+	router.Get("/api/setup/xyzabc123", middlewares.ThenFunc(web.Setup))
 
-	router.Get("/register_business", commonHandlers.ThenFunc(web.RegisterListing))
-	router.Get("/privacy_policy", commonHandlers.ThenFunc(web.PrivacyPolicy))
+	router.Get("/", middlewares.ThenFunc(web.HomeHandler))
+	router.Get("/search", middlewares.ThenFunc(web.SearchResultHandler))
+	router.Get("/pluslistings", middlewares.ThenFunc(web.GetPlusListingsHandler))
+	router.Get("/adverts", middlewares.ThenFunc(web.GetAdvertsHandler))
+	router.Get("/categories/:category", middlewares.ThenFunc(web.CategoryListingsHandler))
+	router.Get("/listings/:listing", middlewares.ThenFunc(web.SingleListingHandler))
 
-	router.Get("/register_plus_business", commonHandlers.ThenFunc(web.RegisterPlusListing))
+	router.Get("/register_business", middlewares.ThenFunc(web.RegisterListing))
+	router.Get("/privacy_policy", middlewares.ThenFunc(web.PrivacyPolicy))
 
-	router.Get("/admin", commonHandlers.ThenFunc(web.FrontAdminHandler))
-	router.Get("/login", commonHandlers.ThenFunc(web.LoginAdmin))
-	router.Get("/Newlisting", commonHandlers.ThenFunc(web.ClientIndex))
-	router.Get("/addlistingtemp", commonHandlers.ThenFunc(web.AddListingViewHandler))
-	router.Get("/addlisting", commonHandlers.ThenFunc(web.AddListingView))
+	router.Get("/register_plus_business", middlewares.ThenFunc(web.RegisterPlusListing))
 
-	//router.Post("/login", commonHandlers.ThenFunc(web.Login))
-	router.Post("/adminlogin", commonHandlers.ThenFunc(web.AdminLogin))
-	router.Get("/viewlistingtemp", commonHandlers.ThenFunc(web.UnapprovedViewHandler))
+	router.Get("/admin", middlewares.ThenFunc(web.FrontAdminHandler))
+	router.Get("/login", middlewares.ThenFunc(web.LoginAdmin))
+	router.Get("/Newlisting", middlewares.ThenFunc(web.ClientIndex))
+	router.Get("/addlistingtemp", middlewares.ThenFunc(web.AddListingViewHandler))
+	router.Get("/addlisting", middlewares.ThenFunc(web.AddListingView))
 
-	router.Get("/api/categories/:category", commonHandlers.ThenFunc(web.CategoryListingsJSON))
-	router.Get("/api/search", commonHandlers.ThenFunc(web.SearchResultJSON))
-	router.Get("/api/pluslistings", commonHandlers.ThenFunc(web.GetPlusListingsJSON))
+	//router.Post("/login", middlewares.ThenFunc(web.Login))
+	router.Post("/adminlogin", middlewares.ThenFunc(web.AdminLoginOld))
+	router.Post("/api/admin/login", middlewares.ThenFunc(web.AdminLogin))
+	router.Get("/viewlistingtemp", middlewares.ThenFunc(web.UnapprovedViewHandler))
 
-	router.Get("/api/unapproved", commonHandlers.ThenFunc(web.Getunapproved))
-	router.Post("/api/addcat", commonHandlers.ThenFunc(web.AddCategory))
-	router.Get("/api/getcat", commonHandlers.ThenFunc(web.GetCategories))
-	router.Get("/api/adminList", commonHandlers.ThenFunc(web.GetAdminsHandler))
-	router.Post("/api/newuser", commonHandlers.ThenFunc(web.NewUserHandler))
-	router.Post("/api/newAd", commonHandlers.ThenFunc(web.NewAdHandler))
-	router.Post("/api/addlisting", commonHandlers.ThenFunc(web.AddListing))
-	router.Post("/api/approve", commonHandlers.ThenFunc(web.Approvehandler))
+	router.Get("/api/categories/:category", middlewares.ThenFunc(web.CategoryListingsJSON))
+	router.Get("/api/search", middlewares.ThenFunc(web.SearchResultJSON))
+	router.Get("/api/pluslistings", middlewares.ThenFunc(web.GetPlusListingsJSON))
 
-	router.Post("/api/social_login", commonHandlers.ThenFunc(web.SocialLogin))
-	router.Post("/api/add_review", commonHandlers.ThenFunc(web.AddReviews))
-	router.Get("/api/get_reviews", commonHandlers.ThenFunc(web.ReviewJSON))
+	router.Get("/api/unapproved", middlewares.ThenFunc(web.Getunapproved))
 
-	router.Get("/newad", commonHandlers.ThenFunc(web.NewAdvertHandler))
+	//Remove
+	router.Post("/api/addcat", middlewares.ThenFunc(web.AddCategory))
+	router.Get("/api/getcat", middlewares.ThenFunc(web.GetCategories))
 
-	router.Get("/addcattemp", commonHandlers.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
+	router.Get("/api/categories", middlewares.ThenFunc(web.GetCategories))
+	router.Post("/api/categories", middlewares.ThenFunc(web.AddCategory))
+
+	router.Get("/api/adminList", middlewares.ThenFunc(web.GetAdminsHandler))
+	router.Post("/api/newuser", middlewares.ThenFunc(web.NewUserHandler))
+	router.Post("/api/newAd", middlewares.ThenFunc(web.NewAdHandler))
+	router.Post("/api/addlisting", middlewares.ThenFunc(web.AddListing))
+	router.Post("/api/approve", middlewares.ThenFunc(web.Approvehandler))
+
+	router.Post("/api/social_login", middlewares.ThenFunc(web.SocialLogin))
+	router.Post("/api/add_review", middlewares.ThenFunc(web.AddReviews))
+	router.Get("/api/get_reviews", middlewares.ThenFunc(web.ReviewJSON))
+
+	router.Get("/newad", middlewares.ThenFunc(web.NewAdvertHandler))
+
+	router.Get("/addcattemp", middlewares.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "admin/partials/addcat.html")
 	}))
 	router.ServeFiles("/temp/*filepath", http.Dir("admin/partials"))
@@ -128,11 +143,15 @@ func main() {
 	router.ServeFiles("/cust/partials/*filepath", http.Dir("cust/partials"))
 	router.ServeFiles("/cust/js/*filepath", http.Dir("cust/js"))
 
-	router.Get("/api/adverts", commonHandlers.ThenFunc(web.GetAdvertsJSON))
-	//router.Get("/Upload", commonHandlers.ThenFunc(web.CsvHandler))
+	router.Get("/api/adverts", middlewares.ThenFunc(web.GetAdvertsJSON))
+	//router.Get("/Upload", middlewares.ThenFunc(web.CsvHandler))
 
-	router.Get("/api/index_data", commonHandlers.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
+	router.Get("/api/index_data", middlewares.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
 		models.IndexMongoDBListingsCollectionWithBleve()
+	}))
+
+	router.Get("/dashboard/*filepath", middlewares.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./ui/admin.html")
 	}))
 
 	PORT := os.Getenv("PORT")

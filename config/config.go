@@ -1,6 +1,7 @@
 package config
 
 import (
+	"io/ioutil"
 	"log"
 	"os"
 
@@ -15,6 +16,10 @@ type Conf struct {
 	Database    *mgo.Database
 	BleveFile   string
 	BleveIndex  bleve.Index
+	Encryption  struct {
+		Private []byte
+		Public  []byte
+	}
 }
 
 var (
@@ -29,6 +34,7 @@ const (
 	GOOGLE   = "google"
 
 	USERSCOLLECTION    = "Users"
+	ADMINSCOLLECTION   = "Admins"
 	LISTINGSCOLLECTION = "Listings"
 )
 
@@ -97,6 +103,20 @@ func Init() {
 		bleveIndex, err = CreateBleveIndex()
 	}
 	config.BleveIndex = bleveIndex
+
+	config.Encryption.Public, err = ioutil.ReadFile("./config/encryption_keys/public.pem")
+	if err != nil {
+		log.Println("Error reading public key")
+		log.Println(err)
+		return
+	}
+
+	config.Encryption.Private, err = ioutil.ReadFile("./config/encryption_keys/private.pem")
+	if err != nil {
+		log.Println("Error reading private key")
+		log.Println(err)
+		return
+	}
 
 }
 
