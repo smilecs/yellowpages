@@ -9,7 +9,7 @@ export var AdminAuth = {
 
  },
  view:function(vnode){
-   console.log(UserModel.Token)
+  //  console.log(UserModel.Token)
    if (UserModel.Token==null){
        m.route.set("/login")
        return m("div")

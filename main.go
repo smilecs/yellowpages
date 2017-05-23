@@ -114,19 +114,21 @@ func main() {
 	router.Get("/api/search", middlewares.ThenFunc(web.SearchResultJSON))
 	router.Get("/api/pluslistings", middlewares.ThenFunc(web.GetPlusListingsJSON))
 
-	router.Get("/api/unapproved", middlewares.ThenFunc(web.Getunapproved))
-
 	//Remove
 	router.Post("/api/addcat", middlewares.ThenFunc(web.AddCategory))
 	router.Get("/api/getcat", middlewares.ThenFunc(web.GetCategories))
+	router.Post("/api/addlisting", middlewares.ThenFunc(web.AddListing))
+	router.Get("/api/unapproved", middlewares.ThenFunc(web.Getunapproved))
 
 	router.Get("/api/categories", middlewares.ThenFunc(web.GetCategories))
 	router.Post("/api/categories", middlewares.ThenFunc(web.AddCategory))
+	router.Post("/api/listings/add", middlewares.ThenFunc(web.AddListing))
+	router.Get("/api/listings/unapproved", middlewares.ThenFunc(web.Getunapproved))
 
 	router.Get("/api/adminList", middlewares.ThenFunc(web.GetAdminsHandler))
 	router.Post("/api/newuser", middlewares.ThenFunc(web.NewUserHandler))
 	router.Post("/api/newAd", middlewares.ThenFunc(web.NewAdHandler))
-	router.Post("/api/addlisting", middlewares.ThenFunc(web.AddListing))
+
 	router.Post("/api/approve", middlewares.ThenFunc(web.Approvehandler))
 
 	router.Post("/api/social_login", middlewares.ThenFunc(web.SocialLogin))

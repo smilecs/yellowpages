@@ -1,5 +1,52 @@
 import m from "mithril";
 import {CategoriesModel} from "../models/categories.js";
+import {ListingsModel} from "../models/listings.js";
+
+function handleLogoChange(e){
+    console.log(e)
+
+    var file = e.target.files[0]
+
+    var imageType = /^image\//;
+    if (!imageType.test(file.type)) {
+      return;
+    }
+
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+       ListingsModel.SelectedLogo = e.target.result;
+       m.redraw();
+     };
+
+    reader.readAsDataURL(file);
+
+}
+
+function handleFilesChange(e){
+    console.log(e)
+
+    var files = e.target.files
+
+    for (var i = 0; i < files.length; i++) {
+      var file = files[i];
+      var imageType = /^image\//;
+
+      if (!imageType.test(file.type)) {
+        continue;
+      }
+
+
+
+      var reader = new FileReader();
+      reader.onload = function(e) {
+         ListingsModel.SelectedListingImages.unshift(e.target.result)
+         m.redraw()
+       };
+      reader.readAsDataURL(file);
+  }
+}
+
 
 var AddListing = {
   SubmitNew:function(){
@@ -16,14 +63,12 @@ var AddListing = {
   	Listing.DHr = document.getElementById("WorkingDaysAndTimes").value;
   	Listing.Plus = document.getElementById("Specialization").value;
 
-    Listing.Image
-  	Listing.Images
+    Listing.Image = ListingsModel.SelectedLogo;
+  	Listing.Images = ListingsModel.SelectedListingImages;
 
 
     console.log(category)
-    CategoriesModel.AddCategory(category).then(function(){
-      document.getElementById("categoryInput").value = ""
-    })
+
   },
   oncreate:function(){
     CategoriesModel.GetCategories()
@@ -88,19 +133,23 @@ var AddListing = {
           </div>
           <div class="pv2">
               <label for="LogoImage" class="fw6">Logo Image</label>
-              <input id="LogoImage" type="file" class="w-100 pv2 ph3 mt2" aria-invalid="false"/>
+              <input id="LogoImage" type="file" class="w-100 pv2 ph3 mt2" aria-invalid="false" onchange={handleLogoChange}/>
+              <img class="w4" src={ListingsModel.SelectedLogo}/>
           </div>
           <div class="pv2">
               <label for="Images" class="fw6">Images</label>
-              <input id="Images" type="file" class="w-100 pv2 ph3 mt2" aria-invalid="false"/>
+              <input id="Images" type="file" class="w-100 pv2 ph3 mt2" aria-invalid="false" onchange={handleFilesChange} multiple/>
+              {
+                ListingsModel.SelectedListingImages.map(function(image){
+                  return(<img class="w4" src={image}/>)
+                })
+              }
           </div>
           <button type="button" class="white-80 shadow-4 grow bg-black dim pa3 fr ba0" onclick={AddListing.SubmitNew}>Submit</button>
 
-          <div id="pay">
-            <div class="tc" aria-hidden="true">
+            <div class="tc" aria-hidden="true" class={ListingsModel.ShowFormSubmissionLoader?"db":"dn"}>
               <img src="/assets/ripple.gif" class="dib"/>
             </div>
-          </div>
 
         </section>
 

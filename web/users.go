@@ -48,6 +48,7 @@ func AdminLoginOld(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
+
 	data, _ := json.Marshal(result)
 	w.Write(data)
 }
