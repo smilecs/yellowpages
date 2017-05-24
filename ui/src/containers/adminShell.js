@@ -1,6 +1,7 @@
 import m from "mithril";
 import localforage from 'localforage';
 import {UserModel} from '../models/userAuth.js';
+import {Analytics} from '../models/analytics.js';
 
 var MenuComponent = {
   view:function(){
@@ -22,21 +23,14 @@ var MenuComponent = {
 var AdminShell = {
   fixNav:false,
   oncreate:function(vnode){
+    Analytics.GetAnalytics()
     var navBar = document.getElementById("fixedNav")
-    console.log(navBar.offsetTop)
-
     var navBarOffset = navBar.offsetTop;
-
     var last_known_scroll_position = 0;
     var ticking = false;
-
     function CheckPostionAndUpdateNavClass(scroll_pos) {
       // do something with the scroll position
-      console.log(scroll_pos)
-      console.log(navBarOffset)
-
       if (scroll_pos>navBarOffset){
-        console.log("fixed")
         vnode.state.fixNav = true
         m.redraw()
       }else{
@@ -56,15 +50,16 @@ var AdminShell = {
       }
       ticking = true;
     });
+
   },
+
   view:function(vnode){
-    console.log(vnode.state.fixNav)
 	return (
 	  <section>
   		<section class="  pt4-ns  pb5-ns  ph5-ns black-80 bg-yellow">
-  		  <div class={"pa2 pv3-ns relative-ns w-100  z-5 "+(vnode.state.fixNav===true?"fixed bg-yellow shadow-4":"")} id="fixedNav">
+  		  <div class={"pa2 pv3-ns  w-100  z-5 "+(vnode.state.fixNav===true?"fixed top-0 left-0 bg-yellow shadow-4":"relative-ns")} id="fixedNav">
     			<div class="dib relative">
-            <a href="#" class="dib black link v-mid mr3  pa2 ba relative" onclick={()=>vnode.state.showNav=!vnode.state.showNav}>☰</a>
+            <a href="#" class="dib dn-ns black link v-mid mr3  pa2 ba relative" onclick={()=>vnode.state.showNav=!vnode.state.showNav}>☰</a>
               <div class={" right-0 buttom-0 absolute bg-white shadow-m2 pa3 br1 "+(vnode.state.showNav?"db":"dn")}>
                 <MenuComponent />
               </div>
@@ -82,28 +77,28 @@ var AdminShell = {
     			<div class="tc fr-ns ">
     			  <div class="pa2 pa4-ns shadow-m2 br1 mv3">
     				<div class="tc dib ph3">
-    				  <span class="db">
-    					22
-    				  </span>
-    				  <span class="db">
-    					Credits
-    				  </span>
+    				  <span class="db f3 pa1">
+    					{Analytics.Data.UnapprovedListingsCount}
+            </span>
+    				  <strong class="db">
+    					Unapproved
+            </strong>
     				</div>
     				<div class="tc dib ph3">
-    				  <span class="db">
-    					22
-    				  </span>
-    				  <span class="db">
-    					Credits
-    				  </span>
+    				  <span class="db f3 pa1">
+    					{Analytics.Data.ListingsCount}
+            </span>
+    				  <strong class="db ">
+    					Listings
+            </strong>
     				</div>
     				<div class="tc dib ph3">
-    				  <span class="db">
-    					22
-    				  </span>
-    				  <span class="db">
-    					Credits
-    				  </span>
+    				  <span class="db f3 pa1">
+    					{Analytics.Data.UsersCount}
+            </span>
+    				  <strong class="db">
+    					Users
+            </strong>
     				</div>
     			  </div>
     			</div>

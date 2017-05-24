@@ -114,6 +114,8 @@ func main() {
 	router.Get("/api/search", middlewares.ThenFunc(web.SearchResultJSON))
 	router.Get("/api/pluslistings", middlewares.ThenFunc(web.GetPlusListingsJSON))
 
+	router.Get("/api/analytics", middlewares.ThenFunc(web.GetAnalytics))
+
 	//Remove
 	router.Post("/api/addcat", middlewares.ThenFunc(web.AddCategory))
 	router.Get("/api/getcat", middlewares.ThenFunc(web.GetCategories))
