@@ -49,9 +49,6 @@ func wrapHandler(h http.Handler) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		ctx := context.WithValue(r.Context(), "params", ps)
 		r = r.WithContext(ctx)
-		//r.Context().Set(r, "params", ps)
-		//r.Context().
-		//context.Set(r, "params", ps)
 		h.ServeHTTP(w, r)
 	}
 }
@@ -72,7 +69,6 @@ func main() {
 	router := NewRouter()
 
 	router.ServeFiles("/zohoverify/*filepath", http.Dir("assets"))
-
 	router.Get("/google28373290a86b6ef4.html", middlewares.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./assets/google28373290a86b6ef4.html")
 	}))
@@ -99,38 +95,13 @@ func main() {
 
 	router.Get("/register_plus_business", middlewares.ThenFunc(web.RegisterPlusListing))
 
-	router.Get("/admin", middlewares.ThenFunc(web.FrontAdminHandler))
-	router.Get("/login", middlewares.ThenFunc(web.LoginAdmin))
-	router.Get("/Newlisting", middlewares.ThenFunc(web.ClientIndex))
-	router.Get("/addlistingtemp", middlewares.ThenFunc(web.AddListingViewHandler))
-	router.Get("/addlisting", middlewares.ThenFunc(web.AddListingView))
-
 	//router.Post("/login", middlewares.ThenFunc(web.Login))
-	router.Post("/adminlogin", middlewares.ThenFunc(web.AdminLoginOld))
 	router.Post("/api/admin/login", middlewares.ThenFunc(web.AdminLogin))
-	router.Get("/viewlistingtemp", middlewares.ThenFunc(web.UnapprovedViewHandler))
-
 	router.Get("/api/categories/:category", middlewares.ThenFunc(web.CategoryListingsJSON))
 	router.Get("/api/search", middlewares.ThenFunc(web.SearchResultJSON))
 	router.Get("/api/pluslistings", middlewares.ThenFunc(web.GetPlusListingsJSON))
 
 	router.Get("/api/analytics", middlewares.ThenFunc(web.GetAnalytics))
-
-	//Remove
-	router.Post("/api/addcat", middlewares.ThenFunc(web.AddCategory))
-	router.Get("/api/getcat", middlewares.ThenFunc(web.GetCategories))
-	router.Post("/api/addlisting", middlewares.ThenFunc(web.AddListing))
-	router.Get("/api/unapproved", middlewares.ThenFunc(web.Getunapproved))
-	router.Post("/api/approve", middlewares.ThenFunc(web.Approvehandler))
-	router.Post("/api/newAd", middlewares.ThenFunc(web.NewAdHandler))
-	router.Get("/api/adverts", middlewares.ThenFunc(web.GetAdvertsJSON))
-	router.Get("/newad", middlewares.ThenFunc(web.NewAdvertHandler))
-	router.Get("/addcattemp", middlewares.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "admin/partials/addcat.html")
-	}))
-	router.ServeFiles("/temp/*filepath", http.Dir("admin/partials"))
-	router.ServeFiles("/cust/partials/*filepath", http.Dir("cust/partials"))
-	router.ServeFiles("/cust/js/*filepath", http.Dir("cust/js"))
 
 	router.Get("/api/categories", middlewares.ThenFunc(web.GetCategories))
 	router.Post("/api/categories", middlewares.ThenFunc(web.AddCategory))
@@ -156,16 +127,14 @@ func main() {
 		models.IndexMongoDBListingsCollectionWithBleve()
 	}))
 
-	router.Get("/dashboard/*filepath", middlewares.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
+	router.Get("/admin/*filepath", middlewares.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./ui/admin.html")
 	}))
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
 		log.Println("No Global port has been defined, using default")
-
 		PORT = "8080"
-
 	}
 
 	handler := cors.New(cors.Options{

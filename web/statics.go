@@ -9,57 +9,8 @@ import (
 	"github.com/smilecs/yellowpages/models"
 )
 
-//FrontAdminHandler for serving admin page
-func FrontAdminHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "admin/index.html")
-}
-
-//AddListingViewHandler to render veiw page
-func AddListingViewHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "admin/partials/addlisting.html")
-}
-
-func AddListingView(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "admin/partials/newapp.html")
-}
-
-//UnapprovedViewHandler to render veiw page
-func UnapprovedViewHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "admin/partials/view_listings.html")
-}
-
-//AdvertHandler for adding adverts
-func AdvertHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "admin/partials/newAd.html")
-}
-
-func CustHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "admin/partials/newapp.html")
-}
-
-//NewAdvertHandler for new Adverts
-func NewAdvertHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "admin/partials/newAd.html")
-}
-
-func NoPaymentAfter(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "cust/assests/partials/warning.html")
-}
-
 func PaymentAfter(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "cust/newapp.html")
-}
-
-func ClientAdmin(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "cust/index.html")
-}
-
-func LoginAdmin(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "admin/login.html")
-}
-
-func ClientIndex(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "cust/addList.html")
 }
 
 //HomeHandler for listing view

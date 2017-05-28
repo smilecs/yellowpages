@@ -40,22 +40,22 @@ const (
 
 func CreateBleveIndex() (bleve.Index, error) {
 	mapping := bleve.NewIndexMapping()
-	listingsMapping := bleve.NewDocumentMapping()
-
-	nameFieldMapping := bleve.NewTextFieldMapping()
-	nameFieldMapping.Analyzer = "en"
-	listingsMapping.AddFieldMappingsAt("companyname", nameFieldMapping)
-
-	categoryFieldMapping := bleve.NewTextFieldMapping()
-	listingsMapping.AddFieldMappingsAt("category", categoryFieldMapping)
-
-	descriptionFieldMapping := bleve.NewTextFieldMapping()
-	listingsMapping.AddFieldMappingsAt("about", descriptionFieldMapping)
-
-	specialisationFieldMapping := bleve.NewTextFieldMapping()
-	listingsMapping.AddFieldMappingsAt("specialisation", specialisationFieldMapping)
-
-	mapping.AddDocumentMapping("listing", listingsMapping)
+	// listingsMapping := bleve.NewDocumentMapping()
+	//
+	// nameFieldMapping := bleve.NewTextFieldMapping()
+	// nameFieldMapping.Analyzer = "en"
+	// listingsMapping.AddFieldMappingsAt("companyname", nameFieldMapping)
+	//
+	// categoryFieldMapping := bleve.NewTextFieldMapping()
+	// listingsMapping.AddFieldMappingsAt("category", categoryFieldMapping)
+	//
+	// descriptionFieldMapping := bleve.NewTextFieldMapping()
+	// listingsMapping.AddFieldMappingsAt("about", descriptionFieldMapping)
+	//
+	// specialisationFieldMapping := bleve.NewTextFieldMapping()
+	// listingsMapping.AddFieldMappingsAt("specialisation", specialisationFieldMapping)
+	//
+	// mapping.AddDocumentMapping("listing", listingsMapping)
 	log.Println(config.BleveFile)
 	bIndex, err := bleve.New(config.BleveFile, mapping)
 	if err != nil {

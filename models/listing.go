@@ -301,7 +301,7 @@ func (r Listing) GetAllInCategory(config *config.Conf, id string, page int) (Lis
 
 	collection := config.Database.C("Listings").With(mgoSession)
 
-	q := collection.Find(bson.M{"category": id}).Sort("-plus")
+	q := collection.Find(bson.M{"category": id, "approved": true}).Sort("-plus")
 
 	count, err := q.Count()
 	if err != nil {
@@ -439,6 +439,7 @@ func (r Listing) Search(config *config.Conf, query string, page int) (Listings, 
 			"slug": bson.M{
 				"$in": documentIdArray,
 			},
+			"approved": true,
 		}).Sort("-plus")
 
 	count, err := q.Count()
