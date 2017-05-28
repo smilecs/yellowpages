@@ -19,7 +19,22 @@ func IndexSingleListingWithBleve(listing Listing) error {
 		log.Println(err)
 		return err
 	}
+
 	log.Printf("indexed %s successfully", listing.Slug)
+	return nil
+}
+
+func DeleteSingleListingInBleve(slug string) error {
+	bleveIndex := config.Get().BleveIndex
+
+	// index some data
+	err := bleveIndex.Delete(slug)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	log.Printf("deleted %s successfully", slug)
 	return nil
 }
 

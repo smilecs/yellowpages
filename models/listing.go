@@ -391,6 +391,10 @@ func (r Listing) Delete(config *config.Conf, slug string) error {
 		return err
 	}
 
+	err = DeleteSingleListingInBleve(slug)
+	if err != nil {
+		log.Println(err)
+	}
 	return nil
 }
 
