@@ -75,8 +75,8 @@ func IndexMongoDBListingsCollectionWithBleve() {
 
 func SearchWithIndex(queryString string) (*bleve.SearchResult, error) {
 	query := bleve.NewFuzzyQuery(queryString)
-	query.Fuzziness = 2
-	search := bleve.NewSearchRequest(query)
+	query.Fuzziness = 3
+	search := bleve.NewSearchRequest(query).SortBy([]string{"-plus", "-_score", "_id"})
 	bleveIndex := config.Get().BleveIndex
 
 	searchResults, err := bleveIndex.Search(search)
