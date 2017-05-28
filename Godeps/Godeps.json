@@ -168,6 +168,11 @@
 			"Rev": "4b1ebc1869ad66568b313d0dc410e2be72670dda"
 		},
 		{
+			"ImportPath": "github.com/dgrijalva/jwt-go",
+			"Comment": "v3.0.0-4-g01aeca5",
+			"Rev": "01aeca54ebda6e0fbfafd0a524d234159c05ec20"
+		},
+		{
 			"ImportPath": "github.com/goamz/goamz/aws",
 			"Rev": "07a22c9653ddbb84a9c7feed933f1e0b945a07dc"
 		},
@@ -198,6 +203,10 @@
 			"Rev": "caaaea8b30ee15616494ee68abd5d8ebbbef05cf"
 		},
 		{
+			"ImportPath": "github.com/mitchellh/mapstructure",
+			"Rev": "53818660ed4955e899c0bcafa97299a388bd7c8e"
+		},
+		{
 			"ImportPath": "github.com/rs/cors",
 			"Comment": "v1.0",
 			"Rev": "a62a804a8a009876ca59105f7899938a1349f4b3"
@@ -219,6 +228,14 @@
 		{
 			"ImportPath": "github.com/vaughan0/go-ini",
 			"Rev": "a98ad7ee00ec53921f08832bc06ecf7fd600e6a1"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/bcrypt",
+			"Rev": "aedad9a179ec1ea11b7064c57cbc6dc30d7724ec"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/blowfish",
+			"Rev": "aedad9a179ec1ea11b7064c57cbc6dc30d7724ec"
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
