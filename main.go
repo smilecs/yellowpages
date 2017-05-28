@@ -121,33 +121,35 @@ func main() {
 	router.Get("/api/getcat", middlewares.ThenFunc(web.GetCategories))
 	router.Post("/api/addlisting", middlewares.ThenFunc(web.AddListing))
 	router.Get("/api/unapproved", middlewares.ThenFunc(web.Getunapproved))
+	router.Post("/api/approve", middlewares.ThenFunc(web.Approvehandler))
+	router.Post("/api/newAd", middlewares.ThenFunc(web.NewAdHandler))
+	router.Get("/api/adverts", middlewares.ThenFunc(web.GetAdvertsJSON))
+	router.Get("/newad", middlewares.ThenFunc(web.NewAdvertHandler))
+	router.Get("/addcattemp", middlewares.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "admin/partials/addcat.html")
+	}))
+	router.ServeFiles("/temp/*filepath", http.Dir("admin/partials"))
+	router.ServeFiles("/cust/partials/*filepath", http.Dir("cust/partials"))
+	router.ServeFiles("/cust/js/*filepath", http.Dir("cust/js"))
 
 	router.Get("/api/categories", middlewares.ThenFunc(web.GetCategories))
 	router.Post("/api/categories", middlewares.ThenFunc(web.AddCategory))
 	router.Post("/api/listings/add", middlewares.ThenFunc(web.AddListing))
 	router.Get("/api/listings/unapproved", middlewares.ThenFunc(web.Getunapproved))
+	router.Get("/api/listings/approve", middlewares.ThenFunc(web.Approvehandler))
+	router.Get("/api/listings/delete", middlewares.ThenFunc(web.Deletehandler))
+	router.Get("/api/listings/slug/:slug", middlewares.ThenFunc(web.SingleListingHandlerJSON))
+	router.Post("/api/listings/edit/:slug", middlewares.ThenFunc(web.EditListing))
+	router.Post("/api/adverts/new", middlewares.ThenFunc(web.NewAdHandler))
+	router.Get("/api/adverts/all", middlewares.ThenFunc(web.GetAdvertsJSON))
 
 	router.Get("/api/adminList", middlewares.ThenFunc(web.GetAdminsHandler))
 	router.Post("/api/newuser", middlewares.ThenFunc(web.NewUserHandler))
-	router.Post("/api/newAd", middlewares.ThenFunc(web.NewAdHandler))
-
-	router.Post("/api/approve", middlewares.ThenFunc(web.Approvehandler))
 
 	router.Post("/api/social_login", middlewares.ThenFunc(web.SocialLogin))
 	router.Post("/api/add_review", middlewares.ThenFunc(web.AddReviews))
 	router.Get("/api/get_reviews", middlewares.ThenFunc(web.ReviewJSON))
 
-	router.Get("/newad", middlewares.ThenFunc(web.NewAdvertHandler))
-
-	router.Get("/addcattemp", middlewares.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "admin/partials/addcat.html")
-	}))
-	router.ServeFiles("/temp/*filepath", http.Dir("admin/partials"))
-
-	router.ServeFiles("/cust/partials/*filepath", http.Dir("cust/partials"))
-	router.ServeFiles("/cust/js/*filepath", http.Dir("cust/js"))
-
-	router.Get("/api/adverts", middlewares.ThenFunc(web.GetAdvertsJSON))
 	//router.Get("/Upload", middlewares.ThenFunc(web.CsvHandler))
 
 	router.Get("/api/index_data", middlewares.ThenFunc(func(w http.ResponseWriter, r *http.Request) {

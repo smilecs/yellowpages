@@ -5,22 +5,24 @@ import AdminShell from './containers/adminShell.js';
 import ListUsers from './containers/listUsers.js';
 import Categories from './containers/categories.js';
 import AddListing from './containers/addListing.js';
+import EditListing from './containers/editListing.js';
 import UnApprovedListings from './containers/unapprovedListings.js';
 import FindListings from './containers/findListings.js';
+import Adverts from './containers/adverts.js';
 
 import {AdminAuth} from './components/auth.js';
 
 var root = document.getElementById('appContainer');
 
 m.route.prefix('/dashboard');
-m.route(root, '/', {
-  '/': {
-        view: function(vnode) {
-            return m(AdminAuth,vnode.attrs,
-                m(AdminShell,vnode.attrs, m(ListUsers))
-              );
-        },
-      },
+m.route(root, '/categories', {
+  // '/': {
+  //       view: function(vnode) {
+  //           return m(AdminAuth,vnode.attrs,
+  //               m(AdminShell,vnode.attrs, m(ListUsers))
+  //             );
+  //       },
+  //     },
   '/categories': {
         view: function(vnode) {
             return m(AdminAuth,vnode.attrs,
@@ -28,10 +30,24 @@ m.route(root, '/', {
               );
         },
       },
+  '/adverts': {
+        view: function(vnode) {
+            return m(AdminAuth,vnode.attrs,
+                m(AdminShell,vnode.attrs, m(Adverts))
+              );
+          },
+      },
   '/listings/new': {
         view: function(vnode) {
             return m(AdminAuth,vnode.attrs,
                 m(AdminShell,vnode.attrs, m(AddListing))
+              );
+        },
+      },
+  '/listings/edit/:slug': {
+        view: function(vnode) {
+            return m(AdminAuth,vnode.attrs,
+                m(AdminShell,vnode.attrs, m(EditListing))
               );
         },
       },

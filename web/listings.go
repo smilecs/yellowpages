@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/julienschmidt/httprouter"
 	"github.com/smilecs/yellowpages/config"
 	"github.com/smilecs/yellowpages/models"
 	"gopkg.in/mgo.v2/bson"
@@ -28,7 +29,25 @@ func AddListing(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
+	// log.Printf("%+v", formdata)
 	formdata.Add(config.Get())
+
+	data := struct {
+		Message string
+	}{"Successs adding listing"}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(data)
+}
+
+//AddHandler for adding Listings
+func EditListing(w http.ResponseWriter, r *http.Request) {
+	var formdata models.Listing
+	err := json.NewDecoder(r.Body).Decode(&formdata)
+	if err != nil {
+		log.Println(err)
+	}
+	log.Printf("%+v", formdata)
+	formdata.Edit(config.Get())
 
 	data := struct {
 		Message string
@@ -61,9 +80,11 @@ func GetListings(w http.ResponseWriter, r *http.Request) {
 	w.Write(result)
 }
 
-func GetListing(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("q")
-	data, err := models.Listing{}.GetOne(config.Get(), id)
+func SingleListingHandlerJSON(w http.ResponseWriter, r *http.Request) {
+	params := r.Context().Value("params").(httprouter.Params)
+	slug := params.ByName("slug")
+
+	data, err := models.Listing{}.GetOne(config.Get(), slug)
 	if err != nil {
 		log.Println(err)
 	}
@@ -180,8 +201,49 @@ func GetPlusListingsJSON(w http.ResponseWriter, r *http.Request) {
 
 //Approvehandler to approve lsitings for view
 func Approvehandler(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("q")
-	err := models.Listing{}.Approve(config.Get(), id)
+	slug := r.URL.Query().Get("q")
+	err := models.Listing{}.Approve(config.Get(), slug)
+	message := make(map[string]interface{})
+	if err != nil {
+		log.Println(err)
+		message["message"] = err.Error()
+		message["code"] = http.StatusConflict
+		w.WriteHeader(http.StatusConflict)
+		err = json.NewEncoder(w).Encode(message)
+		if err != nil {
+			log.Println(err)
+		}
+		return
+	}
+	message["message"] = "Approved Successfully"
+	message["code"] = http.StatusOK
+	w.WriteHeader(http.StatusOK)
+	err = json.NewEncoder(w).Encode(message)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func Deletehandler(w http.ResponseWriter, r *http.Request) {
+	slug := r.URL.Query().Get("q")
+	err := models.Listing{}.Delete(config.Get(), slug)
+
+	message := make(map[string]interface{})
+	if err != nil {
+		log.Println(err)
+		message["message"] = err.Error()
+		message["code"] = http.StatusConflict
+		w.WriteHeader(http.StatusConflict)
+		err = json.NewEncoder(w).Encode(message)
+		if err != nil {
+			log.Println(err)
+		}
+		return
+	}
+	message["message"] = "Deleted Successfully"
+	message["code"] = http.StatusOK
+	w.WriteHeader(http.StatusOK)
+	err = json.NewEncoder(w).Encode(message)
 	if err != nil {
 		log.Println(err)
 	}

@@ -1,5 +1,6 @@
 import m from "mithril";
 import {ListingsModel} from '../models/listings.js';
+import {ListingItem} from '../components/listingItem.js';
 
 var FindListings = {
   Search:function(){
@@ -26,23 +27,13 @@ var FindListings = {
         <section class="pv3 ">
           {
             ListingsModel.SearchListings.map(function(listing, key){
-            return (<div class=" dib w-100 w-50-ns  pa1 " key={key}>
-              <div class=" bg-white shadow-m2 pa2">
-                <div class="">
-                  <h4>{listing.Listing.CompanyName}</h4>
-                  <small>{listing.Listing.Specialisation}</small>
-                  <p>{listing.Listing.About}</p>
-                  <p>{listing.Listing.Hotline}</p>
-                  <p>{listing.Listing.Address}</p>
-                </div>
-                <div class="tr">
-                  <button class="pv2 ph3 shadow-4 bg-dark-red white bw0 white ma2 grow">Edit</button>
-                  <button class="pv2 ph3 shadow-4 bg-dark-green white bw0 ma2 grow">Approve</button>
-                </div>
-              </div>
-            </div>);
+              console.log(listing)
+              if (listing.Type==="listing"){
+                return (<ListingItem listing={listing.Listing} key={key} />);
+              }else{
+                return
+              }
           })
-
         }
         </section>
       </section>

@@ -87,35 +87,29 @@ func (r Listing) Add(config *config.Conf) error {
 		}
 
 		log.Println(bucket.URL(imagename))
-
 		r.Image = bucket.URL(imagename)
+	}
 
-		var images []string
-		for _, v := range r.Images {
-			var byt []byte
-			byt, err = base64.StdEncoding.DecodeString(strings.Split(v, "base64,")[1])
-			if err != nil {
-				log.Println(err)
-			}
-
-			meta := strings.Split(v, "base64,")[0]
-
-			newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
-
-			imagename = "listings/" + uuid.NewV1().String()
-
-			err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite, s3.Options{})
-			if err != nil {
-				log.Println(err)
-			}
-			images = append(images, bucket.URL(imagename))
+	var images []string
+	for _, v := range r.Images {
+		var byt []byte
+		byt, err = base64.StdEncoding.DecodeString(strings.Split(v, "base64,")[1])
+		if err != nil {
+			log.Println(err)
 		}
 
-		r.Images = images
+		meta := strings.Split(v, "base64,")[0]
+		newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
+		imagename := "listings/" + uuid.NewV1().String()
 
-	} else {
-		r.Plus = "false"
+		err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite, s3.Options{})
+		if err != nil {
+			log.Println(err)
+		}
+		images = append(images, bucket.URL(imagename))
 	}
+
+	r.Images = images
 
 	r.Slug = strings.Replace(r.CompanyName, " ", "-", -1) + str
 	r.Slug = strings.Replace(r.Slug, "&", "-", -1) + str
@@ -134,6 +128,100 @@ func (r Listing) Add(config *config.Conf) error {
 	collection.EnsureIndex(index)
 	collection.Insert(r)
 	return err
+}
+
+func (r Listing) Edit(config *config.Conf) error {
+	log.Println(r)
+	auth, err := aws.EnvAuth()
+	if err != nil {
+		log.Fatal(err)
+	}
+	client := s3.New(auth, aws.USWest2)
+	bucket := client.Bucket("yellowpagesng")
+
+	if r.Image != "" {
+		if len(strings.Split(r.Image, "base64,")) > 1 {
+			meta := strings.Split(r.Image, "base64,")[0]
+			tm, _ := strconv.Atoi(r.Duration)
+			t := r.Date.AddDate(tm, 1, 0)
+			r.Expiry = t
+			byt, er := base64.StdEncoding.DecodeString(strings.Split(r.Image, "base64,")[1])
+			if er != nil {
+				log.Println(er)
+			}
+
+			newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
+			imagename := "listings/" + uuid.NewV1().String()
+
+			err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite, s3.Options{})
+			if err != nil {
+				log.Println(err)
+			}
+
+			log.Println(bucket.URL(imagename))
+			r.Image = bucket.URL(imagename)
+		}
+	}
+
+	var images []string
+	for _, v := range r.Images {
+
+		if len(strings.Split(v, "base64,")) > 1 {
+
+			var byt []byte
+			byt, err = base64.StdEncoding.DecodeString(strings.Split(v, "base64,")[1])
+			if err != nil {
+				log.Println(err)
+			}
+
+			meta := strings.Split(v, "base64,")[0]
+			newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
+			imagename := "listings/" + uuid.NewV1().String()
+
+			err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite, s3.Options{})
+			if err != nil {
+				log.Println(err)
+			}
+			images = append(images, bucket.URL(imagename))
+		} else {
+			images = append(images, v)
+		}
+	}
+
+	r.Images = images
+
+	index := mgo.Index{
+		Key:        []string{"$text:specialisation", "$text:companyname"},
+		Unique:     true,
+		DropDups:   true,
+		Background: true,
+	}
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+
+	collection := config.Database.C("Listings").With(mgoSession)
+	collection.EnsureIndex(index)
+	collection.Update(bson.M{"slug": r.Slug}, bson.M{
+		"$set": bson.M{
+			"companyname":    r.CompanyName,
+			"address":        r.Address,
+			"hotline":        r.Hotline,
+			"specialisation": r.Specialisation,
+			"category":       r.Category,
+			"image":          r.Image,
+			"images":         r.Images,
+			"slug":           r.Slug,
+			"about":          r.About,
+			"rc":             r.RC,
+			"branch":         r.Branch,
+			"product":        r.Product,
+			"email":          r.Email,
+			"website":        r.Website,
+			"dhr":            r.DHr,
+		},
+	})
+	return err
+
 }
 
 func (r Listing) GetOne(config *config.Conf, id string) (Listing, error) {
@@ -258,16 +346,33 @@ func (r Listing) GetAllPlusListings(config *config.Conf) (Listings, error) {
 }
 
 //Update to approve of a listing to show in the client side
-func (r Listing) Approve(config *config.Conf, id string) error {
+func (r Listing) Approve(config *config.Conf, slug string) error {
 	mgoSession := config.Database.Session.Copy()
 	defer mgoSession.Close()
 	collection := config.Database.C("Listings").With(mgoSession)
 
-	query := bson.M{"_id": bson.ObjectIdHex(id)}
+	query := bson.M{"slug": slug}
 	change := bson.M{"$set": bson.M{"approved": true}}
 
 	err := collection.Update(query, change)
 
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	return nil
+}
+
+//Update to approve of a listing to show in the client side
+func (r Listing) Delete(config *config.Conf, slug string) error {
+	mgoSession := config.Database.Session.Copy()
+	defer mgoSession.Close()
+	collection := config.Database.C("Listings").With(mgoSession)
+
+	query := bson.M{"slug": slug}
+
+	err := collection.Remove(query)
 	if err != nil {
 		log.Println(err)
 		return err

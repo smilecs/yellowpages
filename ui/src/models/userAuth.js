@@ -33,6 +33,13 @@ export var UserModel = {
       })
 
     }
+  },
+  Logout:function(){
+    return localforage.removeItem('jwtToken').then(function(){
+      return localforage.removeItem('jwtToken').then(function(){
+        m.route.set("/login")
+      })
+    })
   }
 
 }

@@ -2,11 +2,9 @@ import m from "mithril";
 
 export var ListingsModel = {
   UnApprovedListings:[],
-  SelectedLogo:"",
-  SelectedListingImages:[],
   ShowFormSubmissionLoader:false,
-
   SearchListings:[],
+  CurrentListing:{Image:"",Images:[]},
 
   NewListing:function(listing){
     return m
@@ -18,6 +16,37 @@ export var ListingsModel = {
       .then(function(response) {
         console.log(response)
 
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
+  },
+  EditListing:function(slug,listing){
+    console.log(slug)
+    console.log(listing)
+    return m
+      .request({
+        method: 'POST',
+        url: '/api/listings/edit/'+slug,
+        data:listing,
+      })
+      .then(function(response) {
+        console.log(response)
+
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
+  },
+  GetListing:function(slug){
+    return m
+      .request({
+        method: 'GET',
+        url: '/api/listings/slug/'+slug,
+      })
+      .then(function(response) {
+        console.log(response)
+        ListingsModel.CurrentListing = response
       })
       .catch(function(error) {
         console.error(error);
@@ -37,6 +66,32 @@ export var ListingsModel = {
         console.error(error);
       });
   },
+  ApproveListing:function(slug){
+    return m.request({
+      method:'GET',
+      url: '/api/listings/approve?q='+ slug,
+    }).then(function(response) {
+      console.log(response)
+      var element = ListingsModel.UnApprovedListings.find((listing)=>{
+        return listing.Slug == slug;
+      })
+      var index = ListingsModel.UnApprovedListings.indexOf(element)
+      ListingsModel.UnApprovedListings.splice(index,1)
+    })
+  },
+  DeleteListing:function(slug){
+    return m.request({
+      method:'GET',
+      url: '/api/listings/delete?q='+ slug,
+    }).then(function(response) {
+      console.log(response)
+      var element = ListingsModel.UnApprovedListings.find((listing)=>{
+        return listing.Slug == slug;
+      })
+      var index = ListingsModel.UnApprovedListings.indexOf(element)
+      ListingsModel.UnApprovedListings.splice(index,1)
+    })
+  },
   SearchForListings:function(query){
     console.log('/api/search?q='+query)
     return m
@@ -49,8 +104,5 @@ export var ListingsModel = {
         ListingsModel.SearchListings = response.Posts;
         console.log(response)
       })
-      .catch(function(error) {
-        console.error(error);
-      });
   }
 }
