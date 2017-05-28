@@ -220,6 +220,11 @@ func (r Listing) Edit(config *config.Conf) error {
 			"dhr":            r.DHr,
 		},
 	})
+
+	err = IndexSingleListingWithBleve(r)
+	if err != nil {
+		log.Println(err)
+	}
 	return err
 
 }
@@ -355,12 +360,20 @@ func (r Listing) Approve(config *config.Conf, slug string) error {
 	change := bson.M{"$set": bson.M{"approved": true}}
 
 	err := collection.Update(query, change)
-
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 
+	listing := Listing{}
+	err = collection.Find(bson.M{"slug": slug}).One(&listing)
+	if err != nil {
+		log.Println(err)
+	}
+	err = IndexSingleListingWithBleve(listing)
+	if err != nil {
+		log.Println(err)
+	}
 	return nil
 }
 

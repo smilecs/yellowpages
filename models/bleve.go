@@ -31,7 +31,7 @@ func IndexMongoDBListingsCollectionWithBleve() {
 
 	bleveIndex := config.Get().BleveIndex
 
-	q := collection.Find(bson.M{})
+	q := collection.Find(bson.M{"approved": true})
 	count, err := q.Count()
 	if err != nil {
 		log.Println(err)
