@@ -13,8 +13,7 @@ import Adverts from './containers/adverts.js';
 import {AdminAuth} from './components/auth.js';
 
 var root = document.getElementById('appContainer');
-
-m.route.prefix('/dashboard');
+m.route.prefix('/admin');
 m.route(root, '/categories', {
   // '/': {
   //       view: function(vnode) {
