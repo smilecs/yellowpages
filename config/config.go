@@ -56,7 +56,6 @@ func CreateBleveIndex() (bleve.Index, error) {
 	// listingsMapping.AddFieldMappingsAt("specialisation", specialisationFieldMapping)
 	//
 	// mapping.AddDocumentMapping("listing", listingsMapping)
-
 	log.Println(config.BleveFile)
 	bIndex, err := bleve.New(config.BleveFile, mapping)
 	if err != nil {

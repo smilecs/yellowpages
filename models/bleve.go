@@ -13,23 +13,8 @@ func IndexSingleListingWithBleve(listing Listing) error {
 
 	bleveIndex := config.Get().BleveIndex
 
-	plus := false
-	if listing.Plus == "true" {
-		plus = true
-	}
-	indexableListing := struct {
-		CompanyName    string
-		Specialisation string
-		Category       string
-		Plus           bool
-	}{
-		CompanyName:    listing.CompanyName,
-		Specialisation: listing.Specialisation,
-		Category:       listing.Category,
-		Plus:           plus,
-	}
 	// index some data
-	err := bleveIndex.Index(listing.Slug, indexableListing)
+	err := bleveIndex.Index(listing.Slug, listing)
 	if err != nil {
 		log.Println(err)
 		return err
