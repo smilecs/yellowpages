@@ -63,12 +63,10 @@ var EditListing = {
       ListingsModel.CurrentListing = {}
       m.redraw()
     })
-
   },
   oncreate:function(){
     ListingsModel.GetListing(m.route.param("slug"))
     CategoriesModel.GetCategories()
-
   },
   view:function(){
     let {CurrentListing} = ListingsModel;
