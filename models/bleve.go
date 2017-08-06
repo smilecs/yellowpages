@@ -88,13 +88,16 @@ func IndexMongoDBListingsCollectionWithBleve() {
 
 }
 
-func SearchWithIndex(queryString string) (*bleve.SearchResult, error) {
+func SearchWithIndex(queryString string, skip int) (*bleve.SearchResult, error) {
+	log.Println(skip)
 	query := bleve.NewFuzzyQuery(queryString)
 	query.Fuzziness = 3
 	search := bleve.NewSearchRequest(query)
-	search.SortBy([]string{"plus", "-_score", "_id"})
+	search.From = skip
+	search.SortBy([]string{"-Plus", "-_score"})
+	// search.SortBy([]string{"-plus", "-_score", "_id"})
 	bleveIndex := config.Get().BleveIndex
-
+	log.Println(bleveIndex.Mapping().DefaultSearchField())
 	searchResults, err := bleveIndex.Search(search)
 	if err != nil {
 		log.Println(err)

@@ -136,12 +136,12 @@
 						var doc;
 						if (post.Type = "listing"){
 							if(post.Listing.Plus == "false"){
-								var hotlines = post.Listing.HotlinesList.map(function(phone){
+								var hotlines = post.Listing.HotlinesList?post.Listing.HotlinesList.map(function(phone){
 									return '<a href="tel:' + phone + '" class="link dib lh-copy ph2 pv1 bg-yellow black shadow-xs ma1">' + phone + ' </a>'
-								})
+								}):''
 								var doc1 = '<div class="item mb4"> \
 									<div >	\
-										<h1 class="ma0 fw4"><a class="fw6 link black lh-title  f4 underline-hover"  href="/listings/'+post.Listing.Slug'"> '+post.Listing.CompanyName+'</a></h1> \
+										<h1 class="ma0 fw4"><a class="fw6 link black lh-title  f4 underline-hover"  href="/listings/'+post.Listing.Slug+'"> '+post.Listing.CompanyName+'</a></h1> \
 										<address class="lh-copy db">'+post.Listing.Address+'</address> \
 										<br/> \
 										<strong class="lh-copy db">'+post.Listing.Specialisation+'</strong> \

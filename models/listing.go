@@ -420,11 +420,19 @@ func (r Listing) TimeUpdate(config *config.Conf, id string, expiry string) error
 	return nil
 }
 
+func reverse(ss []string) {
+	last := len(ss) - 1
+	for i := 0; i < len(ss)/2; i++ {
+		ss[i], ss[last-i] = ss[last-i], ss[i]
+	}
+}
+
 //Search searches
 func (r Listing) Search(config *config.Conf, query string, page int) (Listings, error) {
 	perPage := 10
-	Results := Listings{}
 
+	PreResults := Listings{}
+	Results := Listings{}
 	index := mgo.Index{
 		Key: []string{"$text:specialisation", "$text:companyname"},
 	}
@@ -439,7 +447,7 @@ func (r Listing) Search(config *config.Conf, query string, page int) (Listings, 
 		return Results, err
 	}
 
-	searchResult, err := SearchWithIndex(query)
+	searchResult, err := SearchWithIndex(query, (page-1)*perPage)
 	if err != nil {
 		log.Println(err)
 	}
@@ -448,23 +456,43 @@ func (r Listing) Search(config *config.Conf, query string, page int) (Listings, 
 	documentIdArray := []string{}
 	for _, v := range searchResult.Hits {
 		documentIdArray = append(documentIdArray, v.ID)
-
 	}
 	log.Println(documentIdArray)
+	// reverse(documentIdArray)
+	// log.Println(documentIdArray)
+	count := int(searchResult.Total)
+	pg := SearchPagination(count, page, perPage)
+
+	endResults := pg.Skip + perPage
+	if endResults >= count {
+		endResults = count - 1
+	}
+	// workingDocumentArray := documentIdArray
+
 	q := collection.Find(
 		bson.M{
 			"slug": bson.M{
 				"$in": documentIdArray,
 			},
 			"approved": true,
-		}).Sort("-plus")
+		})
 
-	count, err := q.Count()
-	if err != nil {
-		return Results, err
+	// count, err := q.Count()
+	// if err != nil {
+	// 	return Results, err
+	// }
+
+	err = q.Limit(perPage).Skip(pg.Skip).All(&PreResults.Data)
+
+	for _, v := range documentIdArray {
+		for _, vv := range PreResults.Data {
+			if v == vv.Slug {
+				Results.Data = append(Results.Data, vv)
+				break
+			}
+		}
 	}
-	pg := SearchPagination(count, page, perPage)
-	err = q.Limit(perPage).Skip(pg.Skip).All(&Results.Data)
+
 	Results.Page = pg
 	if err != nil {
 		return Results, err
