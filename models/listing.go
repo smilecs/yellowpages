@@ -433,19 +433,19 @@ func (r Listing) Search(config *config.Conf, query string, page int) (Listings, 
 
 	PreResults := Listings{}
 	Results := Listings{}
-	index := mgo.Index{
-		Key: []string{"$text:specialisation", "$text:companyname"},
-	}
+	// index := mgo.Index{
+	// 	Key: []string{"$text:specialisation", "$text:companyname"},
+	// }
 
 	mgoSession := config.Database.Session.Copy()
 	defer mgoSession.Close()
 
 	collection := config.Database.C("Listings").With(mgoSession)
 
-	err := collection.EnsureIndex(index)
-	if err != nil {
-		return Results, err
-	}
+	// err := collection.EnsureIndex(index)
+	// if err != nil {
+	// 	return Results, err
+	// }
 
 	searchResult, err := SearchWithIndex(query, (page-1)*perPage)
 	if err != nil {
@@ -463,10 +463,10 @@ func (r Listing) Search(config *config.Conf, query string, page int) (Listings, 
 	count := int(searchResult.Total)
 	pg := SearchPagination(count, page, perPage)
 
-	endResults := pg.Skip + perPage
-	if endResults >= count {
-		endResults = count - 1
-	}
+	// endResults := pg.Skip + perPage
+	// if endResults >= count {
+	// 	endResults = count - 1
+	// }
 	// workingDocumentArray := documentIdArray
 
 	q := collection.Find(
@@ -482,7 +482,8 @@ func (r Listing) Search(config *config.Conf, query string, page int) (Listings, 
 	// 	return Results, err
 	// }
 
-	err = q.Limit(perPage).Skip(pg.Skip).All(&PreResults.Data)
+	// err = q.Limit(perPage).Skip(pg.Skip).All(&PreResults.Data)
+	err = q.All(&PreResults.Data)
 
 	for _, v := range documentIdArray {
 		for _, vv := range PreResults.Data {

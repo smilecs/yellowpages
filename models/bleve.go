@@ -94,11 +94,13 @@ func SearchWithIndex(queryString string, skip int) (*bleve.SearchResult, error) 
 	query.Fuzziness = 3
 	search := bleve.NewSearchRequest(query)
 	search.From = skip
+	search.Size = 10
 	search.SortBy([]string{"-Plus", "-_score"})
 	// search.SortBy([]string{"-plus", "-_score", "_id"})
 	bleveIndex := config.Get().BleveIndex
 	log.Println(bleveIndex.Mapping().DefaultSearchField())
 	searchResults, err := bleveIndex.Search(search)
+	log.Println(searchResults.String())
 	if err != nil {
 		log.Println(err)
 		return searchResults, err
