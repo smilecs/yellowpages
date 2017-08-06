@@ -113,7 +113,7 @@ var AdminShell = {
 
   		<section  class="ph2 ph5-ns mt-m25-ns pb2 cf" style="min-height:80vh" >
   		  <section class="dib w-30-ns ph3-ns v-top fl">
-    			<div class="bg-white shadow-m2 pa3 br1 dn dib-ns">
+    			<div class="bg-white shadow-m2 pa3 br1 dn dib-ns w-100">
             <MenuComponent />
     			</div>
         </section><section class="dib w-70-ns ph3-ns v-top br1 fl">

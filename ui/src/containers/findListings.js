@@ -27,13 +27,18 @@ var FindListings = {
         <section class="pv3 ">
           {
             ListingsModel.SearchListings.map(function(listing, key){
-              console.log(listing)
               if (listing.Type==="listing"){
                 return (<ListingItem listing={listing.Listing} key={key} />);
               }else{
                 return
               }
           })
+        }
+        {
+          ListingsModel.SearchListingsPagination.Next?
+          <div class="mb5 tc">
+  					<a  class="pv3 ph4 ba ba-silver link black dim dib shadow-4" onclick={()=>ListingsModel.SearchLoadmore()}>Load More </a>
+  				</div>:""
         }
         </section>
       </section>

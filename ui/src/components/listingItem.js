@@ -36,9 +36,7 @@ export var ListingItem = {
     })
   },
     view:function(vnode){
-      console.log(vnode)
       var {listing, key} = vnode.attrs;
-      console.log(listing)
       return (<div class=" dib w-100 w-50-ns  pa1 " key={key}>
         <div class=" bg-white shadow-m2 pa2">
           <div class="">

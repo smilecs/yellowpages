@@ -4,6 +4,7 @@ export var ListingsModel = {
   UnApprovedListings:[],
   ShowFormSubmissionLoader:false,
   SearchListings:[],
+  SearchListingsPagination:{},
   CurrentListing:{Image:"",Images:[]},
 
   NewListing:function(listing){
@@ -102,7 +103,23 @@ export var ListingsModel = {
       .then(function(response) {
         console.log(response)
         ListingsModel.SearchListings = response.Posts;
+        ListingsModel.SearchListingsPagination = response.Page;
+      })
+  },
+  SearchLoadmore:function(){
+    console.log(ListingsModel.SearchListingsPagination)
+    return m
+      .request({
+        method: 'GET',
+        url: ListingsModel.SearchListingsPagination.NextURL,
+      })
+      .then(function(response) {
         console.log(response)
+        console.log(ListingsModel.SearchListings.length)
+        ListingsModel.SearchListings = ListingsModel.SearchListings.concat(response.Posts);
+        console.log(ListingsModel.SearchListings.length)
+        ListingsModel.SearchListingsPagination = response.Page;
+        m.redraw()
       })
   }
 }
