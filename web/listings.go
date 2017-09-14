@@ -335,6 +335,7 @@ func SearchResultHandler(w http.ResponseWriter, r *http.Request) {
 
 	tmp := GetTemplates().Lookup("list.html")
 
+	// log.Printf("%#v", data)
 	tmp.Execute(w, data)
 }
 

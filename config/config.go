@@ -4,8 +4,11 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
+	"time"
 
 	"github.com/blevesearch/bleve"
+	bolt "github.com/coreos/bbolt"
 	mgo "gopkg.in/mgo.v2"
 )
 
@@ -14,6 +17,8 @@ type Conf struct {
 	MongoDB     string
 	MongoServer string
 	Database    *mgo.Database
+	BoltFile    string
+	BoltDB      *bolt.DB
 	BleveFile   string
 	BleveIndex  bleve.Index
 	Encryption  struct {
@@ -33,9 +38,12 @@ const (
 	FACEBOOK = "facebook"
 	GOOGLE   = "google"
 
-	USERSCOLLECTION    = "Users"
-	ADMINSCOLLECTION   = "Admins"
-	LISTINGSCOLLECTION = "Listings"
+	USERSCOLLECTION      = "Users"
+	ADMINSCOLLECTION     = "Admins"
+	LISTINGSCOLLECTION   = "Listings"
+	CATEGORIESCOLLECTION = "Categories"
+	ADVERTSCOLLECTION    = "Adverts"
+	REVIEWSCOLLECTION    = "Adverts"
 )
 
 func CreateBleveIndex() (bleve.Index, error) {
@@ -89,12 +97,37 @@ func Init() {
 		Database:    session.DB(MONGODB),
 	}
 
+	dbPath := os.Getenv("DB_PATH")
+	if dbPath == "" {
+		log.Println("Blevefile not set, resulting to default address")
+		dbPath = "."
+	}
+	config.BoltFile = filepath.Join(dbPath, "yellowpages.bolt")
+
+	log.Printf("bolt file: %s", config.BoltFile)
+	db, err := bolt.Open(config.BoltFile, 0600, &bolt.Options{Timeout: 2 * time.Second})
+	if err != nil {
+		log.Println("create bleve index")
+		log.Println(err)
+	}
+	config.BoltDB = db
+
+	config.BoltDB.Update(func(tx *bolt.Tx) error {
+		tx.CreateBucketIfNotExists([]byte(USERSCOLLECTION))
+		tx.CreateBucketIfNotExists([]byte(ADMINSCOLLECTION))
+		tx.CreateBucketIfNotExists([]byte(LISTINGSCOLLECTION))
+		tx.CreateBucketIfNotExists([]byte(CATEGORIESCOLLECTION))
+		tx.CreateBucketIfNotExists([]byte(ADVERTSCOLLECTION))
+		tx.CreateBucketIfNotExists([]byte(REVIEWSCOLLECTION))
+		return err
+	})
+
 	bleveFile := os.Getenv("BLEVE_PATH")
 	if bleveFile == "" {
 		log.Println("Blevefile not set, resulting to default address")
 		bleveFile = "./yellowpages.bleve"
 	}
-	config.BleveFile = bleveFile
+	config.BleveFile = filepath.Join(dbPath, "yellowpages.bleve")
 
 	log.Printf("bleve file: %s", bleveFile)
 	bleveIndex, err := bleve.Open(bleveFile)

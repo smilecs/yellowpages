@@ -2,26 +2,27 @@ package models
 
 import (
 	"encoding/base64"
+	"encoding/json"
 	"log"
 	"strings"
 
+	bolt "github.com/coreos/bbolt"
 	"github.com/mitchellh/goamz/aws"
 	"github.com/mitchellh/goamz/s3"
 	"github.com/satori/go.uuid"
 	"github.com/smilecs/yellowpages/config"
-	"gopkg.in/mgo.v2/bson"
 )
 
 //Advert struct for user ads
 type Advert struct {
-	ID    bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
-	Image string        `bson:"image"`
-	Name  string        `bson:"name"`
-	Type  string        `bson:"type"`
+	ID    int    `json:"id,omitempty" bson:"_id,omitempty"`
+	Image string `bson:"image"`
+	Name  string `bson:"name"`
+	Type  string `bson:"type"`
 }
 
 //NewAd function for adding new adverts
-func (r Advert) New(config *config.Conf) error {
+func (r Advert) New(conf *config.Conf) error {
 
 	r.Type = "advert"
 
@@ -31,9 +32,6 @@ func (r Advert) New(config *config.Conf) error {
 	}
 	client := s3.New(auth, aws.USWest2)
 	bucket := client.Bucket("yellowpagesng")
-
-	//p := rand.New(rand.NewSource(time.Now().UnixNano()))
-	//str := strconv.Itoa(p.Intn(10))
 
 	byt, err := base64.StdEncoding.DecodeString(strings.Split(r.Image, "base64,")[1])
 	if err != nil {
@@ -52,28 +50,40 @@ func (r Advert) New(config *config.Conf) error {
 	log.Println(bucket.URL(imagename))
 
 	r.Image = bucket.URL(imagename)
-	mgoSession := config.Database.Session.Copy()
-	defer mgoSession.Close()
 
-	collection := config.Database.C("Adverts").With(mgoSession)
-	err = collection.Insert(r)
+	rJSONbyt, err := json.Marshal(r)
 	if err != nil {
 		log.Println(err)
-		return err
 	}
+	conf.BoltDB.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.ADVERTSCOLLECTION))
+		id, _ := b.NextSequence()
+		r.ID = int(id)
+		err := b.Put(itob(r.ID), rJSONbyt)
+		return err
+	})
+
 	return nil
 }
 
 //Get function for getting all adverts in db
-func (Advert) GetAll(config *config.Conf) ([]Advert, error) {
-	result := []Advert{}
-	mgoSession := config.Database.Session.Copy()
-	defer mgoSession.Close()
+func (Advert) GetAll(conf *config.Conf) ([]Advert, error) {
 
-	collection := config.Database.C("Adverts").With(mgoSession)
-	err := collection.Find(bson.M{}).All(&result)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
+	results := []Advert{}
+
+	var err error
+	err = conf.BoltDB.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
+		b.ForEach(func(k, v []byte) error {
+			// fmt.Printf("key=%s, value=%s\n", k, v)
+			ad := Advert{}
+			json.Unmarshal(v, &ad)
+			results = append(results, ad)
+
+			return nil
+		})
+		return nil
+	})
+
+	return results, err
 }

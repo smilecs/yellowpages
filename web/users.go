@@ -6,52 +6,53 @@ import (
 	"net/http"
 
 	"golang.org/x/crypto/bcrypt"
-	"gopkg.in/mgo.v2/bson"
 
 	"github.com/smilecs/yellowpages/config"
 	"github.com/smilecs/yellowpages/models"
 )
 
-func SocialLogin(w http.ResponseWriter, r *http.Request) {
-	var user models.User
-	err := json.NewDecoder(r.Body).Decode(&user)
-	if err != nil {
-		log.Println(err)
-	}
+//
+// func SocialLogin(w http.ResponseWriter, r *http.Request) {
+// 	var user models.User
+// 	err := json.NewDecoder(r.Body).Decode(&user)
+// 	if err != nil {
+// 		log.Println(err)
+// 	}
+//
+// 	err = user.Add(config.Get())
+// 	if err != nil {
+// 		log.Println(err)
+// 	}
+// 	data := struct {
+// 		Message string
+// 	}{"login success"}
+// 	w.Header().Set("Content-Type", "application/json")
+// 	w.WriteHeader(http.StatusOK)
+// 	json.NewEncoder(w).Encode(data)
+// }
 
-	err = user.Add(config.Get())
-	if err != nil {
-		log.Println(err)
-	}
-	data := struct {
-		Message string
-	}{"login success"}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(data)
-}
-
-func AdminLoginOld(w http.ResponseWriter, r *http.Request) {
-	var user models.AdminUser
-	var result Admin
-
-	err := json.NewDecoder(r.Body).Decode(&user)
-	if err != nil {
-		log.Println(err)
-	}
-
-	log.Println(user)
-	collection := config.Get().Database.C("admin").With(config.Get().Database.Session.Copy())
-
-	log.Println(user.Username)
-	err = collection.Find(bson.M{"username": user.Username, "password": user.Password}).One(&result)
-	if err != nil {
-		log.Println(err)
-	}
-
-	data, _ := json.Marshal(result)
-	w.Write(data)
-}
+//
+// func AdminLoginOld(w http.ResponseWriter, r *http.Request) {
+// 	var user models.AdminUser
+// 	var result Admin
+//
+// 	err := json.NewDecoder(r.Body).Decode(&user)
+// 	if err != nil {
+// 		log.Println(err)
+// 	}
+//
+// 	log.Println(user)
+// 	collection := config.Get().Database.C("admin").With(config.Get().Database.Session.Copy())
+//
+// 	log.Println(user.Username)
+// 	err = collection.Find(bson.M{"username": user.Username, "password": user.Password}).One(&result)
+// 	if err != nil {
+// 		log.Println(err)
+// 	}
+//
+// 	data, _ := json.Marshal(result)
+// 	w.Write(data)
+// }
 
 func AdminLogin(w http.ResponseWriter, r *http.Request) {
 	var providedUserDetails models.AdminUser
@@ -63,9 +64,10 @@ func AdminLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Println(providedUserDetails)
-	collection := config.Get().Database.C(config.ADMINSCOLLECTION).With(config.Get().Database.Session.Copy())
+	// collection := config.Get().Database.C(config.ADMINSCOLLECTION).With(config.Get().Database.Session.Copy())
 
-	err = collection.Find(bson.M{"username": providedUserDetails.Username}).One(&existingUserDetails)
+	existingUserDetails, err = providedUserDetails.Get(config.Get())
+	// err = collection.Find(bson.M{"username": providedUserDetails.Username}).One(&existingUserDetails)
 	if err != nil {
 		log.Println(err)
 		w.Header().Set("Content-Type", "application/json")

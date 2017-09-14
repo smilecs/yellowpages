@@ -54,14 +54,14 @@ func wrapHandler(h http.Handler) httprouter.Handle {
 }
 
 func init() {
-
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
 
 func main() {
 	web.TemplateInit()
 	config.Init()
-	defer config.Get().Database.Session.Close()
+	// defer config.Get().Database.Session.Close()
+	defer config.Get().BoltDB.Close()
 	defer config.Get().BleveIndex.Close()
 
 	middlewares := alice.New(web.LoggingHandler)
@@ -114,17 +114,17 @@ func main() {
 	router.Post("/api/adverts/new", middlewares.ThenFunc(web.NewAdHandler))
 	router.Get("/api/adverts/all", middlewares.ThenFunc(web.GetAdvertsJSON))
 
-	router.Get("/api/adminList", middlewares.ThenFunc(web.GetAdminsHandler))
-	router.Post("/api/newuser", middlewares.ThenFunc(web.NewUserHandler))
+	// router.Get("/api/adminList", middlewares.ThenFunc(web.GetAdminsHandler))
+	// router.Post("/api/newuser", middlewares.ThenFunc(web.NewUserHandler))
 
-	router.Post("/api/social_login", middlewares.ThenFunc(web.SocialLogin))
-	router.Post("/api/add_review", middlewares.ThenFunc(web.AddReviews))
-	router.Get("/api/get_reviews", middlewares.ThenFunc(web.ReviewJSON))
+	// router.Post("/api/social_login", middlewares.ThenFunc(web.SocialLogin))
+	// router.Post("/api/add_review", middlewares.ThenFunc(web.AddReviews))
+	// router.Get("/api/get_reviews", middlewares.ThenFunc(web.ReviewJSON))
 
 	//router.Get("/Upload", middlewares.ThenFunc(web.CsvHandler))
 
 	router.Get("/api/index_data", middlewares.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
-		models.IndexMongoDBListingsCollectionWithBleve()
+		models.IndexData()
 	}))
 
 	router.Get("/admin/*filepath", middlewares.ThenFunc(func(w http.ResponseWriter, r *http.Request) {

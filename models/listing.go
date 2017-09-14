@@ -2,26 +2,27 @@ package models
 
 import (
 	"encoding/base64"
+	"encoding/json"
 	"log"
 	"math/rand"
 	"strconv"
 	"strings"
 	"time"
 
+	bolt "github.com/coreos/bbolt"
 	"github.com/goamz/goamz/aws"
 	"github.com/goamz/goamz/s3"
+	"github.com/gosimple/slug"
 	uuid "github.com/satori/go.uuid"
 	"github.com/smilecs/yellowpages/config"
-	mgo "gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
 )
 
 //Listing struct holds all submitted form data for listings
 type Listing struct {
-	ID             bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
-	CompanyName    string        `bson:"companyname"`
-	Address        string        `bson:"address"`
-	Hotline        string        `bson:"hotline"`
+	ID             string `json:"id,omitempty" bson:"_id,omitempty"`
+	CompanyName    string `bson:"companyname"`
+	Address        string `bson:"address"`
+	Hotline        string `bson:"hotline"`
 	HotlinesList   []string
 	Specialisation string `bson:"specialisation"`
 	Category       string `bson:"category"`
@@ -56,7 +57,7 @@ type Listings struct {
 }
 
 //Addlisting function adding listings data to db
-func (r Listing) Add(config *config.Conf) error {
+func (r Listing) Add(conf *config.Conf) error {
 
 	auth, err := aws.EnvAuth()
 	if err != nil {
@@ -66,71 +67,82 @@ func (r Listing) Add(config *config.Conf) error {
 	bucket := client.Bucket("yellowpagesng")
 
 	p := rand.New(rand.NewSource(time.Now().UnixNano()))
-	str := strconv.Itoa(p.Intn(10))
+
 	r.Date = time.Now()
 	if r.Image != "" {
 		tm, _ := strconv.Atoi(r.Duration)
 		t := r.Date.AddDate(tm, 1, 0)
 		r.Expiry = t
-		byt, er := base64.StdEncoding.DecodeString(strings.Split(r.Image, "base64,")[1])
-		if er != nil {
-			log.Println(er)
+		if len(strings.Split(r.Image, "base64,")) > 1 {
+			byt, er := base64.StdEncoding.DecodeString(strings.Split(r.Image, "base64,")[1])
+			if er != nil {
+				log.Println(er)
+			}
+
+			meta := strings.Split(r.Image, "base64,")[0]
+			newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
+			imagename := "listings/" + uuid.NewV1().String()
+
+			err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite, s3.Options{})
+			if err != nil {
+				log.Println(err)
+			}
+
+			log.Println(bucket.URL(imagename))
+			r.Image = bucket.URL(imagename)
 		}
 
-		meta := strings.Split(r.Image, "base64,")[0]
-		newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
-		imagename := "listings/" + uuid.NewV1().String()
-
-		err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite, s3.Options{})
-		if err != nil {
-			log.Println(err)
-		}
-
-		log.Println(bucket.URL(imagename))
-		r.Image = bucket.URL(imagename)
 	}
 
 	var images []string
 	for _, v := range r.Images {
-		var byt []byte
-		byt, err = base64.StdEncoding.DecodeString(strings.Split(v, "base64,")[1])
-		if err != nil {
-			log.Println(err)
-		}
+		if len(strings.Split(v, "base64,")) > 1 {
+			var byt []byte
 
-		meta := strings.Split(v, "base64,")[0]
-		newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
-		imagename := "listings/" + uuid.NewV1().String()
+			byt, err = base64.StdEncoding.DecodeString(strings.Split(v, "base64,")[1])
+			if err != nil {
+				log.Println(err)
+			}
 
-		err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite, s3.Options{})
-		if err != nil {
-			log.Println(err)
+			meta := strings.Split(v, "base64,")[0]
+			newmeta := strings.Replace(strings.Replace(meta, "data:", "", -1), ";", "", -1)
+			imagename := "listings/" + uuid.NewV1().String()
+
+			err = bucket.Put(imagename, byt, newmeta, s3.PublicReadWrite, s3.Options{})
+			if err != nil {
+				log.Println(err)
+			}
+			images = append(images, bucket.URL(imagename))
 		}
-		images = append(images, bucket.URL(imagename))
 	}
 
 	r.Images = images
 
-	r.Slug = strings.Replace(r.CompanyName, " ", "-", -1) + str
-	r.Slug = strings.Replace(r.Slug, "&", "-", -1) + str
-	r.Slug = strings.Replace(r.Slug, "/", "-", -1) + str
-	r.Slug = strings.Replace(r.Slug, ",", "-", -1) + str
-	index := mgo.Index{
-		Key:        []string{"$text:specialisation", "$text:companyname"},
-		Unique:     true,
-		DropDups:   true,
-		Background: true,
-	}
-	mgoSession := config.Database.Session.Copy()
-	defer mgoSession.Close()
+	// r.Slug = strings.Replace(r.CompanyName, " ", "-", -1) + str
+	// r.Slug = strings.Replace(r.Slug, "&", "-", -1) + str
+	// r.Slug = strings.Replace(r.Slug, "/", "-", -1) + str
+	// r.Slug = strings.Replace(r.Slug, ",", "-", -1) + str
+	str := strconv.Itoa(p.Intn(10))
+	r.Slug = slug.Make(r.CompanyName + " " + str)
 
-	collection := config.Database.C("Listings").With(mgoSession)
-	collection.EnsureIndex(index)
-	collection.Insert(r)
+	rJSONbyt, err := json.Marshal(r)
+	if err != nil {
+		log.Println(err)
+	}
+	conf.BoltDB.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
+
+		log.Print(string(rJSONbyt))
+		log.Println(r.Slug)
+		err := b.Put([]byte(r.Slug), rJSONbyt)
+		return err
+	})
+	IndexSingleListingWithBleve(r)
+
 	return err
 }
 
-func (r Listing) Edit(config *config.Conf) error {
+func (r Listing) Edit(conf *config.Conf) error {
 	log.Println(r)
 	auth, err := aws.EnvAuth()
 	if err != nil {
@@ -190,35 +202,48 @@ func (r Listing) Edit(config *config.Conf) error {
 
 	r.Images = images
 
-	index := mgo.Index{
-		Key:        []string{"$text:specialisation", "$text:companyname"},
-		Unique:     true,
-		DropDups:   true,
-		Background: true,
-	}
-	mgoSession := config.Database.Session.Copy()
-	defer mgoSession.Close()
+	oldListing := Listing{}
+	jsonByt := []byte{}
 
-	collection := config.Database.C("Listings").With(mgoSession)
-	collection.EnsureIndex(index)
-	collection.Update(bson.M{"slug": r.Slug}, bson.M{
-		"$set": bson.M{
-			"companyname":    r.CompanyName,
-			"address":        r.Address,
-			"hotline":        r.Hotline,
-			"specialisation": r.Specialisation,
-			"category":       r.Category,
-			"image":          r.Image,
-			"images":         r.Images,
-			"slug":           r.Slug,
-			"about":          r.About,
-			"rc":             r.RC,
-			"branch":         r.Branch,
-			"product":        r.Product,
-			"email":          r.Email,
-			"website":        r.Website,
-			"dhr":            r.DHr,
-		},
+	// var err error
+	err = conf.BoltDB.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
+		jsonByt = b.Get([]byte(r.Slug))
+		return err
+	})
+	if err != nil {
+		log.Println(err)
+	}
+	err = json.Unmarshal(jsonByt, &oldListing)
+	if err != nil {
+		log.Println(err)
+	}
+
+	oldListing.CompanyName = r.CompanyName
+	oldListing.Address = r.Address
+	oldListing.Hotline = r.Hotline
+	oldListing.Specialisation = r.Specialisation
+	oldListing.Category = r.Category
+	oldListing.Image = r.Image
+	oldListing.Images = r.Images
+	oldListing.Slug = r.Slug
+	oldListing.About = r.About
+	oldListing.RC = r.RC
+	oldListing.Branch = r.Branch
+	oldListing.Product = r.Product
+	oldListing.Email = r.Email
+	oldListing.Website = r.Website
+	oldListing.DHr = r.DHr
+
+	rJSONbyt, err := json.Marshal(oldListing)
+	if err != nil {
+		log.Println(err)
+	}
+	conf.BoltDB.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
+
+		err := b.Put([]byte(oldListing.Slug), rJSONbyt)
+		return err
 	})
 
 	err = IndexSingleListingWithBleve(r)
@@ -229,17 +254,25 @@ func (r Listing) Edit(config *config.Conf) error {
 
 }
 
-func (r Listing) GetOne(config *config.Conf, id string) (Listing, error) {
+func (r Listing) GetOne(conf *config.Conf, id string) (Listing, error) {
 	result := Listing{}
-	mgoSession := config.Database.Session.Copy()
-	defer mgoSession.Close()
-	collection := config.Database.C("Listings").With(mgoSession)
 
-	err := collection.Find(bson.M{"slug": id}).One(&result)
+	jsonByt := []byte{}
+	log.Println(r)
+	var err error
+	err = conf.BoltDB.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
+		jsonByt = b.Get([]byte(id))
+		return err
+	})
 	if err != nil {
 		log.Println(err)
-		return result, err
 	}
+	err = json.Unmarshal(jsonByt, &result)
+	if err != nil {
+		log.Println(err)
+	}
+
 	return result, nil
 }
 
@@ -258,119 +291,181 @@ func StringToPhoneNumbers(s string) []string {
 }
 
 //GetListings return listings
-func (r Listing) GetAllApproved(config *config.Conf) (Listings, error) {
-	result := []Listing{}
+func (r Listing) GetAllApproved(conf *config.Conf) (Listings, error) {
+	results := []Listing{}
 	listings := Listings{}
-	mgoSession := config.Database.Session.Copy()
-	defer mgoSession.Close()
 
-	collection := config.Database.C("Listings").With(mgoSession)
+	var err error
+	err = conf.BoltDB.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
+		b.ForEach(func(k, v []byte) error {
+			// fmt.Printf("key=%s, value=%s\n", k, v)
+			listing := Listing{}
+			json.Unmarshal(v, &listing)
+			if listing.Approved {
+				listing.HotlinesList = StringToPhoneNumbers(listing.Hotline)
+				results = append(results, listing)
+			}
 
-	err := collection.Find(bson.M{"approved": true}).All(&result)
+			return nil
+		})
+		return nil
+	})
 	if err != nil {
+		log.Println(err)
 		return listings, err
 	}
-	for i := range result {
-		result[i].HotlinesList = StringToPhoneNumbers(result[i].Hotline)
-	}
-	listings.Data = result
+
+	listings.Data = results
 	return listings, nil
 }
 
 //Getunapproved function for Getunapproved handler
-func (r Listing) GetAllUnapproved(config *config.Conf) (Listings, error) {
-	result := []Listing{}
-	listings := Listings{}
-	mgoSession := config.Database.Session.Copy()
-	defer mgoSession.Close()
-	collection := config.Database.C("Listings").With(mgoSession)
+func (r Listing) GetAllUnapproved(conf *config.Conf) (Listings, error) {
 
-	err := collection.Find(bson.M{"approved": false}).All(&result)
+	results := []Listing{}
+	listings := Listings{}
+
+	var err error
+	err = conf.BoltDB.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
+		b.ForEach(func(k, v []byte) error {
+			// fmt.Printf("key=%s, value=%s\n", k, v)
+			listing := Listing{}
+			json.Unmarshal(v, &listing)
+			if !listing.Approved {
+				listing.HotlinesList = StringToPhoneNumbers(listing.Hotline)
+				results = append(results, listing)
+			}
+
+			// jsonBytArray = append(jsonBytArray, v)
+			return nil
+		})
+		return nil
+	})
 	if err != nil {
+		log.Println(err)
 		return listings, err
 	}
-	for i := range result {
-		result[i].HotlinesList = StringToPhoneNumbers(result[i].Hotline)
-	}
-	listings.Data = result
+
+	listings.Data = results
 	return listings, nil
+
 }
 
 //GetcatListing function
-func (r Listing) GetAllInCategory(config *config.Conf, id string, page int) (Listings, error) {
+func (r Listing) GetAllInCategory(conf *config.Conf, id string, page int) (Listings, error) {
 	perPage := 10
-	//result := []Listing{}
-	listings := Listings{}
-	mgoSession := config.Database.Session.Copy()
-	defer mgoSession.Close()
+	Results := Listings{}
 
-	collection := config.Database.C("Listings").With(mgoSession)
-
-	q := collection.Find(bson.M{"category": id, "approved": true}).Sort("-plus")
-
-	count, err := q.Count()
+	searchResult, err := SearchField(id, "Category", (page-1)*perPage)
 	if err != nil {
-		return listings, err
+		log.Println(err)
 	}
 
+	count := int(searchResult.Total)
 	pg := SearchPagination(count, page, perPage)
-	err = q.Limit(perPage).Skip(pg.Skip).All(&listings.Data)
 
-	for i := range listings.Data {
-		listings.Data[i].HotlinesList = StringToPhoneNumbers(listings.Data[i].Hotline)
-	}
+	jsonBytArray := [][]byte{}
+	err = conf.BoltDB.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
+		for _, v := range searchResult.Hits {
+			jsonByt := b.Get([]byte(v.ID))
+			jsonBytArray = append(jsonBytArray, jsonByt)
+		}
 
-	listings.Page = pg
-
+		return err
+	})
 	if err != nil {
-		return listings, err
+		log.Println(err)
 	}
-	return listings, nil
+
+	listings := []Listing{}
+	for _, v := range jsonBytArray {
+		listing := Listing{}
+		err = json.Unmarshal(v, &listing)
+		if err != nil {
+			log.Println(err)
+		}
+		listing.HotlinesList = StringToPhoneNumbers(listing.Hotline)
+		listings = append(listings, listing)
+	}
+	Results.Data = listings
+
+	Results.Page = pg
+	if err != nil {
+		return Results, err
+	}
+	return Results, nil
+
 }
 
 //GetcatListing function
-func (r Listing) GetAllPlusListings(config *config.Conf) (Listings, error) {
-	result := []Listing{}
+func (r Listing) GetAllPlusListings(conf *config.Conf) (Listings, error) {
+
+	results := []Listing{}
 	listings := Listings{}
 
-	mgoSession := config.Database.Session.Copy()
-	defer mgoSession.Close()
+	var err error
+	err = conf.BoltDB.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
+		b.ForEach(func(k, v []byte) error {
+			// fmt.Printf("key=%s, value=%s\n", k, v)
+			listing := Listing{}
+			json.Unmarshal(v, &listing)
+			if listing.Plus == "true" {
+				listing.HotlinesList = StringToPhoneNumbers(listing.Hotline)
+				results = append(results, listing)
+			}
 
-	collection := config.Database.C("Listings").With(mgoSession)
-
-	err := collection.Find(bson.M{"plus": "true"}).All(&result)
+			// jsonBytArray = append(jsonBytArray, v)
+			return nil
+		})
+		return nil
+	})
 	if err != nil {
+		log.Println(err)
 		return listings, err
 	}
-	for i := range result {
-		result[i].HotlinesList = StringToPhoneNumbers(result[i].Hotline)
-	}
 
-	listings.Data = result
+	listings.Data = results
 	return listings, nil
 }
 
 //Update to approve of a listing to show in the client side
-func (r Listing) Approve(config *config.Conf, slug string) error {
-	mgoSession := config.Database.Session.Copy()
-	defer mgoSession.Close()
-	collection := config.Database.C("Listings").With(mgoSession)
+func (r Listing) Approve(conf *config.Conf, slug string) error {
 
-	query := bson.M{"slug": slug}
-	change := bson.M{"$set": bson.M{"approved": true}}
+	oldListing := Listing{}
+	jsonByt := []byte{}
 
-	err := collection.Update(query, change)
-	if err != nil {
-		log.Println(err)
+	var err error
+	err = conf.BoltDB.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
+		jsonByt = b.Get([]byte(r.Slug))
 		return err
-	}
-
-	listing := Listing{}
-	err = collection.Find(bson.M{"slug": slug}).One(&listing)
+	})
 	if err != nil {
 		log.Println(err)
 	}
-	err = IndexSingleListingWithBleve(listing)
+	err = json.Unmarshal(jsonByt, &oldListing)
+	if err != nil {
+		log.Println(err)
+	}
+
+	oldListing.Approved = true
+
+	rJSONbyt, err := json.Marshal(oldListing)
+	if err != nil {
+		log.Println(err)
+	}
+	conf.BoltDB.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
+
+		err := b.Put([]byte(oldListing.Slug), rJSONbyt)
+		return err
+	})
+
+	err = IndexSingleListingWithBleve(oldListing)
 	if err != nil {
 		log.Println(err)
 	}
@@ -378,20 +473,16 @@ func (r Listing) Approve(config *config.Conf, slug string) error {
 }
 
 //Update to approve of a listing to show in the client side
-func (r Listing) Delete(config *config.Conf, slug string) error {
-	mgoSession := config.Database.Session.Copy()
-	defer mgoSession.Close()
-	collection := config.Database.C("Listings").With(mgoSession)
+func (r Listing) Delete(conf *config.Conf, slug string) error {
 
-	query := bson.M{"slug": slug}
+	conf.BoltDB.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
 
-	err := collection.Remove(query)
-	if err != nil {
-		log.Println(err)
-		return err
-	}
+		b.Delete([]byte(r.Slug))
+		return nil
+	})
 
-	err = DeleteSingleListingInBleve(slug)
+	err := DeleteSingleListingInBleve(slug)
 	if err != nil {
 		log.Println(err)
 	}
@@ -399,23 +490,38 @@ func (r Listing) Delete(config *config.Conf, slug string) error {
 }
 
 //TimeUpdate to change time
-func (r Listing) TimeUpdate(config *config.Conf, id string, expiry string) error {
-
+func (r Listing) TimeUpdate(conf *config.Conf, id string, expiry string) error {
 	x, _ := strconv.Atoi(expiry)
 
-	mgoSession := config.Database.Session.Copy()
-	defer mgoSession.Close()
+	oldListing := Listing{}
+	jsonByt := []byte{}
 
-	collection := config.Database.C("Listings").With(mgoSession)
-
-	query := bson.M{"slug": id}
-	change := bson.M{"$set": bson.M{"expiry": time.Now().AddDate(x, 1, 0)}}
-
-	err := collection.Update(query, change)
-
-	if err != nil {
+	var err error
+	err = conf.BoltDB.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
+		jsonByt = b.Get([]byte(r.Slug))
 		return err
+	})
+	if err != nil {
+		log.Println(err)
 	}
+	err = json.Unmarshal(jsonByt, &oldListing)
+	if err != nil {
+		log.Println(err)
+	}
+
+	oldListing.Expiry = time.Now().AddDate(x, 1, 0)
+
+	rJSONbyt, err := json.Marshal(oldListing)
+	if err != nil {
+		log.Println(err)
+	}
+	conf.BoltDB.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
+
+		err := b.Put([]byte(oldListing.Slug), rJSONbyt)
+		return err
+	})
 
 	return nil
 }
@@ -428,71 +534,46 @@ func reverse(ss []string) {
 }
 
 //Search searches
-func (r Listing) Search(config *config.Conf, query string, page int) (Listings, error) {
+func (r Listing) Search(conf *config.Conf, query string, page int) (Listings, error) {
 	perPage := 10
-
-	PreResults := Listings{}
 	Results := Listings{}
-	// index := mgo.Index{
-	// 	Key: []string{"$text:specialisation", "$text:companyname"},
-	// }
-
-	mgoSession := config.Database.Session.Copy()
-	defer mgoSession.Close()
-
-	collection := config.Database.C("Listings").With(mgoSession)
-
-	// err := collection.EnsureIndex(index)
-	// if err != nil {
-	// 	return Results, err
-	// }
+	log.Println("in search")
 
 	searchResult, err := SearchWithIndex(query, (page-1)*perPage)
 	if err != nil {
 		log.Println(err)
 	}
-	log.Printf("%+v", searchResult.Total)
 
-	documentIdArray := []string{}
-	for _, v := range searchResult.Hits {
-		documentIdArray = append(documentIdArray, v.ID)
-	}
-	log.Println(documentIdArray)
-	// reverse(documentIdArray)
-	// log.Println(documentIdArray)
 	count := int(searchResult.Total)
 	pg := SearchPagination(count, page, perPage)
 
-	// endResults := pg.Skip + perPage
-	// if endResults >= count {
-	// 	endResults = count - 1
-	// }
-	// workingDocumentArray := documentIdArray
-
-	q := collection.Find(
-		bson.M{
-			"slug": bson.M{
-				"$in": documentIdArray,
-			},
-			"approved": true,
-		})
-
-	// count, err := q.Count()
-	// if err != nil {
-	// 	return Results, err
-	// }
-
-	// err = q.Limit(perPage).Skip(pg.Skip).All(&PreResults.Data)
-	err = q.All(&PreResults.Data)
-
-	for _, v := range documentIdArray {
-		for _, vv := range PreResults.Data {
-			if v == vv.Slug {
-				Results.Data = append(Results.Data, vv)
-				break
+	jsonBytArray := [][]byte{}
+	err = conf.BoltDB.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
+		for _, v := range searchResult.Hits {
+			jsonByt := b.Get([]byte(v.ID))
+			if len(jsonByt) > 0 {
+				jsonBytArray = append(jsonBytArray, jsonByt)
 			}
+
 		}
+
+		return err
+	})
+	if err != nil {
+		log.Println(err)
 	}
+	listings := []Listing{}
+	for _, v := range jsonBytArray {
+		listing := Listing{}
+		err = json.Unmarshal([]byte(v), &listing)
+		if err != nil {
+			log.Println(err)
+		}
+		listing.HotlinesList = StringToPhoneNumbers(listing.Hotline)
+		listings = append(listings, listing)
+	}
+	Results.Data = listings
 
 	Results.Page = pg
 	if err != nil {

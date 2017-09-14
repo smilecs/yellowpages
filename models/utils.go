@@ -1,5 +1,7 @@
 package models
 
+import "encoding/binary"
+
 //Page carries pagination info to aid in knowing whether any given page has a
 //next or previous page, and to know its page number
 type Page struct {
@@ -16,6 +18,13 @@ type Page struct {
 	Total int
 	Count int
 	Skip  int
+}
+
+// itob returns an 8-byte big endian representation of v.
+func itob(v int) []byte {
+	b := make([]byte, 8)
+	binary.BigEndian.PutUint64(b, uint64(v))
+	return b
 }
 
 //SearchPagination returns a page strict which carries details about the
