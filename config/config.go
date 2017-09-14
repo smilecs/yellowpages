@@ -105,7 +105,7 @@ func Init() {
 	config.BoltFile = filepath.Join(dbPath, "yellowpages.bolt")
 
 	log.Printf("bolt file: %s", config.BoltFile)
-	db, err := bolt.Open(config.BoltFile, 0600, &bolt.Options{Timeout: 2 * time.Second})
+	db, err := bolt.Open(config.BoltFile, 0600, &bolt.Options{Timeout: 5 * time.Minute})
 	if err != nil {
 		log.Println("create bleve index")
 		log.Println(err)

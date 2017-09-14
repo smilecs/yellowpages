@@ -20,6 +20,7 @@ func Setup(w http.ResponseWriter, r *http.Request) {
 	err := adminUser.Add(config.Get())
 	if err != nil {
 		w.Write([]byte(err.Error()))
+
 	}
 	w.Write([]byte("success adding admin user"))
 }
