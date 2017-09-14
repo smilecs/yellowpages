@@ -168,6 +168,11 @@
 			"Rev": "4b1ebc1869ad66568b313d0dc410e2be72670dda"
 		},
 		{
+			"ImportPath": "github.com/coreos/bbolt",
+			"Comment": "v1.3.1-coreos.1-17-ga4199f8",
+			"Rev": "a4199f8f4dc6a708228c012cc2633936df476efd"
+		},
+		{
 			"ImportPath": "github.com/dgrijalva/jwt-go",
 			"Comment": "v3.0.0-4-g01aeca5",
 			"Rev": "01aeca54ebda6e0fbfafd0a524d234159c05ec20"
@@ -183,6 +188,11 @@
 		{
 			"ImportPath": "github.com/golang/protobuf/proto",
 			"Rev": "cde632b2dfc9b2747363b9ad6efa68c902944a27"
+		},
+		{
+			"ImportPath": "github.com/gosimple/slug",
+			"Comment": "v1.0.3-1-gdfb5bc6",
+			"Rev": "dfb5bc66af5ea2fadd6bd1a02ea9eca9bc25f14f"
 		},
 		{
 			"ImportPath": "github.com/julienschmidt/httprouter",
@@ -203,8 +213,8 @@
 			"Rev": "caaaea8b30ee15616494ee68abd5d8ebbbef05cf"
 		},
 		{
-			"ImportPath": "github.com/mitchellh/mapstructure",
-			"Rev": "53818660ed4955e899c0bcafa97299a388bd7c8e"
+			"ImportPath": "github.com/rainycape/unidecode",
+			"Rev": "cb7f23ec59bec0d61b19c56cd88cee3d0cc1870c"
 		},
 		{
 			"ImportPath": "github.com/rs/cors",
