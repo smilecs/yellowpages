@@ -99,7 +99,7 @@ func Init() {
 
 	dbPath := os.Getenv("DB_PATH")
 	if dbPath == "" {
-		log.Println("Blevefile not set, resulting to default address")
+		log.Println("db path not set, resulting to default address")
 		dbPath = "."
 	}
 	config.BoltFile = filepath.Join(dbPath, "yellowpages.bolt")

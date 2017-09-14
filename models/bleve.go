@@ -183,7 +183,7 @@ func SearchField(queryString string, field string, skip int) (*bleve.SearchResul
 	search.SortBy([]string{"-Plus", "-Category", "-_score"})
 	// search.SortBy([]string{"-plus", "-_score", "_id"})
 	bleveIndex := config.Get().BleveIndex
-	log.Println(bleveIndex.Mapping().AnalyzerNamed("Category"))
+	// log.Println(bleveIndex.Mapping().AnalyzerNamed("Category"))
 	searchResults, err := bleveIndex.Search(search)
 	log.Println(searchResults.String())
 	if err != nil {
