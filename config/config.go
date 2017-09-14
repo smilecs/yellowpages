@@ -122,15 +122,15 @@ func Init() {
 		return err
 	})
 
-	bleveFile := os.Getenv("BLEVE_PATH")
-	if bleveFile == "" {
-		log.Println("Blevefile not set, resulting to default address")
-		bleveFile = "./yellowpages.bleve"
-	}
+	// bleveFile := os.Getenv("BLEVE_PATH")
+	// if bleveFile == "" {
+	// 	log.Println("Blevefile not set, resulting to default address")
+	// 	bleveFile = "./yellowpages.bleve"
+	// }
 	config.BleveFile = filepath.Join(dbPath, "yellowpages.bleve")
 
-	log.Printf("bleve file: %s", bleveFile)
-	bleveIndex, err := bleve.Open(bleveFile)
+	log.Printf("bleve file: %s", config.BleveFile)
+	bleveIndex, err := bleve.Open(config.BleveFile)
 	if err != nil {
 		log.Println("create bleve index")
 		log.Println(err)
