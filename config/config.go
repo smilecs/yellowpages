@@ -76,25 +76,25 @@ func CreateBleveIndex() (bleve.Index, error) {
 }
 
 func Init() {
-	MONGOSERVER := os.Getenv("MONGO_URL")
-	MONGODB := os.Getenv("MONGODB")
-	if MONGOSERVER == "" {
-		log.Println("No mongo server address set, resulting to default address")
-		MONGOSERVER = "127.0.0.1:27017"
-		MONGODB = "yellowListings"
-	}
-
-	session, err := mgo.Dial(MONGOSERVER)
-	if err != nil {
-		log.Println(err)
-	}
-
-	log.Printf("mongoserver %s", MONGOSERVER)
-
+	// MONGOSERVER := os.Getenv("MONGO_URL")
+	// MONGODB := os.Getenv("MONGODB")
+	// if MONGOSERVER == "" {
+	// 	log.Println("No mongo server address set, resulting to default address")
+	// 	MONGOSERVER = "127.0.0.1:27017"
+	// 	MONGODB = "yellowListings"
+	// }
+	//
+	// session, err := mgo.Dial(MONGOSERVER)
+	// if err != nil {
+	// 	log.Println(err)
+	// }
+	//
+	// log.Printf("mongoserver %s", MONGOSERVER)
+	//
 	config = Conf{
-		MongoDB:     MONGODB,
-		MongoServer: MONGOSERVER,
-		Database:    session.DB(MONGODB),
+	// MongoDB:     MONGODB,
+	// MongoServer: MONGOSERVER,
+	// Database:    session.DB(MONGODB),
 	}
 
 	dbPath := os.Getenv("DB_PATH")
