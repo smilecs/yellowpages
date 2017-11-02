@@ -1,5 +1,5 @@
 2017-04-23T13:40:45.823+0100 I CONTROL  [initandlisten] MongoDB starting : pid=52599 port=27017 dbpath=mongo 64-bit host=OneFi-MBP06.local
-2017-04-23T13:40:45.824+0100 I CONTROL  [initandlisten] db version v3.4.3
+o2017-04-23T13:40:45.824+0100 I CONTROL  [initandlisten] db version v3.4.3
 2017-04-23T13:40:45.824+0100 I CONTROL  [initandlisten] git version: f07437fb5a6cca07c10bafa78365456eb1d6d5e1
 2017-04-23T13:40:45.824+0100 I CONTROL  [initandlisten] OpenSSL version: OpenSSL 1.0.2k  26 Jan 2017
 2017-04-23T13:40:45.824+0100 I CONTROL  [initandlisten] allocator: system
