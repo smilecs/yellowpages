@@ -302,11 +302,8 @@ func (r Listing) GetAllApproved(conf *config.Conf) (Listings, error) {
 			// fmt.Printf("key=%s, value=%s\n", k, v)
 			listing := Listing{}
 			json.Unmarshal(v, &listing)
-			if listing.Approved {
-				listing.HotlinesList = StringToPhoneNumbers(listing.Hotline)
-				results = append(results, listing)
-			}
-
+			listing.HotlinesList = StringToPhoneNumbers(listing.Hotline)
+			results = append(results, listing)
 			return nil
 		})
 		return nil

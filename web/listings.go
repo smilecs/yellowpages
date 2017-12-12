@@ -399,3 +399,17 @@ func SearchResultJSON(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 }
+
+//GetunapprovedHandler gets unapproved listings
+func Getapproved(w http.ResponseWriter, r *http.Request) {
+	data, err := models.Listing{}.GetAllApproved(config.Get())
+	if err != nil {
+		log.Println(err)
+	}
+	result, err := json.Marshal(data)
+	if err != nil {
+		log.Println(err)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
+}

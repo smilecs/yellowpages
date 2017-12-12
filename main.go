@@ -126,6 +126,7 @@ func main() {
 	router.Get("/api/index_data", middlewares.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
 		models.IndexData()
 	}))
+	router.Get("/api/xxx/all_approved", middlewares.ThenFunc(web.Getapproved))
 
 	router.Get("/admin/*filepath", middlewares.ThenFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./ui/admin.html")
