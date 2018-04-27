@@ -1,0 +1,20 @@
+calabarpages.com {
+    # other directives
+    on startup systemctl restart calabarpages
+    proxy / localhost:8005
+    root  /home/ubuntu/server/calabarpages
+	errors ./errors.log
+
+    git {
+            repo git@github.com:smilecs/yellowpages
+            key /home/ubuntu/id_rsa
+            interval 600
+            path src
+            then systemctl restart calabarpages
+    }
+
+}
+
+calabaryellowpages.com {
+	redir https://calabarpages.com
+}
