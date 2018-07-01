@@ -18,9 +18,9 @@ calabarpages.com {
 
 }
 
-calabaryellowpages.com {
-    tls {
-	    max_certs 10
-    }
-	redir https://calabarpages.com
-}
+# calabaryellowpages.com {
+#    tls {
+# 	    max_certs 10
+#    }
+#	redir https://calabarpages.com
+#}
