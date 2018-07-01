@@ -1,5 +1,8 @@
 calabarpages.com {
     # other directives
+    tls {
+	    max_certs 10
+    }
     on startup systemctl restart calabarpages
     proxy / localhost:8005
     root  /home/ubuntu/server/calabarpages
@@ -16,5 +19,8 @@ calabarpages.com {
 }
 
 calabaryellowpages.com {
+    tls {
+	    max_certs 10
+    }
 	redir https://calabarpages.com
 }
