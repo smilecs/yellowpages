@@ -3,6 +3,7 @@ package models
 import (
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"log"
 	"math/rand"
 	"strconv"
@@ -54,6 +55,16 @@ type Listings struct {
 	Data  []Listing
 	Page  Page
 	Query string
+}
+
+func (ls Listings) Add() {
+	for _, l := range ls.Data {
+		fmt.Printf("CompanyName: %s\n Address: %s\n Hotline: %s\n ", l.CompanyName, l.Address, l.Hotline)
+		if l.CompanyName == "" {
+			l.ID = uuid.NewV1().String()
+			l.Add(config.Get())
+		}
+	}
 }
 
 //Addlisting function adding listings data to db
