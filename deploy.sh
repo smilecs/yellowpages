@@ -5,11 +5,11 @@ GOOS=linux
 GOARCH=amd64
 GO_ENV=production
 GO111MODULE=on
-SERVER_IP=104.248.133.23
+SERVER_IP=35.205.155.238
 
 echo 'Building the binary locally'
 # build the app for linux
-GOOS=linux GOARCH=amd64 buffalo build -o ${APPNAME}
+GOOS=linux GOARCH=amd64 go build -o ${APPNAME}
 
 echo 'Sending the binary to the remote server'
 # send the binary/files to the server
