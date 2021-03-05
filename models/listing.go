@@ -56,6 +56,16 @@ type Listings struct {
 	Query string
 }
 
+func (ls Listings) Add() {
+	for _, l := range ls.Data {
+		if l.CompanyName != "" {
+			//fmt.Printf("CompanyName: %s\n Address: %s\n Hotline: %s\n------------------\n", l.CompanyName, l.Address, l.Hotline)
+			l.ID = uuid.NewV1().String()
+			l.Add(config.Get())
+		}
+	}
+}
+
 //Addlisting function adding listings data to db
 func (r Listing) Add(conf *config.Conf) error {
 
@@ -132,7 +142,7 @@ func (r Listing) Add(conf *config.Conf) error {
 	conf.BoltDB.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(config.LISTINGSCOLLECTION))
 
-		log.Print(string(rJSONbyt))
+		// log.Print(string(rJSONbyt))
 		log.Println(r.Slug)
 		err := b.Put([]byte(r.Slug), rJSONbyt)
 		return err
@@ -541,6 +551,7 @@ func (r Listing) Search(conf *config.Conf, query string, page int) (Listings, er
 		log.Println(err)
 	}
 
+	log.Println(searchResult.Total, searchResult.Hits)
 	count := int(searchResult.Total)
 	pg := SearchPagination(count, page, perPage)
 

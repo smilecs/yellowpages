@@ -2,9 +2,13 @@ package main
 
 import (
 	"context"
+	"encoding/json"
+	"flag"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+
 	//"github.com/gorilla/context"
 	"github.com/julienschmidt/httprouter"
 	"github.com/justinas/alice"
@@ -132,6 +136,24 @@ func main() {
 		http.ServeFile(w, r, "./ui/admin.html")
 	}))
 
+	// SPECIFY WHETHER TO MIGRATE THE FILES
+	var migrate = flag.Bool("migrate", false, "Migrate should migrate the listings")
+	flag.Parse()
+	if *migrate {
+		log.Println("I should print out all the listings here...")
+		filename := "calabarpages_dump.json"
+		fileContent, err := ioutil.ReadFile(filename)
+		if err != nil {
+			log.Printf("Error reading %s: %v", filename, err)
+		}
+		var listings models.Listings
+		err = json.Unmarshal(fileContent, &listings)
+		log.Printf("Lenght of data: %d\n", len(listings.Data))
+		listings.Add() // this function adds all the listings.Data to the db
+	} else {
+		log.Println("No migration flag")
+	}
+
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
 		log.Println("No Global port has been defined, using default")
@@ -147,6 +169,6 @@ func main() {
 		AllowedHeaders:   []string{"Accept", "Content-Type", "X-Auth-Token", "*"},
 		Debug:            false,
 	}).Handler(router)
-	log.Println("serving ")
+	log.Printf("serving on port: %s\n", PORT)
 	log.Fatal(http.ListenAndServe(":"+PORT, handler))
 }

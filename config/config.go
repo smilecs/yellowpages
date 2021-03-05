@@ -92,23 +92,22 @@ func Init() {
 	// log.Printf("mongoserver %s", MONGOSERVER)
 	//
 	config = Conf{
-	// MongoDB:     MONGODB,
-	// MongoServer: MONGOSERVER,
-	// Database:    session.DB(MONGODB),
+		// MongoDB:     MONGODB,
+		// MongoServer: MONGOSERVER,
+		// Database:    session.DB(MONGODB),
 	}
 
 	dbPath := os.Getenv("DB_PATH")
 	if dbPath == "" {
-		log.Println("db path not set, resulting to default address")
 		dbPath = "."
+		log.Printf("db path not set, resulting to default address: %s\n", dbPath)
 	}
 	config.BoltFile = filepath.Join(dbPath, "yellowpages.bolt")
 
-	log.Printf("bolt file: %s", config.BoltFile)
+	log.Printf("bolt file: %s\n", config.BoltFile)
 	db, err := bolt.Open(config.BoltFile, 0600, &bolt.Options{Timeout: 5 * time.Minute})
 	if err != nil {
-		log.Println("create bleve index")
-		log.Println(err)
+		log.Printf("create bleve index err: %v\n", err)
 	}
 	config.BoltDB = db
 
